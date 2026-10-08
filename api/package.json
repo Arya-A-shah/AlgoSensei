@@ -1,0 +1,26 @@
+{
+  "name": "algosensei-api",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon --watch src --watch ../knowledge-graph src/index.js",
+    "test": "node --test --test-concurrency=1 test/*.test.js",
+    "seed": "node scripts/seed-demo.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.5.1",
+    "@google/generative-ai": "^0.24.1",
+    "@hono/node-server": "^1.14.4",
+    "dotenv": "^18.0.5",
+    "hono": "^4.8.1",
+    "mongodb": "^6.21.0",
+    "ts-fsrs": "^5.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "description": "AlgoSensei backend: event ingestion, knowledge-graph grading, mastery, FSRS revision, next-move engine",
+  "engines": {
+    "node": ">=20"
+  }
+}

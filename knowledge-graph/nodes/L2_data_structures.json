@@ -1,0 +1,84 @@
+{
+  "layer": 2,
+  "kind": "data_structure",
+  "title": "Data structures",
+  "description": "Purpose, guarantees, costs and use-case recognition for each structure, independent of a particular pattern.",
+  "nodes": [
+    {
+      "id": "ds.array",
+      "name": "Array",
+      "layer": 2,
+      "description": "Contiguous storage: O(1) random access, O(n) insert/delete by shifting; doubles as a direct-address table for bounded values.",
+      "prereqs": ["u.indexing", "cpp.vector"],
+      "facets": {
+        "recognize": "Uses an array as a frequency/visited table when values are bounded (e.g. 1..n) instead of a hashmap.",
+        "explain": "States access/insert/delete costs and why middle insertion is O(n).",
+        "implement": "Reads, writes and shifts elements correctly."
+      },
+      "misconceptions": [
+        { "id": "ds.arr.insert_cost_blind", "facet": "explain", "desc": "Assumed inserting or deleting in the middle is O(1)." },
+        { "id": "ds.arr.missed_direct_addressing", "facet": "recognize", "desc": "Used a hashmap when values are bounded and a plain array would be simpler and faster." }
+      ]
+    },
+    {
+      "id": "ds.sorted_array",
+      "name": "Sorted array properties",
+      "layer": 2,
+      "description": "Monotonic order: duplicates are adjacent, pairs can be found with converging pointers, two sorted arrays merge linearly.",
+      "prereqs": ["ds.array"],
+      "facets": {
+        "recognize": "Notices sorted input and exploits it (two pointers, merge, adjacent duplicates, binary search).",
+        "explain": "States which properties sortedness guarantees and what sorting destroys (original indices)."
+      },
+      "misconceptions": [
+        { "id": "ds.sorted.ignored_sortedness", "facet": "recognize", "desc": "Ignored that input is sorted; used hashing or nested loops instead of a linear pass." },
+        { "id": "ds.sorted.sort_destroys_index", "facet": "explain", "desc": "Sorted the input when original indices are part of the answer (e.g. Two Sum returning indices)." }
+      ]
+    },
+    {
+      "id": "ds.matrix",
+      "name": "Matrix (2D grid)",
+      "layer": 2,
+      "description": "Rows, columns, diagonals, layers/boundaries; square vs rectangular; properties like transpose symmetry.",
+      "prereqs": ["u.2d_indexing", "cpp.2d_vector"],
+      "facets": {
+        "recognize": "Identifies the structure an algorithm needs: layers, boundaries, transpose, first row/column as storage.",
+        "explain": "Knows how a transpose or row reversal moves each (i, j).",
+        "implement": "Traverses by row, column, diagonal and boundary."
+      },
+      "misconceptions": [
+        { "id": "ds.mat.assumed_square", "facet": "recognize", "desc": "Assumed a square matrix where m != n is allowed." }
+      ]
+    },
+    {
+      "id": "ds.hashmap",
+      "name": "Hash map",
+      "layer": 2,
+      "description": "Key -> value lookup in O(1) average; used for frequency counts and value -> index lookup.",
+      "prereqs": ["ds.array", "cpp.hash_containers"],
+      "facets": {
+        "recognize": "Reaches for a hashmap for counting, value -> index lookup or 'seen before?' with unbounded values; also knows when O(1) space beats it.",
+        "explain": "States the trade: O(n) extra space for O(1) average lookup.",
+        "implement": "Designs the key/value pair that answers the question (value -> index vs value -> count)."
+      },
+      "misconceptions": [
+        { "id": "ds.hm.wrong_key_value", "facet": "implement", "desc": "Stored the wrong mapping (index -> value instead of value -> index)." },
+        { "id": "ds.hm.overuse", "facet": "recognize", "desc": "Used a hashmap where O(1) extra space is achievable (Boyer-Moore, XOR, math, two pointers)." }
+      ]
+    },
+    {
+      "id": "ds.hashset",
+      "name": "Hash set",
+      "layer": 2,
+      "description": "Membership and de-duplication in O(1) average.",
+      "prereqs": ["ds.array", "cpp.hash_containers"],
+      "facets": {
+        "recognize": "Uses a set for membership or dedupe, and knows when duplicates must be counted instead.",
+        "implement": "Inserts and queries membership correctly."
+      },
+      "misconceptions": [
+        { "id": "ds.hs.lost_multiplicity", "facet": "recognize", "desc": "Used a set where the count of duplicates matters." }
+      ]
+    }
+  ]
+}

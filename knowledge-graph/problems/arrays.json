@@ -1,0 +1,1609 @@
+{
+  "sheet": "Striver A2Z - Arrays",
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "fundamentals",
+      "title": "Fundamentals"
+    },
+    {
+      "id": "logic_building",
+      "title": "Logic Building"
+    },
+    {
+      "id": "faq_medium",
+      "title": "FAQs (Medium)"
+    },
+    {
+      "id": "faq_hard",
+      "title": "FAQs (Hard)"
+    }
+  ],
+  "problems": [
+    {
+      "id": "arr.linear_search",
+      "order": 1,
+      "section": "fundamentals",
+      "tier": "Basic",
+      "title": "Linear Search",
+      "summary": "Return the index of the first occurrence of target, or -1.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Scan and return first match",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan",
+            "u.function_contract"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.linear_scan", "role": "core", "facets": ["implement"] },
+        { "id": "u.function_contract", "role": "core", "facets": ["implement"] },
+        { "id": "u.loop_bounds", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.conditionals", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "u.fn.wrong_return_value",
+        "u.fn.early_return",
+        "u.fn.missing_return",
+        "u.loop.off_by_one_end",
+        "u.cond.assign_not_compare"
+      ]
+    },
+    {
+      "id": "arr.largest_element",
+      "order": 2,
+      "section": "fundamentals",
+      "tier": "Basic",
+      "title": "Largest Element",
+      "summary": "Return the largest element of the array.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Sort and take the last element",
+          "time": "O(n log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "cpp.stl_algorithms"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "One pass with a running max",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.track_extremes",
+            "u.variable_init"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.track_extremes", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "u.variable_init", "role": "core", "facets": ["implement", "explain"] },
+        { "id": "p.linear_scan", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.limits", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "u.init.max_zero",
+        "p.ext.sort_for_max",
+        "r.edge.negatives_zero",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "arr.second_largest",
+      "order": 3,
+      "section": "fundamentals",
+      "tier": "Basic",
+      "title": "Second Largest Element",
+      "summary": "Return the second largest distinct element, or -1 if it does not exist.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Sort, then scan back for the first smaller value",
+          "time": "O(n log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "cpp.stl_algorithms",
+            "r.problem_modeling"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Two passes: find max, then max among values < max",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan",
+            "u.conditionals"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Single pass tracking largest and second largest",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.track_extremes"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.track_extremes", "role": "core", "facets": ["implement", "trace", "adapt"] },
+        { "id": "u.conditionals", "role": "core", "facets": ["implement", "explain"] },
+        { "id": "u.variable_init", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.ext.no_demote",
+        "p.ext.equal_to_max",
+        "u.init.sentinel_collision",
+        "u.cond.strict_vs_nonstrict",
+        "r.model.distinct",
+        "r.edge.duplicates",
+        "p.ext.sort_for_max"
+      ]
+    },
+    {
+      "id": "arr.max_consecutive_ones",
+      "order": 4,
+      "section": "fundamentals",
+      "tier": "Basic",
+      "title": "Maximum Consecutive Ones",
+      "summary": "Length of the longest run of 1s in a binary array.",
+      "links": {
+        "leetcode": "max-consecutive-ones"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Running counter with reset",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.running_streak"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.running_streak", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "u.accumulation", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.variable_init", "role": "supporting", "facets": ["trace"] }
+      ],
+      "watch_for": [
+        "p.streak.update_only_on_break",
+        "p.streak.no_reset",
+        "u.init.not_reset"
+      ]
+    },
+    {
+      "id": "arr.left_rotate_by_one",
+      "order": 5,
+      "section": "fundamentals",
+      "tier": "Basic",
+      "title": "Left Rotate Array by One",
+      "summary": "Shift every element one place left in place; the first element moves to the end.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Save first, shift left, place at end",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.swap",
+            "u.in_place_vs_copy"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "u.swap", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "u.loop_bounds", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.in_place_vs_copy", "role": "supporting", "facets": ["trace"] },
+        { "id": "cpp.pass_by_reference", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "u.swap.shift_direction",
+        "u.swap.lost_value",
+        "u.loop.off_by_one_end",
+        "u.idx.out_of_bounds",
+        "cpp.ref.modified_copy",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "arr.left_rotate_by_k",
+      "order": 6,
+      "section": "fundamentals",
+      "tier": "Core",
+      "title": "Left Rotate Array by K Places",
+      "summary": "Rotate the array left by k positions in place (k may exceed n).",
+      "links": {
+        "leetcode": "rotate-array",
+        "leetcode_note": "LeetCode 189 rotates right; same technique with mirrored ranges."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Rotate by one, k times",
+          "time": "O(n*k)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.swap"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Copy first k to temp, shift, copy back",
+          "time": "O(n)",
+          "space": "O(k)",
+          "demonstrates": [
+            "u.modular_arithmetic",
+            "u.loop_bounds"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Three reversals: [0,k), [k,n), whole",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.reversal_trick",
+            "cpp.iterators"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.reversal_trick", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "u.modular_arithmetic", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "cpp.iterators", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.stl_algorithms", "role": "supporting", "facets": ["implement", "explain"] },
+        { "id": "u.in_place_vs_copy", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.brute_to_optimal", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "u.mod.k_not_reduced",
+        "u.mod.mod_zero",
+        "p.rev.direction_mixup",
+        "p.rev.range_off",
+        "cpp.it.inclusive_end",
+        "p.rev.unexplained",
+        "cpp.algo.library_shortcut"
+      ]
+    },
+    {
+      "id": "arr.move_zeros",
+      "order": 7,
+      "section": "logic_building",
+      "tier": "Basic",
+      "title": "Move Zeros to End",
+      "summary": "Move all zeros to the end in place, keeping the order of non-zero elements.",
+      "links": {
+        "leetcode": "move-zeroes"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Copy non-zeros to temp, write back, fill zeros",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Read/write pointers with swap",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.two_pointers_same_dir",
+            "u.swap"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.two_pointers_same_dir", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "u.in_place_vs_copy", "role": "core", "facets": ["recognize"] },
+        { "id": "u.swap", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.invariants", "role": "supporting", "facets": ["explain"] },
+        { "id": "cpp.vector", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.rw.write_advance",
+        "p.rw.invariant_unknown",
+        "u.inplace.used_extra_space",
+        "cpp.vec.erase_in_loop",
+        "u.loop.modifies_bound_inside"
+      ]
+    },
+    {
+      "id": "arr.remove_duplicates_sorted",
+      "order": 8,
+      "section": "logic_building",
+      "tier": "Basic",
+      "title": "Remove duplicates from sorted array",
+      "summary": "In place, keep one copy of each value at the front and return the count of unique values.",
+      "links": {
+        "leetcode": "remove-duplicates-from-sorted-array"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Insert into std::set, copy back",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "cpp.ordered_containers"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Read/write pointers comparing with last kept",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.two_pointers_same_dir",
+            "ds.sorted_array"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.two_pointers_same_dir", "role": "core", "facets": ["implement", "explain", "trace"] },
+        { "id": "ds.sorted_array", "role": "core", "facets": ["recognize", "explain"] },
+        { "id": "u.function_contract", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.ordered_containers", "role": "supporting", "facets": ["explain"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] },
+        { "id": "cpp.stl_algorithms", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.rw.return_count_off",
+        "ds.sorted.ignored_sortedness",
+        "cpp.vec.erase_in_loop",
+        "cpp.algo.unique_no_erase",
+        "u.idx.out_of_bounds",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "arr.missing_number",
+      "order": 9,
+      "section": "logic_building",
+      "tier": "Basic",
+      "title": "Find missing number",
+      "summary": "Array holds all numbers of a range except one; find it.",
+      "links": {
+        "leetcode": "missing-number",
+        "leetcode_note": "LeetCode range is 0..n; Striver's is 1..N with N-1 elements."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "For each candidate, linear search",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Presence array (direct addressing)",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.array"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Sum formula",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.math_identities"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "XOR of range and array",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.xor_tricks"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.math_identities", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.xor_tricks", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "ds.array", "role": "supporting", "facets": ["recognize"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.brute_to_optimal", "role": "supporting", "facets": ["recognize"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.math.overflow",
+        "p.math.wrong_n",
+        "p.xor.range_mismatch",
+        "ds.hm.overuse",
+        "ds.arr.missed_direct_addressing",
+        "cpp.int.overflow_before_cast"
+      ]
+    },
+    {
+      "id": "arr.union_sorted",
+      "order": 10,
+      "section": "logic_building",
+      "tier": "Core",
+      "title": "Union of two sorted arrays",
+      "summary": "Return the sorted union of two sorted arrays without duplicates.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Insert both into std::set",
+          "time": "O((n+m) log(n+m))",
+          "space": "O(n+m)",
+          "demonstrates": [
+            "cpp.ordered_containers"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Two-pointer merge, skip equal to last pushed",
+          "time": "O(n+m)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.merge_two_sorted",
+            "ds.sorted_array"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.merge_two_sorted", "role": "core", "facets": ["recognize", "implement", "trace"] },
+        { "id": "ds.sorted_array", "role": "supporting", "facets": ["recognize"] },
+        { "id": "cpp.vector", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.ordered_containers", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.merge.no_drain",
+        "p.merge.dup_in_union",
+        "p.merge.equal_case",
+        "cpp.vec.back_on_empty",
+        "cpp.ord.complexity_blind"
+      ]
+    },
+    {
+      "id": "arr.intersection_sorted",
+      "order": 11,
+      "section": "logic_building",
+      "tier": "Core",
+      "title": "Intersection of two sorted arrays",
+      "summary": "Return common elements (with multiplicity) of two sorted arrays, in sorted order.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Nested loops with a visited array",
+          "time": "O(n*m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Two pointers, advance smaller, push on equal and advance both",
+          "time": "O(n+m)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.merge_two_sorted"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.merge_two_sorted", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "ds.sorted_array", "role": "supporting", "facets": ["recognize"] },
+        { "id": "u.nested_loops", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] },
+        { "id": "ds.hashset", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.merge.equal_case",
+        "ds.sorted.ignored_sortedness",
+        "ds.hs.lost_multiplicity",
+        "r.model.output_format"
+      ]
+    },
+    {
+      "id": "arr.majority_element_1",
+      "order": 12,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Majority Element-I",
+      "summary": "Return the element appearing more than n/2 times (guaranteed to exist).",
+      "links": {
+        "leetcode": "majority-element"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count each element with an inner loop",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Hashmap frequency count",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.frequency_counting",
+            "ds.hashmap"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Boyer-Moore voting",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.boyer_moore"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.boyer_moore", "role": "core", "facets": ["explain", "implement", "trace"] },
+        { "id": "p.frequency_counting", "role": "supporting", "facets": ["implement"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.brute_to_optimal", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.bm.update_order",
+        "p.bm.mechanical",
+        "p.freq.threshold_off",
+        "ds.hm.overuse",
+        "r.model.missed_constraint",
+        "cpp.hash.bracket_inserts"
+      ]
+    },
+    {
+      "id": "arr.leaders",
+      "order": 13,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Leaders in an Array",
+      "summary": "Return all elements strictly greater than every element to their right, in original order.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "For each element, scan to the right",
+          "time": "O(n²)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Reverse scan with running max, then reverse output",
+          "time": "O(n)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.suffix_scan"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.suffix_scan", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.track_extremes", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] },
+        { "id": "cpp.stl_algorithms", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.unsigned_size", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.suffix.forward_nested",
+        "p.suffix.order_output",
+        "p.suffix.strictness",
+        "r.model.output_format",
+        "cpp.unsigned.reverse_loop"
+      ]
+    },
+    {
+      "id": "arr.rearrange_by_sign",
+      "order": 14,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Rearrange array elements by sign",
+      "summary": "Equal numbers of positives and negatives; output alternates +,-,+,- preserving relative order.",
+      "links": {
+        "leetcode": "rearrange-array-elements-by-sign"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Split into pos/neg arrays, then interleave",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Single pass writing to even/odd indices",
+          "time": "O(n)",
+          "space": "O(n) output",
+          "demonstrates": [
+            "p.index_mapped_placement"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.index_mapped_placement", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "u.indexing", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.vector", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.place.single_index",
+        "p.place.unequal_counts",
+        "cpp.vec.index_unsized"
+      ]
+    },
+    {
+      "id": "arr.spiral_matrix",
+      "order": 15,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Print the matrix in spiral manner",
+      "summary": "Return all elements of an m x n matrix in spiral order.",
+      "links": {
+        "leetcode": "spiral-matrix"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Direction simulation with a visited matrix",
+          "time": "O(mn)",
+          "space": "O(mn)",
+          "demonstrates": [
+            "ds.matrix"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Four shrinking boundaries",
+          "time": "O(mn)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.matrix_boundary_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.matrix_boundary_traversal", "role": "core", "facets": ["explain", "implement", "trace"] },
+        { "id": "ds.matrix", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.2d_indexing", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.spiral.missing_guard",
+        "p.spiral.wrong_shrink",
+        "p.spiral.visited_matrix",
+        "u.2d.rows_cols_swapped",
+        "ds.mat.assumed_square",
+        "u.2d.empty_matrix"
+      ]
+    },
+    {
+      "id": "arr.pascal_1",
+      "order": 16,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Pascal's Triangle I",
+      "summary": "Return the element at row r, column c of Pascal's triangle (1-indexed).",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Factorial formula",
+          "time": "O(r)",
+          "space": "O(1)",
+          "demonstrates": []
+        },
+        {
+          "level": "optimal",
+          "name": "Iterative nCr, multiply then divide",
+          "time": "O(c)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.pascal_combinatorics",
+            "cpp.integer_types"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.pascal_combinatorics", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "cpp.integer_types", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "u.indexing", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.pascal.factorial",
+        "p.pascal.divide_first",
+        "p.pascal.index_base",
+        "cpp.int.overflow_before_cast"
+      ]
+    },
+    {
+      "id": "arr.pascal_2",
+      "order": 17,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Pascal's Triangle II",
+      "summary": "Return the nth row of Pascal's triangle.",
+      "links": {
+        "leetcode": "pascals-triangle-ii",
+        "leetcode_note": "LeetCode rowIndex is 0-based."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Compute nCr separately for each element",
+          "time": "O(n²)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.pascal_combinatorics"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Derive each element from the previous: ans *= (n-i); ans /= i",
+          "time": "O(n)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.pascal_combinatorics"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.pascal_combinatorics", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.vector", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.pascal.recompute_each",
+        "p.pascal.divide_first",
+        "p.pascal.index_base",
+        "cpp.int.overflow_before_cast"
+      ]
+    },
+    {
+      "id": "arr.pascal_3",
+      "order": 18,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Pascal's Triangle III",
+      "summary": "Generate the first n rows of Pascal's triangle.",
+      "links": {
+        "leetcode": "pascals-triangle"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "nCr for every cell",
+          "time": "O(n³)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.pascal_combinatorics"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Row-by-row generation",
+          "time": "O(n²)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.pascal_combinatorics",
+            "cpp.2d_vector"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.pascal_combinatorics", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "cpp.2d_vector", "role": "core", "facets": ["implement"] },
+        { "id": "u.nested_loops", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "cpp.2d.wrong_init",
+        "p.pascal.index_base",
+        "p.pascal.recompute_each",
+        "u.idx.out_of_bounds"
+      ]
+    },
+    {
+      "id": "arr.rotate_matrix",
+      "order": 19,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Rotate matrix by 90 degrees",
+      "summary": "Rotate an n x n matrix 90 degrees clockwise in place.",
+      "links": {
+        "leetcode": "rotate-image"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "New matrix: ans[j][n-1-i] = mat[i][j]",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "u.2d_indexing"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Transpose (j > i), then reverse each row",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.matrix_transpose_rotate"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.matrix_transpose_rotate", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "ds.matrix", "role": "supporting", "facets": ["explain"] },
+        { "id": "u.2d_indexing", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.2d_vector", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.stl_algorithms", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.rot.double_transpose",
+        "p.rot.wrong_reverse",
+        "p.rot.extra_matrix",
+        "u.idx.mirror_formula",
+        "cpp.2d.copy_row"
+      ]
+    },
+    {
+      "id": "arr.set_matrix_zeroes",
+      "order": 20,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Set Matrix Zeroes",
+      "summary": "If a cell is 0, set its entire row and column to 0, in place.",
+      "links": {
+        "leetcode": "set-matrix-zeroes"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Mark with -1, then convert",
+          "time": "O(mn(m+n))",
+          "space": "O(1)",
+          "demonstrates": []
+        },
+        {
+          "level": "better",
+          "name": "Row and column flag arrays",
+          "time": "O(mn)",
+          "space": "O(m+n)",
+          "demonstrates": [
+            "ds.array",
+            "ds.matrix"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "First row/column as markers + col0 variable",
+          "time": "O(mn)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.in_place_markers"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.in_place_markers", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "ds.matrix", "role": "supporting", "facets": ["recognize"] },
+        { "id": "u.2d_indexing", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.brute_to_optimal", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.mark.order",
+        "p.mark.overlap_00",
+        "p.mark.sentinel_value",
+        "u.2d.rows_cols_swapped",
+        "ds.mat.assumed_square"
+      ]
+    },
+    {
+      "id": "arr.two_sum",
+      "order": 21,
+      "section": "faq_medium",
+      "tier": "Basic",
+      "title": "Two Sum",
+      "summary": "Find two indices whose values sum to target (variant: return yes/no).",
+      "links": {
+        "leetcode": "two-sum"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Check every pair",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Hashmap of value -> index, look up complement",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.complement_lookup",
+            "ds.hashmap"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Sort + converging pointers (yes/no variant only)",
+          "time": "O(n log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.two_pointers_opposite",
+            "ds.sorted_array"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.complement_lookup", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "ds.hashmap", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.two_pointers_opposite", "role": "supporting", "facets": ["implement"] },
+        { "id": "ds.sorted_array", "role": "supporting", "facets": ["explain"] },
+        { "id": "cpp.hash_containers", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.nested_loops", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.comp.insert_before_check",
+        "ds.hm.wrong_key_value",
+        "ds.sorted.sort_destroys_index",
+        "u.nest.duplicate_pairs",
+        "cpp.hash.bracket_inserts"
+      ]
+    },
+    {
+      "id": "arr.three_sum",
+      "order": 22,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "3 Sum",
+      "summary": "Return all unique triplets summing to 0.",
+      "links": {
+        "leetcode": "3sum"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Three loops + set of sorted triplets",
+          "time": "O(n³ log m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Two loops + hashset for the third",
+          "time": "O(n² log m)",
+          "space": "O(n + m)",
+          "demonstrates": [
+            "ds.hashset",
+            "p.complement_lookup"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Sort, fix i, converging pointers, skip duplicates",
+          "time": "O(n²)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.sort_then_scan",
+            "p.two_pointers_opposite",
+            "p.skip_duplicates"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.two_pointers_opposite", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "p.skip_duplicates", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.sort_then_scan", "role": "core", "facets": ["recognize"] },
+        { "id": "ds.hashset", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.complexity_analysis", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.dup.skip_wrong_level",
+        "p.dup.set_of_vectors",
+        "p.dup.skip_out_of_bounds",
+        "p.opp.no_move_after_match",
+        "p.opp.wrong_move",
+        "r.cx.constraint_blind",
+        "r.model.distinct"
+      ]
+    },
+    {
+      "id": "arr.four_sum",
+      "order": 23,
+      "section": "faq_medium",
+      "tier": "Pro",
+      "title": "4 Sum",
+      "summary": "Return all unique quadruplets summing to target.",
+      "links": {
+        "leetcode": "4sum"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Three loops + hashset for the fourth",
+          "time": "O(n³ log m)",
+          "space": "O(n + m)",
+          "demonstrates": [
+            "ds.hashset"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Sort, fix i and j, converging pointers, skip duplicates",
+          "time": "O(n³)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.two_pointers_opposite",
+            "p.skip_duplicates",
+            "cpp.integer_types"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.two_pointers_opposite", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.skip_duplicates", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.sort_then_scan", "role": "supporting", "facets": ["recognize"] },
+        { "id": "u.nested_loops", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "cpp.int.overflow_sum",
+        "cpp.int.overflow_before_cast",
+        "p.dup.skip_wrong_level",
+        "p.dup.skip_out_of_bounds",
+        "p.opp.no_move_after_match"
+      ]
+    },
+    {
+      "id": "arr.sort_012",
+      "order": 24,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Sort an array of 0's 1's and 2's",
+      "summary": "Sort an array of 0s, 1s and 2s in place in one pass.",
+      "links": {
+        "leetcode": "sort-colors"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "std::sort",
+          "time": "O(n log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "cpp.stl_algorithms"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Count 0/1/2 then overwrite",
+          "time": "O(2n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.frequency_counting"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Dutch National Flag",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dutch_national_flag",
+            "r.invariants"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dutch_national_flag", "role": "core", "facets": ["explain", "implement", "trace"] },
+        { "id": "r.invariants", "role": "core", "facets": ["explain"] },
+        { "id": "u.swap", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.frequency_counting", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dnf.mid_after_high_swap",
+        "p.dnf.loop_condition",
+        "p.dnf.counting_only",
+        "r.inv.cannot_state"
+      ]
+    },
+    {
+      "id": "arr.kadane",
+      "order": 25,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Kadane's Algorithm",
+      "summary": "Maximum sum of a contiguous subarray (follow-up: print it).",
+      "links": {
+        "leetcode": "maximum-subarray"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "All subarrays, sum each",
+          "time": "O(n³)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "All subarrays with running sum",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.accumulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Kadane",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.kadane"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.kadane", "role": "core", "facets": ["explain", "implement", "trace", "adapt"] },
+        { "id": "u.variable_init", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.limits", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.brute_to_optimal", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.kadane.all_negative",
+        "p.kadane.reset_order",
+        "p.kadane.index_tracking",
+        "u.init.max_zero",
+        "r.edge.negatives_zero",
+        "r.opt.memorized"
+      ]
+    },
+    {
+      "id": "arr.next_permutation",
+      "order": 26,
+      "section": "faq_medium",
+      "tier": "Core",
+      "title": "Next Permutation",
+      "summary": "Rearrange into the next lexicographically greater permutation in place (wrap to smallest).",
+      "links": {
+        "leetcode": "next-permutation"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Generate all permutations, find the next",
+          "time": "O(n! * n)",
+          "space": "O(n!)",
+          "demonstrates": []
+        },
+        {
+          "level": "better",
+          "name": "std::next_permutation",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "cpp.stl_algorithms"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Breakpoint, swap with rightmost larger, reverse suffix",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.next_permutation",
+            "p.reversal_trick"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.next_permutation", "role": "core", "facets": ["explain", "implement", "trace"] },
+        { "id": "p.reversal_trick", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.stl_algorithms", "role": "supporting", "facets": ["explain"] },
+        { "id": "cpp.unsigned_size", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.dry_run", "role": "supporting", "facets": ["trace"] }
+      ],
+      "watch_for": [
+        "p.np.no_breakpoint",
+        "p.np.wrong_swap_target",
+        "p.np.sort_suffix",
+        "p.np.generate_all",
+        "cpp.algo.library_shortcut",
+        "cpp.unsigned.reverse_loop"
+      ]
+    },
+    {
+      "id": "arr.majority_element_2",
+      "order": 27,
+      "section": "faq_hard",
+      "tier": "Core",
+      "title": "Majority Element-II",
+      "summary": "Return all elements appearing more than n/3 times.",
+      "links": {
+        "leetcode": "majority-element-ii"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count each with an inner loop",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Hashmap counts",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.frequency_counting",
+            "ds.hashmap"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Extended Boyer-Moore (two candidates) + verification pass",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.boyer_moore"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.boyer_moore", "role": "core", "facets": ["explain", "implement", "adapt"] },
+        { "id": "p.frequency_counting", "role": "supporting", "facets": ["implement"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bm.no_verify",
+        "p.bm.same_candidate_twice",
+        "p.bm.update_order",
+        "p.bm.mechanical",
+        "p.freq.threshold_off",
+        "r.edge.duplicates"
+      ]
+    },
+    {
+      "id": "arr.repeating_and_missing",
+      "order": 28,
+      "section": "faq_hard",
+      "tier": "Core",
+      "title": "Find the repeating and missing number",
+      "summary": "Values 1..n with one repeated and one missing; return both.",
+      "links": {
+        "leetcode": "set-mismatch",
+        "leetcode_note": "Equivalent problem; returns [repeating, missing]."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count each value with an inner loop",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Frequency array",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.array",
+            "p.frequency_counting"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Two equations: sum and sum of squares",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.math_identities",
+            "cpp.integer_types"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "XOR + rightmost set bit buckets",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.xor_tricks"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.math_identities", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "p.xor_tricks", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "cpp.integer_types", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "ds.array", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.brute_to_optimal", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.math.overflow",
+        "p.math.equation_setup",
+        "p.xor.rightmost_bit",
+        "p.xor.bucket_verify",
+        "cpp.int.overflow_before_cast",
+        "r.model.output_format"
+      ]
+    },
+    {
+      "id": "arr.count_inversions",
+      "order": 29,
+      "section": "faq_hard",
+      "tier": "Pro",
+      "title": "Count Inversions",
+      "summary": "Count pairs i < j with a[i] > a[j].",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Check every pair",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Merge sort, add mid - i + 1 when left[i] > right[j]",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.merge_sort_counting",
+            "u.recursion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.merge_sort_counting", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "u.recursion", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "p.merge_two_sorted", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["recognize"] },
+        { "id": "cpp.pass_by_reference", "role": "supporting", "facets": ["explain"] },
+        { "id": "r.complexity_analysis", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.msc.count_formula",
+        "p.msc.count_type",
+        "u.rec.wrong_split",
+        "u.rec.missing_base",
+        "cpp.ref.unnecessary_copy",
+        "r.cx.constraint_blind"
+      ]
+    },
+    {
+      "id": "arr.reverse_pairs",
+      "order": 30,
+      "section": "faq_hard",
+      "tier": "Pro",
+      "title": "Reverse Pairs",
+      "summary": "Count pairs i < j with nums[i] > 2 * nums[j].",
+      "links": {
+        "leetcode": "reverse-pairs"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Check every pair",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Merge sort with a separate counting pass before each merge",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.merge_sort_counting",
+            "cpp.integer_types"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.merge_sort_counting", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "cpp.integer_types", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "u.recursion", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.merge_two_sorted", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.pass_by_reference", "role": "supporting", "facets": ["explain"] },
+        { "id": "r.complexity_analysis", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.msc.count_inside_merge",
+        "cpp.int.overflow_comparison",
+        "p.msc.count_type",
+        "cpp.ref.unnecessary_copy",
+        "r.cx.constraint_blind"
+      ]
+    },
+    {
+      "id": "arr.max_product_subarray",
+      "order": 31,
+      "section": "faq_hard",
+      "tier": "Core",
+      "title": "Maximum Product Subarray in an Array",
+      "summary": "Maximum product of a contiguous subarray.",
+      "links": {
+        "leetcode": "maximum-product-subarray"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "All subarrays with running product",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Prefix and suffix products with reset on zero",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.max_product_subarray"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Track running max and min together",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.max_product_subarray"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.max_product_subarray", "role": "core", "facets": ["explain", "implement", "trace"] },
+        { "id": "p.kadane", "role": "supporting", "facets": ["adapt"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.prod.no_min_track",
+        "p.prod.overwrite_before_use",
+        "p.prod.zero_reset",
+        "p.prod.overflow",
+        "p.kadane.applied_to_product",
+        "r.edge.negatives_zero"
+      ]
+    },
+    {
+      "id": "arr.merge_sorted_no_extra_space",
+      "order": 32,
+      "section": "faq_hard",
+      "tier": "Core",
+      "title": "Merge two sorted arrays without extra space",
+      "summary": "Merge so arr1 holds the smallest n and arr2 the rest, both sorted, with O(1) extra space.",
+      "links": {
+        "leetcode": "merge-sorted-array",
+        "leetcode_note": "Related, but LeetCode 88 gives nums1 spare capacity; the constraint here is stricter."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Merge into a third array, copy back",
+          "time": "O(n+m)",
+          "space": "O(n+m)",
+          "demonstrates": [
+            "p.merge_two_sorted"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Swap arr1 tail with arr2 head while out of order, then sort both",
+          "time": "O(min(n,m) + n log n + m log m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.gap_merge",
+            "p.sort_then_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Gap method",
+          "time": "O((n+m) log(n+m))",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.gap_merge"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.gap_merge", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "p.merge_two_sorted", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.in_place_vs_copy", "role": "supporting", "facets": ["recognize"] },
+        { "id": "cpp.stl_algorithms", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.complexity_analysis", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.gap.ceil",
+        "p.gap.virtual_index",
+        "p.gap.used_extra",
+        "u.idx.out_of_bounds",
+        "r.cx.hidden_cost"
+      ]
+    }
+  ]
+}

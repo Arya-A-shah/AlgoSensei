@@ -1,0 +1,97 @@
+{
+  "layer": 4,
+  "kind": "reasoning",
+  "title": "Problem-solving & reasoning",
+  "description": "Meta-skills that show up across every problem: reading the problem, edge cases, tracing, invariants, complexity, refining brute force.",
+  "nodes": [
+    {
+      "id": "r.problem_modeling",
+      "name": "Reading the problem precisely",
+      "layer": 4,
+      "description": "Extracting the exact requirements: distinctness, index vs value, output order, in-place, guarantees.",
+      "prereqs": [],
+      "facets": {
+        "recognize": "Lists the exact output contract and constraints before coding."
+      },
+      "misconceptions": [
+        { "id": "r.model.output_format", "facet": "recognize", "desc": "Wrong output format or order (sorted vs original order, 0- vs 1-based)." },
+        { "id": "r.model.missed_constraint", "facet": "recognize", "desc": "Ignored a stated constraint (in-place, O(1) space, guaranteed majority, sorted input)." },
+        { "id": "r.model.distinct", "facet": "recognize", "desc": "Misread distinctness (second largest distinct, unique triplets)." }
+      ]
+    },
+    {
+      "id": "r.edge_cases",
+      "name": "Edge-case discovery",
+      "layer": 4,
+      "description": "Finding inputs that break naive logic before submitting.",
+      "prereqs": [],
+      "facets": {
+        "recognize": "Lists empty, single element, all equal, all negative, zeros, duplicates, k >= n, extreme values.",
+        "adapt": "Makes the general logic handle them instead of piling on special cases."
+      },
+      "misconceptions": [
+        { "id": "r.edge.empty_or_single", "facet": "recognize", "desc": "Empty or single-element input not handled." },
+        { "id": "r.edge.duplicates", "facet": "recognize", "desc": "Duplicate values not handled." },
+        { "id": "r.edge.negatives_zero", "facet": "recognize", "desc": "Negative numbers or zeros not handled." },
+        { "id": "r.edge.extremes", "facet": "recognize", "desc": "Values at INT_MIN/INT_MAX or maximum n not handled." }
+      ]
+    },
+    {
+      "id": "r.dry_run",
+      "name": "Dry-running & state tracing",
+      "layer": 4,
+      "description": "Simulating code by hand on a small input to find the step where it diverges.",
+      "prereqs": [],
+      "facets": {
+        "trace": "Traces every variable on a small or failing input and locates the faulty step."
+      },
+      "misconceptions": [
+        { "id": "r.dry.blind_resubmit", "facet": "trace", "desc": "Made repeated small edits and resubmits without tracing the failing input.", "signals": ["several submits within minutes with tiny diffs"] }
+      ]
+    },
+    {
+      "id": "r.invariants",
+      "name": "Loop invariants",
+      "layer": 4,
+      "description": "Stating what remains true at every iteration and using it to argue correctness.",
+      "prereqs": ["r.dry_run"],
+      "facets": {
+        "explain": "States the invariant for pointer/partition algorithms and uses it to justify each move."
+      },
+      "misconceptions": [
+        { "id": "r.inv.cannot_state", "facet": "explain", "desc": "Cannot state the invariant of the algorithm they wrote." }
+      ]
+    },
+    {
+      "id": "r.complexity_analysis",
+      "name": "Complexity analysis",
+      "layer": 4,
+      "description": "Time and space of a solution, including hidden costs, and the complexity the constraints demand.",
+      "prereqs": ["u.nested_loops"],
+      "facets": {
+        "recognize": "Maps constraints to a target (n <= 1e5 needs O(n log n) or better).",
+        "explain": "States time and space including hidden costs (sort, erase, map operations, copies, recursion stack)."
+      },
+      "misconceptions": [
+        { "id": "r.cx.hidden_cost", "facet": "explain", "desc": "Missed hidden costs: sort O(n log n), vector::erase O(n), set/map O(log n), copies." },
+        { "id": "r.cx.constraint_blind", "facet": "recognize", "desc": "Submitted O(n²) for n up to 1e5.", "signals": ["Time Limit Exceeded"] },
+        { "id": "r.cx.space_miscount", "facet": "explain", "desc": "Miscounted space (forgot recursion stack or auxiliary arrays)." }
+      ]
+    },
+    {
+      "id": "r.brute_to_optimal",
+      "name": "Brute -> better -> optimal refinement",
+      "layer": 4,
+      "description": "Start correct, find the repeated work, remove it with a structure or an insight.",
+      "prereqs": ["r.complexity_analysis"],
+      "facets": {
+        "recognize": "Identifies the repeated work in a brute force and the tool that removes it.",
+        "explain": "Can derive the optimal step by step rather than recite it."
+      },
+      "misconceptions": [
+        { "id": "r.opt.stuck_on_brute", "facet": "recognize", "desc": "Could not identify which repeated work to eliminate." },
+        { "id": "r.opt.memorized", "facet": "explain", "desc": "Wrote the optimal from memory but cannot derive or explain it." }
+      ]
+    }
+  ]
+}

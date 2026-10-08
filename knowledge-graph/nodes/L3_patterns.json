@@ -1,0 +1,458 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Reusable techniques. Each one names its invariant (explain), its trigger (recognize), its correct code shape (implement), and its variants (adapt).",
+  "nodes": [
+    {
+      "id": "p.linear_scan",
+      "name": "Single-pass linear scan",
+      "layer": 3,
+      "description": "Visit each element once while maintaining a small amount of state.",
+      "prereqs": ["u.loop_bounds", "u.conditionals", "ds.array"],
+      "facets": {
+        "recognize": "Recognizes that the answer only needs a constant-size state carried across one pass.",
+        "implement": "Writes the one-pass loop with the state update in the right place.",
+        "trace": "Can show the state after each element."
+      },
+      "misconceptions": [
+        { "id": "p.scan.premature_break", "facet": "implement", "desc": "Broke out of the loop before every element that could affect the answer was checked." },
+        { "id": "p.scan.unneeded_passes", "facet": "recognize", "desc": "Used several passes or sorting where a single pass suffices." }
+      ]
+    },
+    {
+      "id": "p.track_extremes",
+      "name": "Tracking extremes (largest / second largest)",
+      "layer": 3,
+      "description": "Maintain the top values in one pass, demoting the old largest when a new one appears.",
+      "prereqs": ["p.linear_scan", "u.variable_init"],
+      "facets": {
+        "recognize": "Gets max / second max in one pass instead of sorting.",
+        "implement": "Demotes largest to second on a new max; updates second only for values strictly between.",
+        "trace": "Can show (largest, second) after each element.",
+        "adapt": "Handles duplicates of the max, all-equal arrays, and 'no second largest' (return -1)."
+      },
+      "misconceptions": [
+        { "id": "p.ext.no_demote", "facet": "implement", "desc": "On a new max, did not move the old largest into second." },
+        { "id": "p.ext.equal_to_max", "facet": "adapt", "desc": "Accepted a value equal to largest as second largest (needed strictly smaller)." },
+        { "id": "p.ext.sort_for_max", "facet": "recognize", "desc": "Sorted (O(n log n)) just to read the max or second max." }
+      ]
+    },
+    {
+      "id": "p.running_streak",
+      "name": "Running streak / consecutive runs",
+      "layer": 3,
+      "description": "Count while a condition holds, reset when it breaks, record the best.",
+      "prereqs": ["p.linear_scan", "u.accumulation"],
+      "facets": {
+        "implement": "Increments on match, resets on break, updates best on every increment.",
+        "trace": "Can show (current, best) after each element.",
+        "adapt": "Extends to variants (streak of any value, allow k flips -> sliding window)."
+      },
+      "misconceptions": [
+        { "id": "p.streak.update_only_on_break", "facet": "implement", "desc": "Updated best only when the streak breaks, missing a streak that runs to the end." },
+        { "id": "p.streak.no_reset", "facet": "implement", "desc": "Did not reset the counter when the streak broke." }
+      ]
+    },
+    {
+      "id": "p.frequency_counting",
+      "name": "Frequency counting",
+      "layer": 3,
+      "description": "One pass to count occurrences (array or hashmap), then read the counts.",
+      "prereqs": ["ds.hashmap", "p.linear_scan"],
+      "facets": {
+        "recognize": "Recognizes counting problems: majority, duplicate, missing, repeating.",
+        "implement": "Counts in one pass with an array (bounded values) or map, then applies the threshold correctly."
+      },
+      "misconceptions": [
+        { "id": "p.freq.nested_counting", "facet": "recognize", "desc": "Counted each element with an inner loop (O(n²)) instead of one pass with a map/array." },
+        { "id": "p.freq.threshold_off", "facet": "implement", "desc": "Wrong threshold (> n/2 vs >= n/2, > n/3, integer division)." }
+      ]
+    },
+    {
+      "id": "p.complement_lookup",
+      "name": "Complement lookup (seen-map)",
+      "layer": 3,
+      "description": "For each x, ask 'have I already seen target - x?' using a hashmap of earlier elements.",
+      "prereqs": ["ds.hashmap", "p.linear_scan"],
+      "facets": {
+        "recognize": "Turns 'find a pair with property P' into a lookup of the complement among earlier elements.",
+        "explain": "Explains why checking before inserting prevents pairing an element with itself.",
+        "implement": "Looks up the complement first, then inserts the current element with its index."
+      },
+      "misconceptions": [
+        { "id": "p.comp.insert_before_check", "facet": "implement", "desc": "Inserted the current element before checking, so target = 2x pairs x with itself." },
+        { "id": "p.comp.prefill_map", "facet": "explain", "desc": "Pre-filled the map with all elements, then could not tell duplicates from the same index." }
+      ]
+    },
+    {
+      "id": "p.two_pointers_same_dir",
+      "name": "Read/write pointers (same direction)",
+      "layer": 3,
+      "description": "Read pointer scans everything; write pointer marks the end of the kept region [0, write).",
+      "prereqs": ["p.linear_scan", "u.swap", "u.in_place_vs_copy"],
+      "facets": {
+        "recognize": "Recognizes in-place filter/compact/partition problems (move zeros, remove duplicates).",
+        "explain": "States the invariant: [0, write) holds exactly the processed elements to keep.",
+        "implement": "Advances read every step and write only when keeping an element.",
+        "trace": "Can show both pointers and the array after each step."
+      },
+      "misconceptions": [
+        { "id": "p.rw.write_advance", "facet": "implement", "desc": "Advanced the write pointer on every step or never, or wrote before checking." },
+        { "id": "p.rw.invariant_unknown", "facet": "explain", "desc": "Cannot say what [0, write) represents, leading to boundary bugs." },
+        { "id": "p.rw.return_count_off", "facet": "implement", "desc": "Returned write - 1 or write + 1 instead of the number of kept elements." }
+      ]
+    },
+    {
+      "id": "p.two_pointers_opposite",
+      "name": "Converging two pointers",
+      "layer": 3,
+      "description": "lo/hi pointers on sorted data move inward based on a comparison.",
+      "prereqs": ["ds.sorted_array", "p.linear_scan"],
+      "facets": {
+        "recognize": "Uses converging pointers for pair sums on sorted data (or after sorting).",
+        "explain": "Explains why moving lo when sum < target cannot skip a valid pair (monotonicity).",
+        "implement": "Correct move rules, lo < hi termination, and movement after a match.",
+        "trace": "Can show (lo, hi, sum) at each step.",
+        "adapt": "Nests it inside one or two fixed outer loops (3Sum, 4Sum)."
+      },
+      "misconceptions": [
+        { "id": "p.opp.wrong_move", "facet": "implement", "desc": "Moved the wrong pointer for sum < target or sum > target." },
+        { "id": "p.opp.termination", "facet": "implement", "desc": "Used lo <= hi so an element pairs with itself, or stopped too early." },
+        { "id": "p.opp.unsorted_input", "facet": "recognize", "desc": "Applied converging pointers to unsorted data." },
+        { "id": "p.opp.no_move_after_match", "facet": "implement", "desc": "Did not move pointers after recording a match (infinite loop / TLE)." }
+      ]
+    },
+    {
+      "id": "p.skip_duplicates",
+      "name": "Skipping duplicates for unique results",
+      "layer": 3,
+      "description": "On sorted data, skip equal neighbours at each pointer level so each unique tuple is produced once.",
+      "prereqs": ["ds.sorted_array", "u.loop_bounds"],
+      "facets": {
+        "recognize": "Sees that unique-tuple output plus sorting lets skip logic replace a set of results.",
+        "implement": "Skips duplicates at every level (outer indices and both pointers) with bounds checks, after using the first occurrence."
+      },
+      "misconceptions": [
+        { "id": "p.dup.skip_wrong_level", "facet": "implement", "desc": "Skipped duplicates only at some levels, or before using the first occurrence." },
+        { "id": "p.dup.set_of_vectors", "facet": "recognize", "desc": "De-duplicated with set<vector<int>> (extra log factor and memory) instead of skip logic." },
+        { "id": "p.dup.skip_out_of_bounds", "facet": "implement", "desc": "while (nums[j] == nums[j+1]) j++ without a j + 1 < n / j < k guard." }
+      ]
+    },
+    {
+      "id": "p.sort_then_scan",
+      "name": "Sort to simplify",
+      "layer": 3,
+      "description": "Pay O(n log n) to sort when it unlocks a linear pass (pointers, adjacency, merging).",
+      "prereqs": ["cpp.stl_algorithms", "ds.sorted_array"],
+      "facets": {
+        "recognize": "Sees when sorting turns an O(n²) search into an O(n) pass.",
+        "explain": "Knows the cost of sorting and when it is not allowed (indices needed, O(n) required)."
+      },
+      "misconceptions": [
+        { "id": "p.sort.when_not_allowed", "facet": "recognize", "desc": "Sorted when original order/indices are part of the answer or O(n) is required." }
+      ]
+    },
+    {
+      "id": "p.merge_two_sorted",
+      "name": "Merging two sorted sequences",
+      "layer": 3,
+      "description": "Two pointers, advance the smaller side, handle equality, drain leftovers.",
+      "prereqs": ["ds.sorted_array", "u.loop_bounds"],
+      "facets": {
+        "recognize": "Recognizes union, intersection and merge as variants of one merge loop.",
+        "implement": "Advances the smaller pointer, handles equal elements per the variant, drains the remainder.",
+        "trace": "Can show (i, j, output) at each step."
+      },
+      "misconceptions": [
+        { "id": "p.merge.no_drain", "facet": "implement", "desc": "Forgot to copy remaining elements after one array was exhausted." },
+        { "id": "p.merge.dup_in_union", "facet": "implement", "desc": "Union contains duplicates; did not compare against the last element pushed." },
+        { "id": "p.merge.equal_case", "facet": "implement", "desc": "Mishandled equal elements (advanced only one pointer in intersection, pushed both in union)." }
+      ]
+    },
+    {
+      "id": "p.reversal_trick",
+      "name": "Reversal-based rearrangement",
+      "layer": 3,
+      "description": "Rotations and some permutations can be built from range reversals.",
+      "prereqs": ["u.swap", "cpp.iterators"],
+      "facets": {
+        "recognize": "Recognizes rotation as three reversals.",
+        "explain": "Can show why reversing the parts and then the whole yields a rotation.",
+        "implement": "Uses the right ranges for left vs right rotation."
+      },
+      "misconceptions": [
+        { "id": "p.rev.direction_mixup", "facet": "implement", "desc": "Used right-rotation reversal ranges for a left rotation (or vice versa)." },
+        { "id": "p.rev.range_off", "facet": "implement", "desc": "Off-by-one in reversal boundaries (k vs k - 1, inclusive end)." },
+        { "id": "p.rev.unexplained", "facet": "explain", "desc": "Uses the three-reversal trick but cannot explain why it works." }
+      ]
+    },
+    {
+      "id": "p.math_identities",
+      "name": "Math identities (sum formulas)",
+      "layer": 3,
+      "description": "n(n+1)/2 and sum of squares to find missing/repeating values in O(1) space.",
+      "prereqs": ["u.accumulation", "cpp.integer_types"],
+      "facets": {
+        "recognize": "Sees that comparing actual sums with expected sums reveals missing or repeated values.",
+        "explain": "Sets up S - Sn = x - y and S2 - S2n = x² - y² and solves for x and y.",
+        "implement": "Computes in long long with the correct n for the value range."
+      },
+      "misconceptions": [
+        { "id": "p.math.overflow", "facet": "implement", "desc": "Computed n(n+1)/2 or the sum of squares in int." },
+        { "id": "p.math.wrong_n", "facet": "implement", "desc": "Used nums.size() where the value range is 0..n or 1..n+1 (range/size mismatch)." },
+        { "id": "p.math.equation_setup", "facet": "explain", "desc": "Could not set up or solve the two equations for repeating & missing." }
+      ]
+    },
+    {
+      "id": "p.xor_tricks",
+      "name": "XOR properties",
+      "layer": 3,
+      "description": "a ^ a = 0, a ^ 0 = a, order-independent; XOR of 1..n against the array cancels pairs.",
+      "prereqs": ["u.accumulation"],
+      "facets": {
+        "recognize": "Sees 'find the odd one out' as XOR cancellation.",
+        "explain": "States the XOR identities and why pairs cancel.",
+        "implement": "XORs indices and values over the right range; splits into buckets by the rightmost set bit.",
+        "adapt": "Verifies which bucket result is the repeating value and which is the missing one."
+      },
+      "misconceptions": [
+        { "id": "p.xor.range_mismatch", "facet": "implement", "desc": "XORed over the wrong range (missed n, included 0 wrongly)." },
+        { "id": "p.xor.rightmost_bit", "facet": "implement", "desc": "Wrong rightmost-set-bit extraction, or x & -x overflowing on INT_MIN (use x & ~(x - 1))." },
+        { "id": "p.xor.bucket_verify", "facet": "adapt", "desc": "Did not verify which bucket value is repeating and which is missing." }
+      ]
+    },
+    {
+      "id": "p.boyer_moore",
+      "name": "Boyer-Moore majority voting",
+      "layer": 3,
+      "description": "Cancel pairs of different elements; survivors are majority candidates. At most k-1 values exceed n/k.",
+      "prereqs": ["p.linear_scan"],
+      "facets": {
+        "explain": "Explains why cancellation preserves a majority, and why at most two values can exceed n/3.",
+        "implement": "Checks count == 0 -> adopt candidate, then match -> ++, else --, in that order.",
+        "trace": "Can show (candidate, count) after each element.",
+        "adapt": "Extends to two candidates for n/3 and adds a verification pass when a majority is not guaranteed."
+      },
+      "misconceptions": [
+        { "id": "p.bm.update_order", "facet": "implement", "desc": "Wrong order of the zero-check, match and decrement branches." },
+        { "id": "p.bm.no_verify", "facet": "adapt", "desc": "Returned candidates without a counting pass (wrong when majority is not guaranteed, always needed for n/3)." },
+        { "id": "p.bm.same_candidate_twice", "facet": "implement", "desc": "In the n/3 version, let both candidates become the same value (missing el != cand2 check)." },
+        { "id": "p.bm.mechanical", "facet": "explain", "desc": "Writes the algorithm from memory but cannot explain why it works." }
+      ]
+    },
+    {
+      "id": "p.suffix_scan",
+      "name": "Right-to-left scan with suffix state",
+      "layer": 3,
+      "description": "Process from the end, carrying a running max/min of the suffix.",
+      "prereqs": ["p.linear_scan", "p.track_extremes"],
+      "facets": {
+        "recognize": "Sees 'compared with everything to its right' as a reverse scan.",
+        "implement": "Compares with the running suffix max using the right strictness, then restores output order."
+      },
+      "misconceptions": [
+        { "id": "p.suffix.forward_nested", "facet": "recognize", "desc": "Used nested forward loops (O(n²)) instead of one reverse scan." },
+        { "id": "p.suffix.order_output", "facet": "implement", "desc": "Forgot to reverse collected results to restore the original order." },
+        { "id": "p.suffix.strictness", "facet": "implement", "desc": "Used >= instead of > (or vice versa) against the running max." }
+      ]
+    },
+    {
+      "id": "p.dutch_national_flag",
+      "name": "Dutch National Flag (3-way partition)",
+      "layer": 3,
+      "description": "low/mid/high pointers keep [0,low)=0s, [low,mid)=1s, (high,n-1]=2s, [mid,high] unknown.",
+      "prereqs": ["p.two_pointers_same_dir", "u.swap"],
+      "facets": {
+        "recognize": "Recognizes a one-pass three-way partition, versus counting sort in two passes.",
+        "explain": "States the four-region invariant and why mid does not advance after swapping with high.",
+        "implement": "Loops while mid <= high; on 0 swap with low and advance both; on 1 advance mid; on 2 swap with high and decrement high only.",
+        "trace": "Can show the regions after each step."
+      },
+      "misconceptions": [
+        { "id": "p.dnf.mid_after_high_swap", "facet": "implement", "desc": "Advanced mid after swapping with high, skipping an unclassified element." },
+        { "id": "p.dnf.loop_condition", "facet": "implement", "desc": "Used mid < high instead of mid <= high." },
+        { "id": "p.dnf.counting_only", "facet": "recognize", "desc": "Stopped at counting sort (two passes) when one pass was asked for." }
+      ]
+    },
+    {
+      "id": "p.kadane",
+      "name": "Kadane's algorithm",
+      "layer": 3,
+      "description": "Extend the running sum or restart; drop a negative prefix because it can only hurt future subarrays.",
+      "prereqs": ["p.linear_scan", "u.accumulation", "u.variable_init"],
+      "facets": {
+        "recognize": "Recognizes maximum-sum contiguous subarray problems.",
+        "explain": "Explains why a negative running sum should be discarded.",
+        "implement": "Adds, updates max, then resets on negative; correct on all-negative input.",
+        "trace": "Can show (sum, max) after each element.",
+        "adapt": "Tracks start/end indices; knows the logic does not transfer directly to products."
+      },
+      "misconceptions": [
+        { "id": "p.kadane.all_negative", "facet": "implement", "desc": "Returned 0 for an all-negative array (max initialized to 0, or reset before updating max)." },
+        { "id": "p.kadane.reset_order", "facet": "implement", "desc": "Reset the sum before comparing it with max." },
+        { "id": "p.kadane.index_tracking", "facet": "adapt", "desc": "Recorded the subarray start at the wrong moment." },
+        { "id": "p.kadane.applied_to_product", "facet": "adapt", "desc": "Applied sum-Kadane logic directly to products, ignoring sign flips." }
+      ]
+    },
+    {
+      "id": "p.max_product_subarray",
+      "name": "Product subarray with sign flips",
+      "layer": 3,
+      "description": "Negatives swap max and min; zeros reset. Use prefix/suffix products or track running max and min together.",
+      "prereqs": ["p.kadane", "cpp.integer_types"],
+      "facets": {
+        "explain": "Explains how negatives and zeros affect a product, and why scanning from both ends works.",
+        "implement": "Resets on zero; computes new max and min from the previous values.",
+        "trace": "Can show (curMax, curMin, best) after each element."
+      },
+      "misconceptions": [
+        { "id": "p.prod.no_min_track", "facet": "implement", "desc": "Tracked only the running max, losing the min that becomes max after a negative." },
+        { "id": "p.prod.overwrite_before_use", "facet": "trace", "desc": "Updated curMax, then used the new curMax to compute curMin (needed a temp)." },
+        { "id": "p.prod.zero_reset", "facet": "implement", "desc": "Did not reset prefix/suffix product after a zero." },
+        { "id": "p.prod.overflow", "facet": "implement", "desc": "Intermediate products overflow int / long long (use long long with resets, or double)." }
+      ]
+    },
+    {
+      "id": "p.index_mapped_placement",
+      "name": "Index-mapped placement",
+      "layer": 3,
+      "description": "Write each element straight to a computed target index (e.g. positives at even, negatives at odd).",
+      "prereqs": ["ds.array", "u.indexing"],
+      "facets": {
+        "recognize": "Sees that the output position of each element is computable on the fly.",
+        "implement": "Keeps separate next-position indices per group, each stepping by 2.",
+        "adapt": "Handles unequal group sizes by appending the leftovers."
+      },
+      "misconceptions": [
+        { "id": "p.place.single_index", "facet": "implement", "desc": "Used one shared index for both groups." },
+        { "id": "p.place.unequal_counts", "facet": "adapt", "desc": "Variant with unequal counts: leftovers not appended in order." }
+      ]
+    },
+    {
+      "id": "p.matrix_boundary_traversal",
+      "name": "Boundary (spiral) traversal",
+      "layer": 3,
+      "description": "Four boundaries (top, bottom, left, right) shrink after each side is printed.",
+      "prereqs": ["ds.matrix", "u.loop_bounds"],
+      "facets": {
+        "recognize": "Uses shrinking boundaries rather than a visited matrix with direction simulation.",
+        "explain": "Explains why the third and fourth sides need top <= bottom / left <= right guards.",
+        "implement": "Prints right, down, left, up with correct shrinking and guards.",
+        "trace": "Can show the four boundaries after each side."
+      },
+      "misconceptions": [
+        { "id": "p.spiral.missing_guard", "facet": "implement", "desc": "Missing top <= bottom / left <= right checks; single row/column printed twice." },
+        { "id": "p.spiral.wrong_shrink", "facet": "implement", "desc": "Shrunk the wrong boundary or at the wrong time." },
+        { "id": "p.spiral.visited_matrix", "facet": "recognize", "desc": "Used a visited matrix (O(mn) extra space) when boundaries suffice." }
+      ]
+    },
+    {
+      "id": "p.matrix_transpose_rotate",
+      "name": "Transpose & in-place rotation",
+      "layer": 3,
+      "description": "Rotate 90 degrees clockwise = transpose, then reverse each row.",
+      "prereqs": ["ds.matrix", "u.swap", "p.reversal_trick"],
+      "facets": {
+        "recognize": "Rotates in place instead of building a second matrix.",
+        "explain": "Explains where (i, j) goes after a transpose and after a row reversal.",
+        "implement": "Transposes with j > i only, then reverses each row by reference."
+      },
+      "misconceptions": [
+        { "id": "p.rot.double_transpose", "facet": "implement", "desc": "Transposed with j starting at 0, so every pair was swapped twice (no change)." },
+        { "id": "p.rot.wrong_reverse", "facet": "implement", "desc": "Reversed columns instead of rows (rotated the wrong way)." },
+        { "id": "p.rot.extra_matrix", "facet": "recognize", "desc": "Used a second matrix when in-place was required." }
+      ]
+    },
+    {
+      "id": "p.in_place_markers",
+      "name": "In-place markers (reuse input as storage)",
+      "layer": 3,
+      "description": "Store flags inside the input (first row/column, sign bits) to reach O(1) extra space.",
+      "prereqs": ["u.in_place_vs_copy", "ds.matrix"],
+      "facets": {
+        "recognize": "Sees that the first row/column can store the row/column flags.",
+        "explain": "Explains why cell [0][0] needs a separate variable and why the inner cells are processed before the first row/column.",
+        "implement": "Marks, zeroes the inner cells, then the first row/column, in the right order."
+      },
+      "misconceptions": [
+        { "id": "p.mark.order", "facet": "implement", "desc": "Zeroed the first row/column before using them as markers, wiping the flags." },
+        { "id": "p.mark.overlap_00", "facet": "implement", "desc": "Used mat[0][0] as the flag for both the first row and the first column." },
+        { "id": "p.mark.sentinel_value", "facet": "implement", "desc": "Marked cells with -1 or another value that can appear in the input." }
+      ]
+    },
+    {
+      "id": "p.pascal_combinatorics",
+      "name": "Pascal's triangle & nCr",
+      "layer": 3,
+      "description": "Element (r, c) = C(r-1, c-1); rows build from the previous row or from the multiplicative nCr formula.",
+      "prereqs": ["u.accumulation", "cpp.integer_types", "cpp.2d_vector"],
+      "facets": {
+        "recognize": "Chooses O(c) for one element, O(n) for one row, O(n²) for the whole triangle.",
+        "explain": "Connects Pascal's triangle to nCr and the previous-row addition rule.",
+        "implement": "Computes nCr iteratively in long long, multiplying before dividing; builds rows with 1s at both ends."
+      },
+      "misconceptions": [
+        { "id": "p.pascal.factorial", "facet": "implement", "desc": "Computed nCr with factorials (overflows around n = 20)." },
+        { "id": "p.pascal.divide_first", "facet": "implement", "desc": "Divided before multiplying (res = res / (i+1) * (n-i)), introducing truncation." },
+        { "id": "p.pascal.index_base", "facet": "implement", "desc": "Mixed 0-based and 1-based row/column numbering (C(r, c) vs C(r-1, c-1))." },
+        { "id": "p.pascal.recompute_each", "facet": "recognize", "desc": "Recomputed nCr from scratch for every element of a row (O(n²)) instead of updating from the previous element." }
+      ]
+    },
+    {
+      "id": "p.next_permutation",
+      "name": "Next lexicographic permutation",
+      "layer": 3,
+      "description": "Find the breakpoint, swap it with the smallest larger element to its right, reverse the (descending) suffix.",
+      "prereqs": ["p.reversal_trick", "p.linear_scan"],
+      "facets": {
+        "recognize": "Avoids generating all permutations.",
+        "explain": "Explains why the suffix after the breakpoint is descending and why reversing it gives the smallest arrangement.",
+        "implement": "Finds the breakpoint from the right, swaps with the rightmost larger element, reverses the suffix, handles no breakpoint.",
+        "trace": "Can show the array after each of the three steps."
+      },
+      "misconceptions": [
+        { "id": "p.np.no_breakpoint", "facet": "implement", "desc": "Did not handle the fully descending case (reverse the whole array)." },
+        { "id": "p.np.wrong_swap_target", "facet": "implement", "desc": "Swapped the breakpoint with the wrong element (not the smallest larger one on the right)." },
+        { "id": "p.np.sort_suffix", "facet": "explain", "desc": "Sorted the suffix (O(n log n)) instead of reversing it." },
+        { "id": "p.np.generate_all", "facet": "recognize", "desc": "Generated all n! permutations as the approach." }
+      ]
+    },
+    {
+      "id": "p.merge_sort_counting",
+      "name": "Counting pairs during merge sort",
+      "layer": 3,
+      "description": "Count cross pairs (i in left, j in right) while both halves are sorted; inversions, reverse pairs.",
+      "prereqs": ["p.merge_two_sorted", "u.recursion", "cpp.integer_types"],
+      "facets": {
+        "recognize": "Recognizes 'count pairs i < j with a value relation' as divide & conquer.",
+        "explain": "When left[i] > right[j], every remaining left element also pairs with right[j]: add mid - i + 1.",
+        "implement": "Counts in long long; for relations that differ from merge order (2x), counts in a separate pass before merging.",
+        "adapt": "Moves from the inversion condition to a different pair condition (reverse pairs)."
+      },
+      "misconceptions": [
+        { "id": "p.msc.count_formula", "facet": "implement", "desc": "Added 1 instead of mid - i + 1 when left[i] > right[j]." },
+        { "id": "p.msc.count_inside_merge", "facet": "adapt", "desc": "Counted reverse pairs inside the merge loop, although the 2x condition differs from the merge order." },
+        { "id": "p.msc.count_type", "facet": "implement", "desc": "Stored the count in int (pair counts reach ~n²/2)." },
+        { "id": "p.msc.mutates_input", "facet": "explain", "desc": "Did not realise the input gets sorted as a side effect." }
+      ]
+    },
+    {
+      "id": "p.gap_merge",
+      "name": "Merging in place (swap-and-sort / gap method)",
+      "layer": 3,
+      "description": "Merge two sorted arrays with no extra space: swap the overlapping extremes then sort each, or the shell-sort gap method.",
+      "prereqs": ["p.merge_two_sorted", "u.swap", "p.sort_then_scan"],
+      "facets": {
+        "recognize": "Recognizes that the no-extra-space constraint rules out the normal merge.",
+        "explain": "Explains why swapping arr1's largest with arr2's smallest works, and how the gap shrinks with ceil(gap / 2).",
+        "implement": "Maps a virtual index across both arrays; terminates correctly after gap = 1."
+      },
+      "misconceptions": [
+        { "id": "p.gap.ceil", "facet": "implement", "desc": "Used gap / 2 (floor) instead of ceil, skipping comparisons or ending early." },
+        { "id": "p.gap.virtual_index", "facet": "implement", "desc": "Mis-mapped indices across the arr1/arr2 boundary (i >= n means arr2[i - n])." },
+        { "id": "p.gap.used_extra", "facet": "recognize", "desc": "Used a third array, violating the constraint." }
+      ]
+    }
+  ]
+}

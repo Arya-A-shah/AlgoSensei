@@ -1,0 +1,160 @@
+flowchart BT
+  subgraph layer0["L0 Universal"]
+    u_variable_init["Variable initialization & sentinels"]
+    u_indexing["Zero-based indexing & bounds"]
+    u_loop_bounds["Loop ranges & off-by-one"]
+    u_conditionals["Comparisons & branching"]
+    u_nested_loops["Nested iteration"]
+    u_swap["Swapping & shifting elements"]
+    u_accumulation["Running accumulation"]
+    u_modular_arithmetic["Modulo & wraparound"]
+    u_in_place_vs_copy["In-place modification vs auxiliary copy"]
+    u_function_contract["Function contract & return values"]
+    u_2d_indexing["2D indexing (rows & columns)"]
+    u_recursion["Recursion basics"]
+  end
+  subgraph layer1["L1 C++"]
+    cpp_vector["std::vector essentials"]
+    cpp_pass_by_reference["Pass by value vs reference"]
+    cpp_integer_types["Integer types & overflow"]
+    cpp_unsigned_size["size_t & unsigned pitfalls"]
+    cpp_limits["Numeric limits"]
+    cpp_iterators["Iterators & half-open ranges"]
+    cpp_stl_algorithms["STL algorithms"]
+    cpp_hash_containers["unordered_map / unordered_set"]
+    cpp_ordered_containers["map / set"]
+    cpp_2d_vector["2D vectors"]
+  end
+  subgraph layer2["L2 Data structures"]
+    ds_array["Array"]
+    ds_sorted_array["Sorted array properties"]
+    ds_matrix["Matrix (2D grid)"]
+    ds_hashmap["Hash map"]
+    ds_hashset["Hash set"]
+  end
+  subgraph layer3["L3 Patterns"]
+    p_linear_scan["Single-pass linear scan"]
+    p_track_extremes["Tracking extremes (largest / second largest)"]
+    p_running_streak["Running streak / consecutive runs"]
+    p_frequency_counting["Frequency counting"]
+    p_complement_lookup["Complement lookup (seen-map)"]
+    p_two_pointers_same_dir["Read/write pointers (same direction)"]
+    p_two_pointers_opposite["Converging two pointers"]
+    p_skip_duplicates["Skipping duplicates for unique results"]
+    p_sort_then_scan["Sort to simplify"]
+    p_merge_two_sorted["Merging two sorted sequences"]
+    p_reversal_trick["Reversal-based rearrangement"]
+    p_math_identities["Math identities (sum formulas)"]
+    p_xor_tricks["XOR properties"]
+    p_boyer_moore["Boyer-Moore majority voting"]
+    p_suffix_scan["Right-to-left scan with suffix state"]
+    p_dutch_national_flag["Dutch National Flag (3-way partition)"]
+    p_kadane["Kadane's algorithm"]
+    p_max_product_subarray["Product subarray with sign flips"]
+    p_index_mapped_placement["Index-mapped placement"]
+    p_matrix_boundary_traversal["Boundary (spiral) traversal"]
+    p_matrix_transpose_rotate["Transpose & in-place rotation"]
+    p_in_place_markers["In-place markers (reuse input as storage)"]
+    p_pascal_combinatorics["Pascal's triangle & nCr"]
+    p_next_permutation["Next lexicographic permutation"]
+    p_merge_sort_counting["Counting pairs during merge sort"]
+    p_gap_merge["Merging in place (swap-and-sort / gap method)"]
+  end
+  subgraph layer4["L4 Reasoning"]
+    r_problem_modeling["Reading the problem precisely"]
+    r_edge_cases["Edge-case discovery"]
+    r_dry_run["Dry-running & state tracing"]
+    r_invariants["Loop invariants"]
+    r_complexity_analysis["Complexity analysis"]
+    r_brute_to_optimal["Brute -> better -> optimal refinement"]
+  end
+  u_indexing --> u_loop_bounds
+  u_loop_bounds --> u_nested_loops
+  u_indexing --> u_swap
+  u_variable_init --> u_accumulation
+  u_loop_bounds --> u_accumulation
+  u_indexing --> u_modular_arithmetic
+  u_indexing --> u_in_place_vs_copy
+  u_indexing --> u_2d_indexing
+  u_nested_loops --> u_2d_indexing
+  u_function_contract --> u_recursion
+  u_indexing --> cpp_vector
+  u_function_contract --> cpp_pass_by_reference
+  u_accumulation --> cpp_integer_types
+  cpp_vector --> cpp_unsigned_size
+  cpp_integer_types --> cpp_limits
+  cpp_vector --> cpp_iterators
+  cpp_iterators --> cpp_stl_algorithms
+  cpp_vector --> cpp_hash_containers
+  cpp_iterators --> cpp_ordered_containers
+  cpp_vector --> cpp_2d_vector
+  u_2d_indexing --> cpp_2d_vector
+  u_indexing --> ds_array
+  cpp_vector --> ds_array
+  ds_array --> ds_sorted_array
+  u_2d_indexing --> ds_matrix
+  cpp_2d_vector --> ds_matrix
+  ds_array --> ds_hashmap
+  cpp_hash_containers --> ds_hashmap
+  ds_array --> ds_hashset
+  cpp_hash_containers --> ds_hashset
+  u_loop_bounds --> p_linear_scan
+  u_conditionals --> p_linear_scan
+  ds_array --> p_linear_scan
+  p_linear_scan --> p_track_extremes
+  u_variable_init --> p_track_extremes
+  p_linear_scan --> p_running_streak
+  u_accumulation --> p_running_streak
+  ds_hashmap --> p_frequency_counting
+  p_linear_scan --> p_frequency_counting
+  ds_hashmap --> p_complement_lookup
+  p_linear_scan --> p_complement_lookup
+  p_linear_scan --> p_two_pointers_same_dir
+  u_swap --> p_two_pointers_same_dir
+  u_in_place_vs_copy --> p_two_pointers_same_dir
+  ds_sorted_array --> p_two_pointers_opposite
+  p_linear_scan --> p_two_pointers_opposite
+  ds_sorted_array --> p_skip_duplicates
+  u_loop_bounds --> p_skip_duplicates
+  cpp_stl_algorithms --> p_sort_then_scan
+  ds_sorted_array --> p_sort_then_scan
+  ds_sorted_array --> p_merge_two_sorted
+  u_loop_bounds --> p_merge_two_sorted
+  u_swap --> p_reversal_trick
+  cpp_iterators --> p_reversal_trick
+  u_accumulation --> p_math_identities
+  cpp_integer_types --> p_math_identities
+  u_accumulation --> p_xor_tricks
+  p_linear_scan --> p_boyer_moore
+  p_linear_scan --> p_suffix_scan
+  p_track_extremes --> p_suffix_scan
+  p_two_pointers_same_dir --> p_dutch_national_flag
+  u_swap --> p_dutch_national_flag
+  p_linear_scan --> p_kadane
+  u_accumulation --> p_kadane
+  u_variable_init --> p_kadane
+  p_kadane --> p_max_product_subarray
+  cpp_integer_types --> p_max_product_subarray
+  ds_array --> p_index_mapped_placement
+  u_indexing --> p_index_mapped_placement
+  ds_matrix --> p_matrix_boundary_traversal
+  u_loop_bounds --> p_matrix_boundary_traversal
+  ds_matrix --> p_matrix_transpose_rotate
+  u_swap --> p_matrix_transpose_rotate
+  p_reversal_trick --> p_matrix_transpose_rotate
+  u_in_place_vs_copy --> p_in_place_markers
+  ds_matrix --> p_in_place_markers
+  u_accumulation --> p_pascal_combinatorics
+  cpp_integer_types --> p_pascal_combinatorics
+  cpp_2d_vector --> p_pascal_combinatorics
+  p_reversal_trick --> p_next_permutation
+  p_linear_scan --> p_next_permutation
+  p_merge_two_sorted --> p_merge_sort_counting
+  u_recursion --> p_merge_sort_counting
+  cpp_integer_types --> p_merge_sort_counting
+  p_merge_two_sorted --> p_gap_merge
+  u_swap --> p_gap_merge
+  p_sort_then_scan --> p_gap_merge
+  r_dry_run --> r_invariants
+  u_nested_loops --> r_complexity_analysis
+  r_complexity_analysis --> r_brute_to_optimal

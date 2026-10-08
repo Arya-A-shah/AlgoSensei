@@ -1,0 +1,166 @@
+{
+  "layer": 1,
+  "kind": "syntax",
+  "language": "cpp",
+  "title": "C++ language & STL",
+  "description": "C++-specific mechanics. Kept separate from concept nodes so 'understands the idea' and 'can write it in C++' are graded independently.",
+  "nodes": [
+    {
+      "id": "cpp.vector",
+      "name": "std::vector essentials",
+      "layer": 1,
+      "description": "Sizing, push_back, size(), back(), unchecked operator[], contiguous storage, cost of erase/insert.",
+      "prereqs": ["u.indexing"],
+      "facets": {
+        "explain": "Knows push_back is amortized O(1), erase/insert in the middle is O(n), operator[] does no bounds check.",
+        "implement": "Sizes before indexing (vector<int> v(n, 0)) or uses push_back; uses back()/front() only on non-empty vectors."
+      },
+      "misconceptions": [
+        { "id": "cpp.vec.index_unsized", "facet": "implement", "desc": "Assigned v[i] on an empty vector instead of sizing it or using push_back.", "signals": ["vector<int> res; res[i] = x;", "Runtime Error with empty output vector"] },
+        { "id": "cpp.vec.erase_in_loop", "facet": "explain", "desc": "Called erase() inside a loop: O(n) per call gives O(n²), and indices shift under the loop.", "signals": ["nums.erase(nums.begin() + i) inside for loop", "TLE"] },
+        { "id": "cpp.vec.back_on_empty", "facet": "implement", "desc": "Called back()/front() or [0] on an empty vector.", "signals": ["if (res.back() != x) with res possibly empty"] }
+      ]
+    },
+    {
+      "id": "cpp.pass_by_reference",
+      "name": "Pass by value vs reference",
+      "layer": 1,
+      "description": "vector<int> copies, vector<int>& aliases the caller's object, const vector<int>& avoids copies for read-only access.",
+      "prereqs": ["u.function_contract"],
+      "facets": {
+        "explain": "Knows what is copied when, and how copies affect time/memory (especially in recursion).",
+        "implement": "Uses & for in-place problems and const& for read-only parameters."
+      },
+      "misconceptions": [
+        { "id": "cpp.ref.modified_copy", "facet": "implement", "desc": "Took the vector by value in an in-place helper, so the caller never sees the change." },
+        { "id": "cpp.ref.unnecessary_copy", "facet": "explain", "desc": "Passed large vectors by value in a loop or recursion, causing O(n) copies per call (TLE/MLE)." }
+      ]
+    },
+    {
+      "id": "cpp.integer_types",
+      "name": "Integer types & overflow",
+      "layer": 1,
+      "description": "int vs long long, where values exceed 2^31-1, and conversion happening after overflow.",
+      "prereqs": ["u.accumulation"],
+      "facets": {
+        "recognize": "Spots where values can exceed INT_MAX (~2.1e9): sums of many large values, products, nCr, pair counts up to n²/2.",
+        "explain": "Knows signed overflow is undefined behaviour and that a*b is computed in int before assignment.",
+        "implement": "Uses long long and 1LL * / (long long) casts before the operation that would overflow."
+      },
+      "misconceptions": [
+        { "id": "cpp.int.overflow_sum", "facet": "recognize", "desc": "Accumulated a sum or count in int where it can exceed INT_MAX.", "signals": ["int sum with values up to 1e9", "WA only on large tests"] },
+        { "id": "cpp.int.overflow_before_cast", "facet": "implement", "desc": "Wrote long long x = a * b (or a + b + c + d) with int operands; overflow happens before widening." },
+        { "id": "cpp.int.overflow_comparison", "facet": "implement", "desc": "Evaluated 2 * nums[j] (or similar) in int inside a comparison.", "signals": ["if (nums[i] > 2 * nums[j])"] },
+        { "id": "cpp.int.signed_overflow_ub", "facet": "explain", "desc": "Assumed signed overflow wraps around predictably." }
+      ]
+    },
+    {
+      "id": "cpp.unsigned_size",
+      "name": "size_t & unsigned pitfalls",
+      "layer": 1,
+      "description": "v.size() is unsigned; subtracting from it or counting down with size_t wraps around.",
+      "prereqs": ["cpp.vector"],
+      "facets": {
+        "explain": "Knows size() returns size_t and what 0u - 1 evaluates to.",
+        "implement": "Stores n = (int)v.size() before arithmetic; uses int for reverse loops."
+      },
+      "misconceptions": [
+        { "id": "cpp.unsigned.size_minus_one", "facet": "implement", "desc": "Used v.size() - 1 in a bound; wraps to a huge value when v is empty.", "signals": ["for (int i = 0; i < nums.size() - 1; i++)"] },
+        { "id": "cpp.unsigned.reverse_loop", "facet": "implement", "desc": "Counted down with an unsigned index; i >= 0 is always true.", "signals": ["for (size_t i = n - 1; i >= 0; i--)", "for (auto i = nums.size() - 2; i >= 0; i--)"] }
+      ]
+    },
+    {
+      "id": "cpp.limits",
+      "name": "Numeric limits",
+      "layer": 1,
+      "description": "INT_MIN / INT_MAX / LLONG_MAX (<climits>) and numeric_limits as sentinels.",
+      "prereqs": ["cpp.integer_types"],
+      "facets": {
+        "implement": "Uses the limit matching the data type; never negates or abs()-es INT_MIN."
+      },
+      "misconceptions": [
+        { "id": "cpp.limits.wrong_type_sentinel", "facet": "implement", "desc": "Used INT_MIN/INT_MAX as a sentinel for long long data." },
+        { "id": "cpp.limits.negate_int_min", "facet": "implement", "desc": "Negated INT_MIN or took abs(INT_MIN) (overflow)." }
+      ]
+    },
+    {
+      "id": "cpp.iterators",
+      "name": "Iterators & half-open ranges",
+      "layer": 1,
+      "description": "STL ranges are [first, last); v.begin() + k points at index k.",
+      "prereqs": ["cpp.vector"],
+      "facets": {
+        "explain": "Knows ranges are half-open and when iterators are invalidated.",
+        "implement": "Passes correct ranges, e.g. reverse(v.begin(), v.begin() + k) reverses indices 0..k-1."
+      },
+      "misconceptions": [
+        { "id": "cpp.it.inclusive_end", "facet": "implement", "desc": "Passed begin() + k - 1 or end() - 1 as the end iterator, assuming an inclusive range." },
+        { "id": "cpp.it.invalidated", "facet": "explain", "desc": "Used an iterator after push_back/erase invalidated it." }
+      ]
+    },
+    {
+      "id": "cpp.stl_algorithms",
+      "name": "STL algorithms",
+      "layer": 1,
+      "description": "sort, reverse, swap, max/min, max_element, accumulate, rotate, unique, next_permutation, and their costs.",
+      "prereqs": ["cpp.iterators"],
+      "facets": {
+        "recognize": "Knows which algorithm exists for a job and its complexity (sort is O(n log n)).",
+        "explain": "Can implement reverse / rotate / next_permutation by hand; interviewers often forbid the library call.",
+        "implement": "Calls algorithms with correct arguments and uses their return values."
+      },
+      "misconceptions": [
+        { "id": "cpp.algo.accumulate_int_init", "facet": "implement", "desc": "accumulate(..., 0) with an int initial value overflows; needs 0LL." },
+        { "id": "cpp.algo.library_shortcut", "facet": "explain", "desc": "Relied on std::next_permutation / rotate / unique without understanding the algorithm (fails the follow-up)." },
+        { "id": "cpp.algo.unique_no_erase", "facet": "implement", "desc": "Called std::unique without using its returned iterator; size is unchanged." },
+        { "id": "cpp.algo.sort_hidden_cost", "facet": "recognize", "desc": "Treated sort as free when the problem requires O(n)." }
+      ]
+    },
+    {
+      "id": "cpp.hash_containers",
+      "name": "unordered_map / unordered_set",
+      "layer": 1,
+      "description": "Insertion, lookup with find/count, operator[] side effects, average O(1) cost.",
+      "prereqs": ["cpp.vector"],
+      "facets": {
+        "explain": "Knows the average O(1) / worst O(n) cost, unspecified iteration order, and that operator[] inserts a default value.",
+        "implement": "Uses mp[key]++ for counting and find()/count() for existence checks."
+      },
+      "misconceptions": [
+        { "id": "cpp.hash.bracket_inserts", "facet": "implement", "desc": "Used mp[key] to test existence, inserting key with value 0 as a side effect.", "signals": ["if (mp[target - x])"] },
+        { "id": "cpp.hash.find_vs_end", "facet": "implement", "desc": "Dereferenced find() without comparing it to end()." },
+        { "id": "cpp.hash.iteration_order", "facet": "explain", "desc": "Assumed unordered_map iterates in sorted or insertion order." }
+      ]
+    },
+    {
+      "id": "cpp.ordered_containers",
+      "name": "map / set",
+      "layer": 1,
+      "description": "Balanced-tree containers: sorted keys, O(log n) operations, in-order iteration.",
+      "prereqs": ["cpp.iterators"],
+      "facets": {
+        "explain": "Knows set/map operations are O(log n), so n insertions cost O(n log n).",
+        "recognize": "Chooses set for sorted unique keys, multiset or a map of counts when duplicates matter.",
+        "implement": "Inserts, iterates in order and copies the result back to a vector."
+      },
+      "misconceptions": [
+        { "id": "cpp.ord.complexity_blind", "facet": "explain", "desc": "Treated set/map operations as O(1)." },
+        { "id": "cpp.ord.set_drops_dupes", "facet": "recognize", "desc": "Used set where duplicate occurrences must be kept." }
+      ]
+    },
+    {
+      "id": "cpp.2d_vector",
+      "name": "2D vectors",
+      "layer": 1,
+      "description": "vector<vector<int>> construction, dimensions, jagged rows, references to rows.",
+      "prereqs": ["cpp.vector", "u.2d_indexing"],
+      "facets": {
+        "implement": "Builds mat(m, vector<int>(n, 0)), reads m = mat.size() and n = mat[0].size(), builds jagged rows, takes rows by auto&."
+      },
+      "misconceptions": [
+        { "id": "cpp.2d.wrong_init", "facet": "implement", "desc": "Inner vectors not sized, or sized with the wrong dimension." },
+        { "id": "cpp.2d.copy_row", "facet": "implement", "desc": "Took a row by value (auto row = mat[i]) and modified the copy.", "signals": ["for (auto row : matrix) reverse(row.begin(), row.end());"] }
+      ]
+    }
+  ]
+}

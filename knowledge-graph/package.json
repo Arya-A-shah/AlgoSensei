@@ -1,0 +1,12 @@
+{
+  "name": "algosensei-knowledge-graph",
+  "private": true,
+  "type": "module",
+  "description": "Concept DAG, misconception taxonomy and problem tagging for AlgoSensei (C++).",
+  "scripts": {
+    "validate": "node tools/validate.js",
+    "graph": "node tools/validate.js --mermaid",
+    "pack": "node tools/context-pack.js",
+    "list": "node tools/context-pack.js --list"
+  }
+}

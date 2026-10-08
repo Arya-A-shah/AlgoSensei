@@ -1,0 +1,201 @@
+{
+  "layer": 0,
+  "kind": "universal",
+  "title": "Universal programming fundamentals",
+  "description": "Language-agnostic mechanics every problem relies on. Failures here are usually the true root cause even when a higher-level node looks guilty.",
+  "nodes": [
+    {
+      "id": "u.variable_init",
+      "name": "Variable initialization & sentinels",
+      "layer": 0,
+      "description": "Choosing starting values for trackers, accumulators and 'not found' markers that are correct for every valid input.",
+      "prereqs": [],
+      "facets": {
+        "explain": "Can say why an initial value is safe and what input breaks a wrong one (e.g. max = 0 with all-negative input).",
+        "implement": "Initializes sums/counts to 0, max to arr[0] or INT_MIN, min to arr[0] or INT_MAX, 'not found' to -1.",
+        "trace": "Resets trackers at the right moment (new streak, new outer iteration, new test case).",
+        "adapt": "Picks a sentinel that cannot collide with real data, or avoids sentinels by seeding from the first element."
+      },
+      "misconceptions": [
+        { "id": "u.init.max_zero", "facet": "implement", "desc": "Initialized a max tracker to 0 (or a min tracker to 0); wrong for all-negative / all-positive input.", "signals": ["int mx = 0;", "WA on an all-negative test case"] },
+        { "id": "u.init.uninitialized", "facet": "implement", "desc": "Read an uninitialized local variable (garbage value in C++).", "signals": ["int cnt; ... cnt++", "output differs between runs"] },
+        { "id": "u.init.sentinel_collision", "facet": "adapt", "desc": "Sentinel (-1, INT_MIN, 0) can also be a real value, so 'not found' and 'found' become indistinguishable.", "signals": ["second = -1 while input may contain -1"] },
+        { "id": "u.init.not_reset", "facet": "trace", "desc": "Did not reset a tracker when its scope ended (streak broke, outer loop advanced).", "signals": ["counter declared outside the outer loop and never zeroed"] }
+      ]
+    },
+    {
+      "id": "u.indexing",
+      "name": "Zero-based indexing & bounds",
+      "layer": 0,
+      "description": "Valid indices are [0, n-1]; index expressions like i+1, n-1-i, mid must stay inside them.",
+      "prereqs": [],
+      "facets": {
+        "implement": "Accesses only valid indices and derives index expressions (i+1, n-1-i, (lo+hi)/2) correctly.",
+        "trace": "Can state the value of every index variable at each step of a dry run."
+      },
+      "misconceptions": [
+        { "id": "u.idx.out_of_bounds", "facet": "implement", "desc": "Accessed arr[i+1], arr[i-1] or arr[n] without guarding the boundary.", "signals": ["Runtime Error", "AddressSanitizer: heap-buffer-overflow", "arr[i+1] inside for (i = 0; i < n; i++)"] },
+        { "id": "u.idx.one_based", "facet": "implement", "desc": "Treated the array as 1-indexed (loop 1..n, arr[n] as last element)." },
+        { "id": "u.idx.mirror_formula", "facet": "trace", "desc": "Wrong mirrored index (n-i instead of n-1-i)." }
+      ]
+    },
+    {
+      "id": "u.loop_bounds",
+      "name": "Loop ranges & off-by-one",
+      "layer": 0,
+      "description": "Choosing start, end and inclusive/exclusive conditions so each intended element is visited exactly once.",
+      "prereqs": ["u.indexing"],
+      "facets": {
+        "implement": "Writes start/end/step so every intended element is processed exactly once.",
+        "trace": "Can say how many iterations run and which index is processed last.",
+        "adapt": "Adjusts bounds when the body looks ahead/behind or processes several elements per step."
+      },
+      "misconceptions": [
+        { "id": "u.loop.off_by_one_end", "facet": "implement", "desc": "Used <= n instead of < n (or < n where < n-1 was needed); overruns or skips the last element." },
+        { "id": "u.loop.skips_first", "facet": "implement", "desc": "Started at 1 when element 0 must be processed, or at 0 when it must be skipped." },
+        { "id": "u.loop.modifies_bound_inside", "facet": "trace", "desc": "Changed the container size or loop variable inside the loop, skipping elements.", "signals": ["v.erase(...) inside a forward index loop", "i++ inside the body of a for loop that also increments i"] }
+      ]
+    },
+    {
+      "id": "u.conditionals",
+      "name": "Comparisons & branching",
+      "layer": 0,
+      "description": "Strict vs non-strict comparisons, branch ordering, explicit handling of equality.",
+      "prereqs": [],
+      "facets": {
+        "explain": "Can justify which branch equality belongs to.",
+        "implement": "Uses the right operator (> vs >=) and orders else-if branches so specific cases are not shadowed."
+      },
+      "misconceptions": [
+        { "id": "u.cond.strict_vs_nonstrict", "facet": "implement", "desc": "Used > where >= was required or vice versa (ties handled wrongly)." },
+        { "id": "u.cond.branch_order", "facet": "implement", "desc": "Else-if chain ordered so a more general condition shadows a specific one." },
+        { "id": "u.cond.assign_not_compare", "facet": "implement", "desc": "Wrote = instead of == inside a condition.", "signals": ["if (x = 0)"] }
+      ]
+    },
+    {
+      "id": "u.nested_loops",
+      "name": "Nested iteration",
+      "layer": 0,
+      "description": "Enumerating pairs, triplets and subarrays with dependent loop bounds; the usual brute-force baseline.",
+      "prereqs": ["u.loop_bounds"],
+      "facets": {
+        "recognize": "Recognizes nested loops as the brute-force baseline and estimates when they will TLE.",
+        "implement": "Writes dependent bounds (j = i+1) so each pair/triplet is visited once.",
+        "trace": "Can count iterations (n², n(n-1)/2) and list which pairs are visited."
+      },
+      "misconceptions": [
+        { "id": "u.nest.duplicate_pairs", "facet": "implement", "desc": "Inner loop starts at 0 instead of i+1, so pairs are counted twice or an element pairs with itself." },
+        { "id": "u.nest.wrong_inner_bound", "facet": "implement", "desc": "Inner bound uses the wrong variable (n vs m, i vs j)." }
+      ]
+    },
+    {
+      "id": "u.swap",
+      "name": "Swapping & shifting elements",
+      "layer": 0,
+      "description": "Exchanging two elements and shifting ranges without overwriting data that is still needed.",
+      "prereqs": ["u.indexing"],
+      "facets": {
+        "implement": "Swaps correctly (temp variable or std::swap) and shifts ranges in an order that never loses data.",
+        "trace": "Tracks array contents after each swap or shift."
+      },
+      "misconceptions": [
+        { "id": "u.swap.lost_value", "facet": "implement", "desc": "Overwrote a value before saving it.", "signals": ["a = b; b = a;"] },
+        { "id": "u.swap.shift_direction", "facet": "trace", "desc": "Shifted in an order that overwrites not-yet-moved elements (left shift iterating right-to-left)." }
+      ]
+    },
+    {
+      "id": "u.accumulation",
+      "name": "Running accumulation",
+      "layer": 0,
+      "description": "Maintaining running sums, counts and products updated once per element.",
+      "prereqs": ["u.variable_init", "u.loop_bounds"],
+      "facets": {
+        "implement": "Updates the accumulator exactly once per element at the right place in the loop body.",
+        "trace": "Can state the accumulator's value after each step."
+      },
+      "misconceptions": [
+        { "id": "u.acc.update_order", "facet": "trace", "desc": "Updated the answer before/after the accumulator in the wrong order (used a stale or future value)." },
+        { "id": "u.acc.double_count", "facet": "implement", "desc": "Added an element twice or skipped one because of update placement." }
+      ]
+    },
+    {
+      "id": "u.modular_arithmetic",
+      "name": "Modulo & wraparound",
+      "layer": 0,
+      "description": "Reducing k by n and computing wrapped positions; C++ % keeps the dividend's sign.",
+      "prereqs": ["u.indexing"],
+      "facets": {
+        "recognize": "Recognizes when positions wrap around (rotation, circular indexing) and when k can exceed n.",
+        "implement": "Uses k %= n and (i + k) % n correctly, guarding n == 0 and negative operands."
+      },
+      "misconceptions": [
+        { "id": "u.mod.k_not_reduced", "facet": "implement", "desc": "Did not reduce k modulo n; out-of-bounds access or wasted work when k >= n." },
+        { "id": "u.mod.mod_zero", "facet": "implement", "desc": "Computed k % n when n == 0 (division by zero)." },
+        { "id": "u.mod.negative_mod", "facet": "implement", "desc": "Assumed (i - k) % n is non-negative; in C++ it can be negative." }
+      ]
+    },
+    {
+      "id": "u.in_place_vs_copy",
+      "name": "In-place modification vs auxiliary copy",
+      "layer": 0,
+      "description": "Knowing what 'in-place / O(1) extra space' means and preserving data that is still needed.",
+      "prereqs": ["u.indexing"],
+      "facets": {
+        "recognize": "Notices when the problem forbids extra space or requires modifying the input.",
+        "explain": "Knows which operations allocate and what counts toward extra space.",
+        "trace": "Modifies the input without clobbering values that are read later."
+      },
+      "misconceptions": [
+        { "id": "u.inplace.used_extra_space", "facet": "recognize", "desc": "Used an auxiliary array when O(1) extra space was required." },
+        { "id": "u.inplace.clobbered_data", "facet": "trace", "desc": "Overwrote input values that the algorithm still needed." }
+      ]
+    },
+    {
+      "id": "u.function_contract",
+      "name": "Function contract & return values",
+      "layer": 0,
+      "description": "Returning exactly what the signature and statement require, from every path.",
+      "prereqs": [],
+      "facets": {
+        "implement": "Returns the required thing (index vs value, -1 when absent, count, vector in required order) on every path."
+      },
+      "misconceptions": [
+        { "id": "u.fn.wrong_return_value", "facet": "implement", "desc": "Returned a value instead of an index (or vice versa), or the wrong 'not found' value." },
+        { "id": "u.fn.missing_return", "facet": "implement", "desc": "Some path has no return statement (undefined behaviour in C++)." },
+        { "id": "u.fn.early_return", "facet": "implement", "desc": "Returned inside the loop on the first iteration (return in both if and else)." }
+      ]
+    },
+    {
+      "id": "u.2d_indexing",
+      "name": "2D indexing (rows & columns)",
+      "layer": 0,
+      "description": "Addressing mat[r][c] with r < rows and c < cols, including non-square and empty matrices.",
+      "prereqs": ["u.indexing", "u.nested_loops"],
+      "facets": {
+        "implement": "Uses separate row/column bounds and never swaps them for non-square input.",
+        "trace": "Tracks (r, c) as a traversal moves."
+      },
+      "misconceptions": [
+        { "id": "u.2d.rows_cols_swapped", "facet": "implement", "desc": "Used n for both dimensions or swapped m and n; breaks on non-square matrices." },
+        { "id": "u.2d.empty_matrix", "facet": "implement", "desc": "Read mat[0].size() when the matrix has zero rows." }
+      ]
+    },
+    {
+      "id": "u.recursion",
+      "name": "Recursion basics",
+      "layer": 0,
+      "description": "Base case, recursive case, combining sub-results, and the call tree.",
+      "prereqs": ["u.function_contract"],
+      "facets": {
+        "explain": "States the base case, the recursive case and what each call returns.",
+        "implement": "Writes a terminating recursion that combines sub-results correctly.",
+        "trace": "Can draw the call tree for a small input."
+      },
+      "misconceptions": [
+        { "id": "u.rec.missing_base", "facet": "implement", "desc": "Missing or wrong base case; infinite recursion / stack overflow." },
+        { "id": "u.rec.ignored_return", "facet": "implement", "desc": "Made a recursive call but discarded its returned value." },
+        { "id": "u.rec.wrong_split", "facet": "trace", "desc": "Wrong split point (mid vs mid+1) causing overlap or non-termination." }
+      ]
+    }
+  ]
+}
