@@ -47,7 +47,10 @@ function AttemptList() {
                 <a href={`#/history/${a.id}`} className="attempt">
                   <span className="a-time quiet">{new Date(a.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
                   <span className="a-title">{a.title}</span>
-                  <span className="a-kind quiet">{a.kind === "submit" ? "Submit" : "Run"}</span>
+                  <span className="a-kind quiet">
+                    {a.kind === "submit" ? "Submit" : "Run"}
+                    {a.hintsBefore > 0 && <HintBadge level={a.hintLevel} count={a.hintsBefore} />}
+                  </span>
                   <Verdict verdict={a.verdict} />
                   <span className="a-tests quiet">{a.tests ?? ""}</span>
                   <span className="a-note">
@@ -66,6 +69,13 @@ function AttemptList() {
   );
 }
 
+const HINT_NAME = { 1: "Nudge", 2: "Concept", 3: "Pinpoint" };
+
+function HintBadge({ level, count }) {
+  const label = `${count} hint${count > 1 ? "s" : ""} before this attempt${level ? `, deepest: ${HINT_NAME[level]}` : ""}`;
+  return <span className={`hint-badge hl-${level ?? 0}`} title={label} aria-label={label}>{level ? `H${level}` : "H"}</span>;
+}
+
 function Delta({ m }) {
   const up = m.to >= m.from;
   return <span className={`delta ${up ? "up" : "down"}`} title={`${m.nodeName} · ${FACET_LABEL[m.facet]}: ${pct(m.from)} to ${pct(m.to)}`}>{up ? "▲" : "▼"} {m.nodeName}</span>;
@@ -78,6 +88,7 @@ function AttemptDetail({ id }) {
   if (loading && !data) return <Loading />;
   if (error) return <ErrorNote error={error} onRetry={reload} />;
   const a = data.attempt;
+  const hints = data.hints ?? [];
   const r = a.result ?? {};
   const findings = [...(a.analysis.findings ?? [])].sort((x, y) => (x.polarity === y.polarity ? y.confidence - x.confidence : x.polarity === "negative" ? -1 : 1));
 
@@ -117,6 +128,26 @@ function AttemptDetail({ id }) {
           {a.analysis.status !== "pending" && <button className="btn" onClick={reanalyze} disabled={busy}>{busy ? "Analysing…" : "Analyse now"}</button>}
           {msg && <p className="st-text-weak">{msg}</p>}
         </div>
+      )}
+
+      {hints.length > 0 && (
+        <section>
+          <h2>Hints that led here</h2>
+          <ol className="hints">
+            {hints.map((h, i) => (
+              <li key={i} className={`hint-item hl-${h.level ?? 0}`}>
+                <p>
+                  <HintBadge level={h.level} count={1} /> <strong>{h.level ? HINT_NAME[h.level] : "Hint"}</strong>
+                  {h.focusName && <> <span className="quiet">on</span> <a href={`#/mirror/${h.focusNode}`}>{h.focusName}</a></>}
+                  <span className="quiet"> · {timeAgo(h.at)}</span>
+                </p>
+                {h.question && <p className="quiet small">You asked: {h.question}</p>}
+                {h.text && <p className="hint-text">{h.text}</p>}
+              </li>
+            ))}
+          </ol>
+          <p className="quiet small">Deeper hints lower the credit a later solve earns: a nudge costs little, a pinpoint more.</p>
+        </section>
       )}
 
       {findings.length > 0 && (
