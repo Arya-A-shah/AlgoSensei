@@ -8,6 +8,7 @@ import { ingestEvent, processAttempt, resolveProblem } from "./pipeline.js";
 import { loadMastery, nodeSummary } from "./mastery.js";
 import { dueCards, upcomingCards, gradeCard, ensurePrompt, pickVariant, retrievability, Rating, State } from "./reviews.js";
 import { nextMoves } from "./recommend.js";
+import { generateHint, clampLevel } from "./hints.js";
 
 export const api = new Hono();
 
@@ -19,6 +20,7 @@ const oid = (s) => { try { return new ObjectId(s); } catch { return null; } };
 api.post("/register", async (c) => c.json(await registerUser()));
 
 api.use("/events", requireUser);
+api.use("/hints", requireUser);
 api.use("/me/*", requireUser);
 
 api.post("/events", async (c) => {
@@ -31,6 +33,44 @@ api.post("/events", async (c) => {
     return c.json({ error: e.message }, 400);
   }
 });
+
+// ---------- hint ladder (used by the extension) ----------
+// Body: { slug, title, description, code, question, level: 1..3 }
+api.post("/hints", async (c) => {
+  const user = c.get("user");
+  const apiKey = promptKey(c);
+  if (!apiKey) return c.json({ error: "No Gemini key: save one in the extension popup, or set GEMINI_API_KEY on the server." }, 400);
+  const body = await c.req.json().catch(() => null);
+  if (!body) return c.json({ error: "invalid JSON" }, 400);
+  const res = await hintResponse(user._id, body, apiKey);
+  return c.json(res.body, res.status);
+});
+
+/** Shared by /api/hints and the legacy /hint route. userId may be null. */
+export async function hintResponse(userId, body, apiKey) {
+  const slug = typeof body.slug === "string" && /^[a-z0-9-]+$/.test(body.slug) ? body.slug : null;
+  const level = clampLevel(body.level ?? 1);
+  try {
+    const hint = await generateHint({
+      userId, slug, level, apiKey, resolveProblem,
+      title: String(body.title ?? slug ?? "").slice(0, 200),
+      description: String(body.description ?? "").slice(0, 6000),
+      code: String(body.code ?? "").slice(0, 50000),
+      question: String(body.question ?? body.prompt ?? "").slice(0, 500),
+    });
+    if (userId && slug) {
+      await ingestEvent(userId, {
+        type: "hint", slug, title: body.title, prompt: body.question ?? body.prompt,
+        level, focusNode: hint._focusNode, misconception: hint.misconception, text: hint.text,
+      }).catch((e) => console.error("hint event", e.message));
+    }
+    const { _focusNode, misconception, ...shown } = hint;
+    return { status: 200, body: { hint: hint.text, ...shown } };
+  } catch (e) {
+    console.error("hint failed", e.message);
+    return { status: 502, body: { error: `Hint generation failed: ${e.message}` } };
+  }
+}
 
 // ---------- overview: the knowledge mirror ----------
 api.get("/me/overview", async (c) => {
@@ -131,6 +171,7 @@ api.get("/me/attempts", async (c) => {
       id: a._id, slug: a.slug, title: a.title, kind: a.kind, verdict: a.verdict, lang: a.lang, createdAt: a.createdAt,
       problemId: a.problemId, tests: a.result?.totalTestcases ? `${a.result.totalCorrect}/${a.result.totalTestcases}` : null,
       runtime: a.result?.runtime ?? null, msSinceOpen: a.msSinceOpen,
+      hintsBefore: a.progressBefore?.hints ?? 0, hintLevel: a.progressBefore?.maxHintLevel ?? null,
       analysis: {
         status: a.analysis?.status, approachLevel: a.analysis?.approachLevel, summary: a.analysis?.summary,
         rootCause: a.analysis?.rootCause ? { id: a.analysis.rootCause, desc: graph.misconceptions.get(a.analysis.rootCause)?.desc } : null,
@@ -151,7 +192,14 @@ api.get("/me/attempts/:id", async (c) => {
     misconceptionDesc: f.misconception ? graph.misconceptions.get(f.misconception)?.desc : null,
   }));
   const problem = a.problemId ? graph.problems.get(a.problemId) ?? (await col.problemTags.findOne({ slug: a.slug }))?.problem : null;
+  // Hints asked on this problem since the previous attempt (what led to this code).
+  const prev = await col.attempts.findOne({ userId: user._id, slug: a.slug, createdAt: { $lt: a.createdAt } }, { sort: { createdAt: -1 }, projection: { createdAt: 1 } });
+  const hintRows = await col.events
+    .find({ userId: user._id, slug: a.slug, type: "hint", createdAt: { $lte: a.createdAt, ...(prev ? { $gt: prev.createdAt } : {}) } })
+    .sort({ createdAt: 1 }).limit(10).toArray();
+  const hints = hintRows.map((h) => ({ level: h.level ?? null, at: h.createdAt, text: h.text ?? null, question: h.prompt || null, focusNode: h.level >= 2 ? h.focusNode ?? null : null, focusName: h.level >= 2 && h.focusNode ? nodeName(h.focusNode) : null }));
   return c.json({
+    hints,
     attempt: {
       ...a, id: a._id,
       analysis: { ...a.analysis, findings, rootCauseDesc: a.analysis?.rootCause ? graph.misconceptions.get(a.analysis.rootCause)?.desc : null },

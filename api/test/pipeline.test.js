@@ -28,6 +28,15 @@ const KADANE_GOOD = `int maxSubArray(vector<int>& nums) {
 // Stub LLM: answers based on what the prompt contains.
 function stubLlm({ prompt }) {
   llmCalls.push(prompt.slice(0, 80));
+  if (prompt.startsWith("You are AlgoSensei, a Socratic")) {
+    const level = Number(prompt.match(/HINT LEVEL (\d)/)[1]);
+    return {
+      focus_node: "p.kadane", misconception: "u.init.max_zero",
+      questions: ["What does your tracker hold before the first element?"],
+      observation: level >= 2 ? "Check what your running best starts at." : "",
+      nudge: level === 3 ? "Here's the fix:\n```cpp\nint maxSubArray(vector<int>& nums) {\n  long long s = 0;\n  return 0;\n}\n```" : "You're close.",
+    };
+  }
   if (prompt.includes("You map competitive-programming problems")) {
     return { summary: "Auto-tagged", tier: "Core", nodes: [{ id: "p.two_pointers_opposite", role: "core", facets: ["implement", "bogus"] }, { id: "nope.node", role: "core", facets: [] }], approaches: [{ level: "optimal", name: "Two pointers", demonstrates: ["p.two_pointers_opposite", "x.y"] }], watch_for: ["p.opp.wrong_move", "fake.id"] };
   }
@@ -212,4 +221,48 @@ test("hints count toward progress via /hint's X-User-Token", async () => {
   await call("POST", "/api/events", { type: "hint", slug: "two-sum", title: "1. Two Sum" });
   const p = await col.progress.findOne({ userId: user._id, slug: "two-sum" });
   assert.equal(p.hints, 1);
+});
+
+test("hint ladder: grounded in the last attempt, recorded with its level, spoilers stripped", async () => {
+  const before = llmCalls.length;
+  const l1 = await call("POST", "/api/hints", { slug: "maximum-subarray", title: "53. Maximum Subarray", code: KADANE_BUGGY, question: "why?", level: 1 }, { "X-Gemini-Key": "k" });
+  assert.equal(l1.status, 200);
+  assert.equal(l1.json.level, 1);
+  assert.equal(l1.json.focusNode, null, "a nudge does not name the concept");
+  assert.equal(l1.json.grounded, true);
+  assert.equal(l1.json.usedLastAttempt, true);
+  assert.equal(l1.json.misconception, undefined, "the suspected misconception is never sent to the learner");
+  assert.ok(l1.json.hint.length > 0);
+  assert.equal(llmCalls.length - before, 1);
+
+  const l3 = await call("POST", "/api/hints", { slug: "maximum-subarray", title: "53. Maximum Subarray", code: KADANE_BUGGY, level: 3 }, { "X-Gemini-Key": "k" });
+  assert.equal(l3.json.focusName, graph.nodes.get("p.kadane").name);
+  assert.equal(l3.json.stripped, true);
+  assert.doesNotMatch(l3.json.hint, /maxSubArray\(/);
+
+  const user = await col.users.findOne({});
+  const events = await col.events.find({ userId: user._id, slug: "maximum-subarray", type: "hint" }).sort({ createdAt: 1 }).toArray();
+  assert.deepEqual(events.map((e) => e.level), [1, 3]);
+  assert.equal(events[0].focusNode, "p.kadane");
+  const p = await col.progress.findOne({ userId: user._id, slug: "maximum-subarray" });
+  assert.equal(p.maxHintLevel, 3);
+
+  // The next attempt carries the hint depth, and its detail lists the hints that led to it.
+  const sub = await call("POST", "/api/events", {
+    type: "submit", slug: "maximum-subarray", lang: "cpp", code: KADANE_GOOD,
+    result: { status_code: 10, status_msg: "Accepted", total_correct: 210, total_testcases: 210 },
+  }, { "X-Gemini-Key": "k" });
+  await settle();
+  const list = await call("GET", "/api/me/attempts?slug=maximum-subarray&limit=1");
+  assert.equal(list.json.attempts[0].hintLevel, 3);
+  const detail = await call("GET", `/api/me/attempts/${sub.json.attemptId}`);
+  assert.deepEqual(detail.json.hints.map((h) => h.level), [1, 3]);
+  assert.equal(detail.json.hints[0].focusName, null, "level-1 focus stays hidden in history too");
+
+  // Missing key and legacy route.
+  const noKey = await call("POST", "/api/hints", { slug: "two-sum", level: 1 });
+  assert.equal(noKey.status, 400);
+  const legacy = await app.request("/hint", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer k" }, body: JSON.stringify({ slug: "maximum-subarray", title: "53", code: "x", prompt: "hint?" }) });
+  assert.equal(legacy.status, 200);
+  assert.equal((await legacy.json()).level, 1);
 });
