@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* AlgoSensei palette: matches the dashboard (dusk sky, lacquer, parchment). */
+@theme {
+  --color-lacquer: #1f151b;
+  --color-lacquer-2: #2a1c23;
+  --color-lacquer-3: #36242d;
+  --color-line: #3e2b34;
+  --color-bone: #f4e8d6;
+  --color-dust: #bba293;
+  --color-ember: #c8452d;
+  --color-strike: #b5321f;
+  --color-gold: #e8b84a;
+  --color-jade: #4cc18d;
+  --color-shaky: #f0a43a;
+  --color-blood: #e8493d;
+  --color-floor: #140d12;
+  --font-display: "Teko", "Arial Narrow", sans-serif;
+}
+
+body { background: #1f151b; }
+
 /* Scrollbar width */
 ::-webkit-scrollbar {
   width: 8px;
@@ -12,7 +32,7 @@
 
 /* Scrollbar thumb (draggable part) */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #3b82f6, #60a5fa); /* Tailwind's blue-500 to blue-400 */
+  background: #36242d;
   border-radius: 8px;
   border: 2px solid transparent;
   background-clip: content-box;
@@ -21,6 +41,6 @@
 
 /* Hover state */
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #2563eb, #3b82f6); /* blue-600 to blue-500 */
+  background: #4a323d;
 }
 

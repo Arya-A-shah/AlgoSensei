@@ -148,7 +148,7 @@ function describeResult(a) {
 export async function analyzeAttempt({ attempt, problem, progress, apiKey }) {
   const pack = buildContextPack(graph, problem);
   const history = progress
-    ? `Before this attempt on this problem: ${progress.runs ?? 0} runs, ${progress.submits ?? 0} submits (${progress.wrongSubmits ?? 0} rejected), ${progress.hints ?? 0} hints requested.`
+    ? `Before this attempt on this problem: ${progress.runs ?? 0} runs, ${progress.submits ?? 0} submits (${progress.wrongSubmits ?? 0} rejected), ${progress.hints ?? 0} hints requested${progress.maxHintLevel ? ` (deepest hint: level ${progress.maxHintLevel} of 3, where 3 pinpoints the bug)` : ""}.`
     : "First attempt on this problem.";
 
   const prompt = `You are the grading engine of a C++ DSA learning system. You diagnose WHAT the learner does and does not understand, using a fixed knowledge graph. You do not give hints.

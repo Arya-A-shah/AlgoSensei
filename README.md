@@ -1,18 +1,20 @@
 # AlgoSensei
 
-Your DSA sensei: a learning system around LeetCode. The extension gives Socratic hints that nudge you toward the answer without spoiling it. On top of that, every **Run** and **Submit** is captured, graded against a fixed C++ knowledge graph, and turned into:
+Your DSA sensei: a learning system around LeetCode. The extension gives Socratic hints on a three-step ladder (**Nudge → Concept → Pinpoint**) that nudge you toward the answer without spoiling it. On top of that, every **Run** and **Submit** is captured, graded against a fixed C++ knowledge graph, and turned into a picture of what you actually understand.
 
-- **Mirror**: what you actually understand, per concept and per facet (recognize / explain / implement / trace / adapt)
-- **Next move**: the single highest-value thing to do now (fix a gap, revise, finish a problem, or move on)
-- **Revision**: FSRS spaced repetition on the concepts you've already learned
-- **History**: every attempt, with what it showed and how your mirror moved
+The dashboard plays like a martial-arts game. Problems sit as numbered tiles across the top; click one for its detail.
+
+- **Sensei**: tells you the single highest-value move right now (train a weak skill, spar, finish a fight, or take the next one), with a drill when you need it
+- **Dojo**: every concept as a skill with a belt and five pips (spot / explain / code / trace / adapt). Data structures are weapons: array is the bo staff, hash map the shuriken
+- **Arena**: FSRS spaced repetition as sparring rounds on skills you've already learned
+- **Fight log**: every run and submit, what it showed, the hints before it, and how your skills moved
 
 ```
 AlgoSensei/
   knowledge-graph/   concept DAG (59 nodes, 158 misconceptions) + Striver arrays tagging (32 problems)
   api/               Hono + MongoDB: events, Gemini grading, mastery model, FSRS, next-move engine
   extension/         WXT Chrome extension: Socratic hints + attempt capture
-  dashboard/         Vite + React dashboard
+  dashboard/         Vite + React dashboard (sensei, dojo, arena, fight log)
 ```
 
 ## Run it locally
@@ -54,6 +56,25 @@ Load the extension in Chrome: `chrome://extensions` → Developer mode → **Loa
 6. `reviews.js` gives a facet an FSRS card once it reads solid. Later mistakes on that facet count as lapses, and solving a problem that uses it counts as a review.
 7. `recommend.js` ranks next moves. A weak prerequisite only takes over a gap when both were flagged in the same attempt, so one stray bug doesn't hide everything built on top of it.
 
+## How a hint works
+
+The popup offers three rungs. Each one gives away more, and the deepest rung you used on a problem lowers the mastery credit a later solve earns (`HINT_FACTOR` in `mastery.js`: 0.9 / 0.75 / 0.6).
+
+| Level | Name | What it does |
+|---|---|---|
+| 1 | Nudge | 1–2 questions about where to look. Never names a technique or concept. |
+| 2 | Concept | Names the concept or invariant at stake and asks you to check your code against it. |
+| 3 | Pinpoint | Points at the exact variable, condition or bound and ties it to the failing case. Still no fix. |
+
+`POST /api/hints` (`api/src/hints.js`) grounds every hint in:
+
+- the problem's **context pack**, the same concepts and misconception ids the grader uses;
+- your **last run or submit** on this problem: verdict, failing input, expected vs. actual output, and the grader's root cause (never quoted to you), plus whether your code changed since;
+- your **weak or shaky facets** among this problem's concepts;
+- the **hints already given** here, so the next one goes a step further instead of repeating.
+
+The response is schema-constrained JSON. Ids outside the pack are dropped, a level-1 hint never reveals its concept, and a spoiler guard removes solution-sized code. Each hint is stored with its level and focus concept, and the Fight log shows the hints that led to each attempt. The old `POST /hint` route still works and serves the same ladder.
+
 ## Configuration (`api/.env`)
 
 | Variable | Default | Meaning |
@@ -70,7 +91,8 @@ Change `extension/entrypoints/popup/constants.js` (and `host_permissions` in `wx
 ## Tests
 
 ```bash
-cd api && npm test               # needs a MongoDB at MONGODB_URI; uses a throwaway database
+cd api && npm run test:unit     # hint ladder + solve credit, no database needed
+cd api && npm test               # everything; needs a MongoDB at MONGODB_URI (throwaway database)
 cd knowledge-graph && npm run validate
 ```
 

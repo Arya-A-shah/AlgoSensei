@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { settings } from "../api.js";
+import { refreshOverview } from "../ui.jsx";
 
 export default function Settings() {
   const [apiUrl, setApiUrl] = useState(settings.apiUrl);
@@ -13,29 +14,30 @@ export default function Settings() {
     settings.geminiKey = geminiKey.trim();
     settings.token = token.trim();
     setSaved(true);
+    if (settings.token) refreshOverview();
   };
 
   return (
-    <section className="page">
-      <h1 className="page-title">Settings</h1>
+    <section className="page settings">
+      <h1 className="h-page">Settings</h1>
       <form className="form" onSubmit={save} onChange={() => setSaved(false)}>
         <label className="field">
-          <span>API address</span>
+          <span>Server address</span>
           <input value={apiUrl} onChange={(e) => setApiUrl(e.target.value)} placeholder="http://localhost:3001" />
         </label>
         <label className="field">
-          <span>Gemini API key (optional)</span>
-          <input type="password" value={geminiKey} onChange={(e) => setGeminiKey(e.target.value)} placeholder="Used for drills, review questions and re-analysis" autoComplete="off" />
-          <small className="quiet">Kept in this browser and sent only to your API. Attempts from the extension already use the key you saved there.</small>
+          <span>Gemini key <small>optional</small></span>
+          <input type="password" value={geminiKey} onChange={(e) => setGeminiKey(e.target.value)} autoComplete="off" />
+          <small>For drills, arena questions and re-grading. Stays in this browser.</small>
         </label>
         <label className="field">
           <span>Device token</span>
           <input type="password" value={token} onChange={(e) => setToken(e.target.value)} autoComplete="off" />
-          <small className="quiet">Set automatically when you open the dashboard from the extension. Paste one here to view another browser’s data.</small>
+          <small>Set when you open the dashboard from the extension.</small>
         </label>
         <div className="form-actions">
-          <button className="btn btn-primary" type="submit">Save settings</button>
-          {saved && <span className="st-text-solid" role="status">Settings saved</span>}
+          <button className="btn btn-strike" type="submit">Save settings</button>
+          {saved && <span className="st-solid" role="status">Settings saved</span>}
         </div>
       </form>
     </section>

@@ -28,12 +28,17 @@ const ROLE_WEIGHT = { core: 1.0, supporting: 0.6 };
 const RELATED_WEIGHT = 0.8; // prerequisite pinpointed by the grader: specific, so fairly strong
 const POSITIVE_SCALE = 0.6; // praise is cheaper than a pinpointed mistake
 
+// How much a hint ladder level gave away. A nudge leaves most of the thinking to the
+// learner; a pinpoint does a good part of the debugging for them.
+export const HINT_FACTOR = { 1: 0.9, 2: 0.75, 3: 0.6 };
+const LEGACY_HINT_FACTOR = 0.7; // hints recorded before the ladder existed
+
 // How cleanly the problem was solved, 0.35..1
 export function cleanliness(progress) {
   const wrong = progress?.wrongSubmits ?? 0;
   const hints = progress?.hints ?? 0;
   let c = wrong === 0 ? 1 : wrong <= 2 ? 0.7 : 0.5;
-  if (hints > 0) c *= 0.7;
+  if (hints > 0) c *= HINT_FACTOR[progress?.maxHintLevel] ?? LEGACY_HINT_FACTOR;
   return Math.max(0.35, c);
 }
 

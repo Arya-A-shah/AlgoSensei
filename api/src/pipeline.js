@@ -66,8 +66,17 @@ export async function ingestEvent(userId, body, { userKey = "", wait = false, at
   }
 
   if (type === "hint") {
-    await col.events.insertOne({ userId, type, slug, prompt: String(body.prompt ?? "").slice(0, 500), createdAt: at });
+    // Legacy hints (no level) are treated as a mid-ladder hint.
+    const level = Number.isInteger(body.level) && body.level >= 1 && body.level <= 3 ? body.level : null;
+    await col.events.insertOne({
+      userId, type, slug, prompt: String(body.prompt ?? "").slice(0, 500), createdAt: at,
+      ...(level ? { level } : {}),
+      ...(body.focusNode ? { focusNode: String(body.focusNode) } : {}),
+      ...(body.misconception ? { misconception: String(body.misconception) } : {}),
+      ...(body.text ? { text: String(body.text).slice(0, 1000) } : {}),
+    });
     await touchProgress(userId, slug, body.title ? { title: body.title } : {}, { hints: 1 }, at);
+    await col.progress.updateOne({ userId, slug }, { $max: { maxHintLevel: level ?? 2 } });
     return { ok: true };
   }
 
@@ -108,6 +117,7 @@ export async function ingestEvent(userId, body, { userKey = "", wait = false, at
     progressBefore: {
       runs: before?.runs ?? 0, submits: before?.submits ?? 0,
       wrongSubmits: before?.wrongSubmits ?? 0, hints: before?.hints ?? 0,
+      ...(before?.maxHintLevel ? { maxHintLevel: before.maxHintLevel } : {}),
     },
     msSinceOpen: Math.max(0, at - new Date(openedAt)),
     createdAt: at,
