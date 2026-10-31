@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FaKey, FaRobot } from "react-icons/fa";
+import { FaKey } from "react-icons/fa";
 import { toast } from "sonner";
 
 const fadeIn = {
@@ -28,26 +28,28 @@ const ApiKeyScreen = ({ apiKey, setApiKey, saveKey }) => {
       animate="show"
       variants={fadeIn}
       transition={{ duration: 0.4 }}
-      className="p-5 min-w-[300px] max-w-[380px] bg-white dark:bg-[#1c1c1e] rounded-xl shadow-md flex flex-col gap-6"
+      className="p-5 min-w-[300px] max-w-[380px] bg-lacquer rounded-xl flex flex-col gap-6"
     >
       {/* Extension Title */}
       <div className="flex items-center gap-2">
-        <FaRobot className="text-blue-600 text-xl" />
-        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+        <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" className="text-ember shrink-0">
+          <path d="M1 14 L12 3 L23 14 Q12 17 1 14 Z" fill="currentColor" />
+        </svg>
+        <h1 className="font-display text-3xl leading-none font-semibold text-bone pt-1">
           AlgoSensei
         </h1>
       </div>
 
-      <hr className="border-t border-gray-200 dark:border-gray-700" />
+      <hr className="border-t border-line" />
 
       {/* Prompt Header */}
       <div className="flex items-center gap-3">
-        <FaKey className="text-blue-500 text-lg" />
+        <FaKey className="text-gold text-lg" />
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          <h2 className="text-xl font-semibold text-bone">
             Set up Gemini API
           </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-dust">
             Paste your key for hints and for grading your runs and submits.
           </p>
         </div>
@@ -62,7 +64,7 @@ const ApiKeyScreen = ({ apiKey, setApiKey, saveKey }) => {
       >
         <label
           htmlFor="api-key"
-          className="text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="text-sm font-medium text-dust"
         >
           Gemini API Key
         </label>
@@ -74,20 +76,20 @@ const ApiKeyScreen = ({ apiKey, setApiKey, saveKey }) => {
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
           placeholder="AIza…"
-          className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 px-3 py-2 text-sm shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-md border border-line bg-lacquer text-bone placeholder-dust/60 px-3 py-2 text-sm shadow focus:outline-none focus:ring-2 focus:ring-gold"
         />
         <motion.button
           whileTap={{ scale: 0.97 }}
           whileHover={{ scale: 1.01 }}
           onClick={handleSave}
-          className="cursor-pointer w-full rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 transition"
+          className="cursor-pointer w-full rounded-md bg-strike hover:brightness-110 text-bone text-sm font-semibold py-2 transition"
         >
           {saved ? "✅ Saved!" : "Save API Key"}
         </motion.button>
       </motion.div>
 
       {/* Disclaimer */}
-      <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-1">
+      <p className="text-xs text-dust text-center mt-1">
         Your key is stored in this browser and sent only to your AlgoSensei server, which uses it to call Gemini.
       </p>
     </motion.div>

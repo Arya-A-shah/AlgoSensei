@@ -107,7 +107,7 @@ const Popup = () => {
   return (
     <>
       <Toaster position="bottom-center" richColors />
-      <div className="w-[360px] min-h-[400px] p-4 bg-white text-gray-900 dark:bg-[#1e1e1e] dark:text-gray-100 font-sans text-sm rounded-md shadow-md space-y-4 overflow-auto">
+      <div className="w-[360px] min-h-[400px] p-4 bg-lacquer text-bone font-sans text-sm rounded-md space-y-4 overflow-auto">
         {showHintScreen ? (
           <HintScreen
             slug={slug}

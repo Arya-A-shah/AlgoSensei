@@ -22,20 +22,20 @@ export default function MirrorBar() {
   const offline = session && !session.token;
 
   return (
-    <div className="mt-3 rounded-lg border border-gray-700 bg-gray-800/70 p-3 text-xs text-gray-300 space-y-2">
+    <div className="mt-3 rounded-lg border border-line bg-lacquer-2 p-3 text-xs text-bone space-y-2">
       <div className="flex items-center gap-2">
-        {offline ? <AlertTriangle className="w-4 h-4 text-amber-400" /> : <Radio className="w-4 h-4 text-emerald-400" />}
+        {offline ? <AlertTriangle className="w-4 h-4 text-shaky" /> : <Radio className="w-4 h-4 text-jade" />}
         <span className="font-medium">
           {offline
             ? "AlgoSensei server unreachable — attempts are queued"
             : `${stats.captured ?? 0} attempts captured${stats.lastAttempt ? ` · last: ${stats.lastAttempt.verdict ?? stats.lastAttempt.type} ${ago(stats.lastAttempt.at)}` : ""}`}
         </span>
       </div>
-      {session?.queued > 0 && <p className="text-amber-300">{session.queued} waiting to sync</p>}
+      {session?.queued > 0 && <p className="text-shaky">{session.queued} waiting to sync</p>}
       <button
         disabled={!session?.dashboardUrl}
         onClick={() => browser.tabs.create({ url: session.dashboardUrl })}
-        className="cursor-pointer w-full flex items-center justify-center gap-2 rounded-md bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2"
+        className="cursor-pointer w-full flex items-center justify-center gap-2 rounded-md bg-strike hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed text-bone font-semibold py-2"
       >
         <LayoutDashboard className="w-4 h-4" />
         Open dashboard
