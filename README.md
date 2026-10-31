@@ -1,18 +1,20 @@
 # AlgoSensei
 
-Your DSA sensei: a learning system around LeetCode. The extension gives Socratic hints on a three-step ladder (**Nudge → Concept → Pinpoint**) that nudge you toward the answer without spoiling it. On top of that, every **Run** and **Submit** is captured, graded against a fixed C++ knowledge graph, and turned into:
+Your DSA sensei: a learning system around LeetCode. The extension gives Socratic hints on a three-step ladder (**Nudge → Concept → Pinpoint**) that nudge you toward the answer without spoiling it. On top of that, every **Run** and **Submit** is captured, graded against a fixed C++ knowledge graph, and turned into a picture of what you actually understand.
 
-- **Mirror**: what you actually understand, per concept and per facet (recognize / explain / implement / trace / adapt)
-- **Next move**: the single highest-value thing to do now (fix a gap, revise, finish a problem, or move on)
-- **Revision**: FSRS spaced repetition on the concepts you've already learned
-- **History**: every attempt, with what it showed and how your mirror moved
+The dashboard plays like a martial-arts game. Problems sit as numbered tiles across the top; click one for its detail.
+
+- **Sensei**: tells you the single highest-value move right now (train a weak skill, spar, finish a fight, or take the next one), with a drill when you need it
+- **Dojo**: every concept as a skill with a belt and five pips (spot / explain / code / trace / adapt). Data structures are weapons: array is the bo staff, hash map the shuriken
+- **Arena**: FSRS spaced repetition as sparring rounds on skills you've already learned
+- **Fight log**: every run and submit, what it showed, the hints before it, and how your skills moved
 
 ```
 AlgoSensei/
   knowledge-graph/   concept DAG (59 nodes, 158 misconceptions) + Striver arrays tagging (32 problems)
   api/               Hono + MongoDB: events, Gemini grading, mastery model, FSRS, next-move engine
   extension/         WXT Chrome extension: Socratic hints + attempt capture
-  dashboard/         Vite + React dashboard
+  dashboard/         Vite + React dashboard (sensei, dojo, arena, fight log)
 ```
 
 ## Run it locally
@@ -71,7 +73,7 @@ The popup offers three rungs. Each one gives away more, and the deepest rung you
 - your **weak or shaky facets** among this problem's concepts;
 - the **hints already given** here, so the next one goes a step further instead of repeating.
 
-The response is schema-constrained JSON. Ids outside the pack are dropped, a level-1 hint never reveals its concept, and a spoiler guard removes solution-sized code. Each hint is stored with its level and focus concept, and the History page shows the hints that led to each attempt. The old `POST /hint` route still works and serves the same ladder.
+The response is schema-constrained JSON. Ids outside the pack are dropped, a level-1 hint never reveals its concept, and a spoiler guard removes solution-sized code. Each hint is stored with its level and focus concept, and the Fight log shows the hints that led to each attempt. The old `POST /hint` route still works and serves the same ladder.
 
 ## Configuration (`api/.env`)
 
