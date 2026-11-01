@@ -1,0 +1,1028 @@
+{
+  "sheet": "Striver A2Z - Binary Trees",
+  "topic": "binary_trees",
+  "topic_title": "Binary trees",
+  "step": 13,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "bt_traversals",
+      "title": "Traversals"
+    },
+    {
+      "id": "bt_medium",
+      "title": "Medium Problems"
+    },
+    {
+      "id": "bt_hard",
+      "title": "Hard Problems"
+    }
+  ],
+  "problems": [
+    {
+      "id": "bt.representation",
+      "order": 1,
+      "section": "bt_traversals",
+      "tier": "Basic",
+      "title": "Binary Tree Representation in C++",
+      "summary": "Define a TreeNode and build a tree.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "struct with value and two child pointers",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.binary_tree"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.binary_tree", "role": "core", "facets": ["implement", "explain"] },
+        { "id": "cpp.pointers", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.bt.null_child",
+        "cpp.ptr.null_deref"
+      ]
+    },
+    {
+      "id": "bt.preorder",
+      "order": 2,
+      "section": "bt_traversals",
+      "tier": "Basic",
+      "title": "Preorder Traversal of Binary Tree",
+      "summary": "Root, left, right.",
+      "links": {
+        "leetcode": "binary-tree-preorder-traversal"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Recursion",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Iterative with a stack (push right then left)",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_dfs_traversal", "role": "core", "facets": ["implement", "trace", "adapt"] },
+        { "id": "ds.binary_tree", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dfs.order_mixup",
+        "p.dfs.iter_push_order",
+        "p.dfs.global_result",
+        "ds.bt.null_child"
+      ]
+    },
+    {
+      "id": "bt.inorder",
+      "order": 3,
+      "section": "bt_traversals",
+      "tier": "Basic",
+      "title": "Inorder Traversal of Binary Tree",
+      "summary": "Left, root, right.",
+      "links": {
+        "leetcode": "binary-tree-inorder-traversal"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Recursion",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Iterative: go left, pop, go right",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_dfs_traversal", "role": "core", "facets": ["implement", "trace", "adapt"] },
+        { "id": "ds.binary_tree", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dfs.order_mixup",
+        "p.dfs.iter_inorder",
+        "p.dfs.global_result"
+      ]
+    },
+    {
+      "id": "bt.postorder",
+      "order": 4,
+      "section": "bt_traversals",
+      "tier": "Basic",
+      "title": "Post-order Traversal of Binary Tree",
+      "summary": "Left, right, root.",
+      "links": {
+        "leetcode": "binary-tree-postorder-traversal"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Recursion",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Iterative with two stacks or one",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_dfs_traversal", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "ds.binary_tree", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dfs.order_mixup",
+        "p.dfs.iter_postorder",
+        "p.dfs.global_result"
+      ]
+    },
+    {
+      "id": "bt.level_order",
+      "order": 5,
+      "section": "bt_traversals",
+      "tier": "Basic",
+      "title": "Level order Traversal / Level order traversal in spiral form",
+      "summary": "Values level by level (and alternating direction for spiral).",
+      "links": {
+        "leetcode": "binary-tree-level-order-traversal"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Queue, one level at a time",
+          "time": "O(n)",
+          "space": "O(w)",
+          "demonstrates": [
+            "p.tree_bfs"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_bfs", "role": "core", "facets": ["recognize", "implement", "trace"] },
+        { "id": "ds.queue", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.lvl.size_in_loop",
+        "p.lvl.push_null",
+        "ds.q.size_in_loop"
+      ]
+    },
+    {
+      "id": "bt.all_traversals",
+      "order": 6,
+      "section": "bt_traversals",
+      "tier": "Core",
+      "title": "Preorder, Inorder, and Postorder Traversal in one Traversal",
+      "summary": "All three orders from a single stack pass.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Stack of (node, state) pairs",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_dfs_traversal", "role": "core", "facets": ["adapt", "explain"] },
+        { "id": "ds.stack", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dfs.order_mixup",
+        "p.dfs.iter_postorder"
+      ]
+    },
+    {
+      "id": "bt.max_depth",
+      "order": 7,
+      "section": "bt_medium",
+      "tier": "Basic",
+      "title": "Height of a Binary Tree",
+      "summary": "Maximum depth of the tree.",
+      "links": {
+        "leetcode": "maximum-depth-of-binary-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "1 + max(height(left), height(right))",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_postorder_info"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Count BFS levels",
+          "time": "O(n)",
+          "space": "O(w)",
+          "demonstrates": [
+            "p.tree_bfs"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_postorder_info", "role": "core", "facets": ["implement"] },
+        { "id": "ds.binary_tree", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "ds.bt.height_vs_depth",
+        "ds.bt.null_child",
+        "p.post.edges_vs_nodes"
+      ]
+    },
+    {
+      "id": "bt.balanced",
+      "order": 8,
+      "section": "bt_medium",
+      "tier": "Core",
+      "title": "Check if the Binary tree is height-balanced or not",
+      "summary": "Do the subtree heights differ by at most 1 everywhere?",
+      "links": {
+        "leetcode": "balanced-binary-tree"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Height of both children at every node",
+          "time": "O(n²)",
+          "space": "O(h)",
+          "demonstrates": [
+            "ds.binary_tree"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Return height, or -1 for unbalanced",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_postorder_info"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_postorder_info", "role": "core", "facets": ["recognize", "adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.post.recompute",
+        "p.post.answer_vs_return",
+        "ds.bt.null_child"
+      ]
+    },
+    {
+      "id": "bt.diameter",
+      "order": 9,
+      "section": "bt_medium",
+      "tier": "Core",
+      "title": "Diameter of Binary Tree",
+      "summary": "Longest path (in edges) between any two nodes.",
+      "links": {
+        "leetcode": "diameter-of-binary-tree"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Heights recomputed at every node",
+          "time": "O(n²)",
+          "space": "O(h)",
+          "demonstrates": [
+            "ds.binary_tree"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Return height, track left + right",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_postorder_info"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_postorder_info", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.post.through_root",
+        "p.post.answer_vs_return",
+        "p.post.edges_vs_nodes",
+        "p.post.recompute"
+      ]
+    },
+    {
+      "id": "bt.max_path_sum",
+      "order": 10,
+      "section": "bt_medium",
+      "tier": "Pro",
+      "title": "Maximum path sum",
+      "summary": "Largest sum of any path between two nodes.",
+      "links": {
+        "leetcode": "binary-tree-maximum-path-sum"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Return the best downward path, track value + left + right",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_postorder_info"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_postorder_info", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "u.variable_init", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.post.negative_paths",
+        "p.post.answer_vs_return",
+        "u.init.max_zero"
+      ]
+    },
+    {
+      "id": "bt.same_tree",
+      "order": 11,
+      "section": "bt_medium",
+      "tier": "Basic",
+      "title": "Check if two trees are identical or not",
+      "summary": "Same shape and values?",
+      "links": {
+        "leetcode": "same-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Compare pairs recursively",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_pair_recursion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_pair_recursion", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.pair.one_null",
+        "p.pair.traversal_compare"
+      ]
+    },
+    {
+      "id": "bt.zigzag",
+      "order": 12,
+      "section": "bt_medium",
+      "tier": "Core",
+      "title": "Zig Zag Traversal of Binary Tree",
+      "summary": "Level order, alternating left-to-right and right-to-left.",
+      "links": {
+        "leetcode": "binary-tree-zigzag-level-order-traversal"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS, reverse every other level's output",
+          "time": "O(n)",
+          "space": "O(w)",
+          "demonstrates": [
+            "p.tree_bfs"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_bfs", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.lvl.zigzag_reverse",
+        "p.lvl.size_in_loop"
+      ]
+    },
+    {
+      "id": "bt.boundary",
+      "order": 13,
+      "section": "bt_medium",
+      "tier": "Pro",
+      "title": "Boundary Traversal of Binary Tree",
+      "summary": "Left edge, leaves, then right edge reversed, anticlockwise.",
+      "links": {
+        "leetcode": "boundary-of-binary-tree",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Left edge without leaves, all leaves, right edge without leaves reversed",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_dfs_traversal", "role": "core", "facets": ["adapt"] },
+        { "id": "ds.binary_tree", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dfs.boundary_dupes",
+        "ds.bt.null_child"
+      ]
+    },
+    {
+      "id": "bt.vertical_order",
+      "order": 14,
+      "section": "bt_medium",
+      "tier": "Pro",
+      "title": "Vertical Order Traversal of Binary Tree",
+      "summary": "Columns left to right; within a column by row, ties by value.",
+      "links": {
+        "leetcode": "vertical-order-traversal-of-a-binary-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS or DFS with (column, row), map<col, map<row, multiset>>",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_coordinates"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_coordinates", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "cpp.ordered_containers", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.coord.tie_order",
+        "p.coord.unordered",
+        "cpp.ord.set_drops_dupes"
+      ]
+    },
+    {
+      "id": "bt.top_view",
+      "order": 15,
+      "section": "bt_medium",
+      "tier": "Core",
+      "title": "Top View of Binary Tree",
+      "summary": "First node seen in each column from above.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS with columns, keep the first per column",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_coordinates"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_coordinates", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.coord.dfs_for_view",
+        "p.coord.unordered"
+      ]
+    },
+    {
+      "id": "bt.bottom_view",
+      "order": 16,
+      "section": "bt_medium",
+      "tier": "Core",
+      "title": "Bottom View of Binary Tree",
+      "summary": "Last node seen in each column from above.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS with columns, overwrite per column",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_coordinates"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_coordinates", "role": "core", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.coord.dfs_for_view",
+        "p.coord.unordered"
+      ]
+    },
+    {
+      "id": "bt.right_view",
+      "order": 17,
+      "section": "bt_medium",
+      "tier": "Core",
+      "title": "Right/Left View of Binary Tree",
+      "summary": "Last (or first) node of each level.",
+      "links": {
+        "leetcode": "binary-tree-right-side-view"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS, take the last of each level",
+          "time": "O(n)",
+          "space": "O(w)",
+          "demonstrates": [
+            "p.tree_bfs"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "DFS right first, record the first node per depth",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_bfs", "role": "core", "facets": ["adapt"] },
+        { "id": "p.tree_dfs_traversal", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.lvl.size_in_loop",
+        "p.dfs.order_mixup"
+      ]
+    },
+    {
+      "id": "bt.symmetric",
+      "order": 18,
+      "section": "bt_medium",
+      "tier": "Basic",
+      "title": "Symmetric Binary Tree",
+      "summary": "Is the tree a mirror of itself?",
+      "links": {
+        "leetcode": "symmetric-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Compare left with right recursively",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_pair_recursion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_pair_recursion", "role": "core", "facets": ["implement", "explain"] }
+      ],
+      "watch_for": [
+        "p.pair.mirror_pairs",
+        "p.pair.one_null"
+      ]
+    },
+    {
+      "id": "bt.root_to_node",
+      "order": 19,
+      "section": "bt_hard",
+      "tier": "Core",
+      "title": "Root to Node Path in Binary Tree",
+      "summary": "Values on the path from the root to a given node.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Push, recurse, pop on failure",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.root_to_node_path"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.root_to_node_path", "role": "core", "facets": ["implement"] },
+        { "id": "p.backtracking", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.path.no_pop",
+        "p.bt.no_undo",
+        "ds.bt.assume_bst"
+      ]
+    },
+    {
+      "id": "bt.lca",
+      "order": 20,
+      "section": "bt_hard",
+      "tier": "Core",
+      "title": "LCA in Binary Tree",
+      "summary": "Lowest common ancestor of two nodes.",
+      "links": {
+        "leetcode": "lowest-common-ancestor-of-a-binary-tree"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Both root paths, last common node",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.root_to_node_path"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Return the node where left and right results meet",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.root_to_node_path"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.root_to_node_path", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.lca.early_return",
+        "p.lca.two_paths",
+        "ds.bt.null_child",
+        "ds.bt.assume_bst"
+      ]
+    },
+    {
+      "id": "bt.max_width",
+      "order": 21,
+      "section": "bt_hard",
+      "tier": "Pro",
+      "title": "Maximum width of a Binary Tree",
+      "summary": "Widest level, counting positions between the ends.",
+      "links": {
+        "leetcode": "maximum-width-of-binary-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS with position indices rebased per level",
+          "time": "O(n)",
+          "space": "O(w)",
+          "demonstrates": [
+            "p.tree_bfs"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_bfs", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.lvl.width_overflow",
+        "p.lvl.size_in_loop",
+        "cpp.int.overflow_sum"
+      ]
+    },
+    {
+      "id": "bt.children_sum",
+      "order": 22,
+      "section": "bt_hard",
+      "tier": "Core",
+      "title": "Check for Children Sum Property",
+      "summary": "Make every node equal the sum of its children by only increasing values.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Push larger values down, fix sums on the way up",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_postorder_info"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_postorder_info", "role": "core", "facets": ["adapt"] },
+        { "id": "ds.binary_tree", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.post.answer_vs_return",
+        "ds.bt.null_child"
+      ]
+    },
+    {
+      "id": "bt.distance_k",
+      "order": 23,
+      "section": "bt_hard",
+      "tier": "Core",
+      "title": "Print all the Nodes at a distance of K in a Binary Tree",
+      "summary": "All nodes k edges from a target node.",
+      "links": {
+        "leetcode": "all-nodes-distance-k-in-binary-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Parent map, then BFS k levels from the target",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_as_graph"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_as_graph", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.tree_bfs", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.tg.no_parent",
+        "p.tg.no_visited",
+        "p.lvl.size_in_loop"
+      ]
+    },
+    {
+      "id": "bt.burn_tree",
+      "order": 24,
+      "section": "bt_hard",
+      "tier": "Core",
+      "title": "Minimum time taken to BURN the Binary Tree from a Node",
+      "summary": "Minutes for fire from one node to reach the whole tree.",
+      "links": {
+        "leetcode": "amount-of-time-for-binary-tree-to-be-infected",
+        "leetcode_note": "LeetCode 2385 is the same task."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Parent map, BFS counting levels",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_as_graph"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_as_graph", "role": "core", "facets": ["implement"] },
+        { "id": "p.tree_bfs", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.tg.time_count",
+        "p.tg.no_visited",
+        "p.tg.no_parent"
+      ]
+    },
+    {
+      "id": "bt.count_complete",
+      "order": 25,
+      "section": "bt_hard",
+      "tier": "Core",
+      "title": "Count total Nodes in a COMPLETE Binary Tree",
+      "summary": "Node count in less than O(n).",
+      "links": {
+        "leetcode": "count-complete-tree-nodes"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count every node",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "ds.binary_tree"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Compare edge heights, 2^h - 1 for perfect subtrees",
+          "time": "O(log² n)",
+          "space": "O(log n)",
+          "demonstrates": [
+            "p.complete_tree_count"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.complete_tree_count", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "ds.binary_tree", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.ctc.full_count",
+        "p.ctc.height_math",
+        "ds.bt.shape_terms"
+      ]
+    },
+    {
+      "id": "bt.build_pre_in",
+      "order": 26,
+      "section": "bt_hard",
+      "tier": "Pro",
+      "title": "Construct Binary Tree from inorder and preorder",
+      "summary": "Rebuild the tree from its preorder and inorder.",
+      "links": {
+        "leetcode": "construct-binary-tree-from-preorder-and-inorder-traversal"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Root from preorder, split inorder with a value -> index map",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_construction"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_construction", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.build.linear_find",
+        "p.build.range_math",
+        "p.build.uniqueness"
+      ]
+    },
+    {
+      "id": "bt.build_post_in",
+      "order": 27,
+      "section": "bt_hard",
+      "tier": "Pro",
+      "title": "Construct the Binary Tree from Postorder and Inorder Traversal",
+      "summary": "Rebuild the tree from its postorder and inorder.",
+      "links": {
+        "leetcode": "construct-binary-tree-from-inorder-and-postorder-traversal"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Root from the end of postorder; build right then left",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_construction"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_construction", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.build.postorder_side",
+        "p.build.range_math",
+        "p.build.linear_find"
+      ]
+    },
+    {
+      "id": "bt.serialize",
+      "order": 28,
+      "section": "bt_hard",
+      "tier": "Pro",
+      "title": "Serialize and deserialize Binary Tree",
+      "summary": "Encode a tree to a string and back.",
+      "links": {
+        "leetcode": "serialize-and-deserialize-binary-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Level order with null markers",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_serialization"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tree_serialization", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.strings", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.ser.no_null_marker",
+        "p.ser.parse_values",
+        "cpp.str.concat_in_loop"
+      ]
+    },
+    {
+      "id": "bt.morris",
+      "order": 29,
+      "section": "bt_hard",
+      "tier": "Pro",
+      "title": "Morris Preorder Traversal of a Binary Tree",
+      "summary": "Preorder (and inorder) in O(1) extra space.",
+      "links": {
+        "leetcode": null,
+        "leetcode_note": "Practise on LeetCode 144 / 94 with O(1) space."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Thread predecessors, visit on creating the thread",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.morris_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.morris_traversal", "role": "core", "facets": ["explain", "implement", "adapt"] }
+      ],
+      "watch_for": [
+        "p.morris.no_unthread",
+        "p.morris.visit_point"
+      ]
+    },
+    {
+      "id": "bt.flatten",
+      "order": 30,
+      "section": "bt_hard",
+      "tier": "Core",
+      "title": "Flatten Binary Tree to LinkedList",
+      "summary": "Flatten in place into preorder along right pointers.",
+      "links": {
+        "leetcode": "flatten-binary-tree-to-linked-list"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Reverse postorder (right, left, root) with a prev pointer",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Morris-style rewiring",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.morris_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.morris_traversal", "role": "core", "facets": ["adapt"] },
+        { "id": "p.tree_dfs_traversal", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.morris.flatten_links",
+        "p.dfs.order_mixup"
+      ]
+    }
+  ]
+}

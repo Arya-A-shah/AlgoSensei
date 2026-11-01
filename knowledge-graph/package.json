@@ -7,6 +7,7 @@
     "validate": "node tools/validate.js",
     "graph": "node tools/validate.js --mermaid",
     "pack": "node tools/context-pack.js",
-    "list": "node tools/context-pack.js --list"
+    "list": "node tools/context-pack.js --list",
+    "format": "node tools/format.js"
   }
 }

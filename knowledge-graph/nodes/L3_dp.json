@@ -1,0 +1,255 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Dynamic programming patterns (A2Z step 16).",
+  "nodes": [
+    {
+      "id": "p.dp_recurrence",
+      "name": "Defining DP states and transitions",
+      "layer": 3,
+      "topic": "dp",
+      "description": "Express the answer for a state (an index, a remaining capacity, the last choice) through smaller states; say what each state means and fix the base cases before coding.",
+      "prereqs": ["u.recursion"],
+      "facets": {
+        "recognize": "Spots overlapping subproblems and choices whose effects carry forward (count ways, min/max cost, feasibility).",
+        "explain": "States in words what dp[i] or dp[i][j] means and why the transition covers every choice.",
+        "implement": "Writes the recurrence with correct base cases."
+      },
+      "misconceptions": [
+        { "id": "p.dpr.greedy_instead", "facet": "recognize", "desc": "Used a greedy choice where an earlier choice limits later ones (frog jump, coins of arbitrary values)." },
+        { "id": "p.dpr.state_missing", "facet": "explain", "desc": "Left information out of the state (last activity, holding a stock, transactions left), so transitions were wrong." },
+        { "id": "p.dpr.base_cases", "facet": "implement", "desc": "Wrong or missing base cases (index 0, a negative index, target 0)." },
+        { "id": "p.dpr.cannot_define", "facet": "explain", "desc": "Cannot say what a table cell means." }
+      ]
+    },
+    {
+      "id": "p.dp_memoization",
+      "name": "Memoization (top-down)",
+      "layer": 3,
+      "topic": "dp",
+      "description": "Cache each state's answer the first time it is computed, so the recursion evaluates every state once.",
+      "prereqs": ["p.dp_recurrence"],
+      "facets": {
+        "recognize": "Sees when plain recursion revisits the same states, so caching them pays off.",
+        "explain": "Explains why memoization turns exponential recursion into O(states x transitions).",
+        "implement": "Checks the cache first, stores before returning and shares one table across calls."
+      },
+      "misconceptions": [
+        { "id": "p.memo.not_stored", "facet": "implement", "desc": "Checked the cache but never stored the computed value." },
+        { "id": "p.memo.sentinel", "facet": "implement", "desc": "Used 0 as 'not computed' when 0 is a valid answer, so states were recomputed." },
+        { "id": "p.memo.by_value", "facet": "implement", "desc": "Passed the memo table by value, so cached results were lost." },
+        { "id": "p.memo.stack_depth", "facet": "explain", "desc": "Did not consider recursion depth for large inputs (stack overflow)." }
+      ]
+    },
+    {
+      "id": "p.dp_tabulation",
+      "name": "Tabulation (bottom-up)",
+      "layer": 3,
+      "topic": "dp",
+      "description": "Fill the table from the base cases toward the answer in an order where every state a cell needs is already filled.",
+      "prereqs": ["p.dp_recurrence", "cpp.2d_vector"],
+      "facets": {
+        "explain": "Explains how the fill order follows from the recurrence.",
+        "implement": "Sizes the table, sets base cases and loops in a valid order."
+      },
+      "misconceptions": [
+        { "id": "p.tab.fill_order", "facet": "implement", "desc": "Filled the table in an order that reads cells not yet computed." },
+        { "id": "p.tab.index_shift", "facet": "implement", "desc": "Mixed 0-based and 1-based indices after shifting the table for base cases." },
+        { "id": "p.tab.init", "facet": "implement", "desc": "Initialized with 0 where impossible states need infinity (or minus infinity), or the reverse." }
+      ]
+    },
+    {
+      "id": "p.dp_space_opt",
+      "name": "Space optimization",
+      "layer": 3,
+      "topic": "dp",
+      "description": "When a row depends only on the previous row (or a few previous values), keep just those instead of the full table.",
+      "prereqs": ["p.dp_tabulation"],
+      "facets": {
+        "implement": "Keeps prev and cur rows (or two variables) and moves cur into prev after each row.",
+        "adapt": "Uses a single row, iterating capacity backwards for 0/1 and forwards for unbounded choices."
+      },
+      "misconceptions": [
+        { "id": "p.space.overwrite", "facet": "implement", "desc": "Overwrote values of the previous row that were still needed." },
+        { "id": "p.space.no_swap", "facet": "implement", "desc": "Did not move cur into prev after each row." },
+        { "id": "p.space.direction", "facet": "adapt", "desc": "Iterated capacity in the wrong direction, turning 0/1 into unbounded (or the reverse)." }
+      ]
+    },
+    {
+      "id": "p.dp_1d",
+      "name": "1D DP",
+      "layer": 3,
+      "topic": "dp",
+      "description": "dp[i] depends on a few earlier values: stairs, frog jumps, non-adjacent sums. A circular array becomes two linear runs.",
+      "prereqs": ["p.dp_recurrence"],
+      "facets": {
+        "recognize": "Spots linear recurrences over positions.",
+        "implement": "Writes the recurrence with bounds-checked lookbacks.",
+        "adapt": "Handles k-step jumps and circular arrays."
+      },
+      "misconceptions": [
+        { "id": "p.dp1.circular", "facet": "adapt", "desc": "For a circular array, did not solve twice (without the first, then without the last element)." },
+        { "id": "p.dp1.lookback_bounds", "facet": "implement", "desc": "With k jumps, read dp[i - j] for i - j < 0." },
+        { "id": "p.dp1.adjacent_pick", "facet": "implement", "desc": "Allowed picking adjacent elements (added a[i] to dp[i - 1])." }
+      ]
+    },
+    {
+      "id": "p.dp_grid",
+      "name": "DP on grids",
+      "layer": 3,
+      "topic": "dp",
+      "description": "dp[i][j] comes from the cells you can arrive from (above, left, diagonals); obstacles contribute 0 ways or infinite cost.",
+      "prereqs": ["p.dp_recurrence", "ds.matrix"],
+      "facets": {
+        "recognize": "Spots path counting and min/max path cost on grids.",
+        "implement": "Sets the first row and column correctly and handles obstacles.",
+        "adapt": "Handles triangles, any-start falling paths and two walkers at once (a 3D state)."
+      },
+      "misconceptions": [
+        { "id": "p.gdp.first_row_col", "facet": "implement", "desc": "Initialized the first row or column wrongly (an obstacle blocks every cell after it)." },
+        { "id": "p.gdp.obstacle", "facet": "implement", "desc": "Did not set an obstacle cell to 0 ways or infinite cost." },
+        { "id": "p.gdp.out_of_row", "facet": "adapt", "desc": "Read column j - 1 or j + 1 outside the row in falling-path or triangle problems." },
+        { "id": "p.gdp.two_walkers", "facet": "adapt", "desc": "With two walkers, counted a shared cell twice." }
+      ]
+    },
+    {
+      "id": "p.dp_knapsack",
+      "name": "0/1 knapsack and subset sums",
+      "layer": 3,
+      "topic": "dp",
+      "description": "State (index, remaining capacity or target): take the item if it fits, or skip it; each item is used at most once.",
+      "prereqs": ["p.dp_recurrence", "p.subsequences"],
+      "facets": {
+        "recognize": "Maps partition, subset-sum, target-sum and difference questions onto 0/1 knapsack.",
+        "explain": "Explains why the state needs both the index and the remaining target.",
+        "implement": "Writes take / not-take with dp[i - 1] for both branches.",
+        "adapt": "Counts subsets correctly with zeros, reads the minimum difference from the last row and turns a difference into a target."
+      },
+      "misconceptions": [
+        { "id": "p.ks.zeros", "facet": "adapt", "desc": "When counting subsets, the base case ignored zeros (with a[0] == 0 there are two ways to make sum 0)." },
+        { "id": "p.ks.min_diff_row", "facet": "adapt", "desc": "For the minimum difference, did not scan every reachable sum in the last row up to total / 2." },
+        { "id": "p.ks.diff_formula", "facet": "adapt", "desc": "For partitions with difference d, did not reduce to target (total - d) / 2, or did not reject odd or negative total - d." },
+        { "id": "p.ks.reuse", "facet": "implement", "desc": "Let an item be reused (read dp[i] instead of dp[i - 1] after taking it)." },
+        { "id": "p.ks.exponential", "facet": "recognize", "desc": "Used plain recursion (2^n) without memoizing on (index, target)." }
+      ]
+    },
+    {
+      "id": "p.dp_unbounded",
+      "name": "Unbounded knapsack",
+      "layer": 3,
+      "topic": "dp",
+      "description": "Like 0/1 knapsack, but taking an item stays at the same index so it can be taken again (coins, rod pieces).",
+      "prereqs": ["p.dp_knapsack"],
+      "facets": {
+        "explain": "Explains why staying at index i allows reuse, and why greedy fails for general coin sets.",
+        "implement": "Writes the take branch at the same index, with a safe 'impossible' value."
+      },
+      "misconceptions": [
+        { "id": "p.unb.move_on", "facet": "implement", "desc": "Moved to i - 1 after taking an item, which forbids reuse." },
+        { "id": "p.unb.impossible", "facet": "implement", "desc": "Added 1 to an INT_MAX 'impossible' value and overflowed, or returned it instead of -1." },
+        { "id": "p.unb.greedy_coins", "facet": "explain", "desc": "Took the largest coin first; greedy fails for general coin sets." },
+        { "id": "p.unb.permutations", "facet": "implement", "desc": "Counted orderings instead of combinations (looped amounts outside coins)." }
+      ]
+    },
+    {
+      "id": "p.dp_strings",
+      "name": "DP on two strings",
+      "layer": 3,
+      "topic": "dp",
+      "description": "State (i, j) = prefixes of both strings: matching characters move diagonally, otherwise take the best of skipping one side.",
+      "prereqs": ["p.dp_recurrence", "ds.string"],
+      "facets": {
+        "recognize": "Maps LCS, edit distance, matching and palindromic subsequences onto a two-index table.",
+        "explain": "Explains each transition in terms of the last characters.",
+        "implement": "Writes the shifted table with base row and column.",
+        "adapt": "Prints the LCS, handles substrings, supersequences, edit operations and wildcard matching."
+      },
+      "misconceptions": [
+        { "id": "p.dps.substring", "facet": "adapt", "desc": "Treated a common substring like a subsequence (did not reset to 0 on a mismatch)." },
+        { "id": "p.dps.shifted_index", "facet": "implement", "desc": "Compared s[i] with t[j] in a table shifted by one (should be s[i - 1] and t[j - 1])." },
+        { "id": "p.dps.backtrack", "facet": "adapt", "desc": "When printing, walked back the wrong way on a match or a tie." },
+        { "id": "p.dps.edit_ops", "facet": "implement", "desc": "Left out one of insert, delete or replace in edit distance." },
+        { "id": "p.dps.wildcard_star", "facet": "adapt", "desc": "Treated * as one character, or did not let a run of * match an empty prefix." },
+        { "id": "p.dps.overflow", "facet": "implement", "desc": "Counted distinct subsequences in int or without the modulus, overflowing." }
+      ]
+    },
+    {
+      "id": "p.dp_stocks",
+      "name": "Stock problems as state machines",
+      "layer": 3,
+      "topic": "dp",
+      "description": "State (day, holding or not, transactions left): each day buy, sell or rest. Cooldown skips a day after selling; a fee is paid per transaction.",
+      "prereqs": ["p.dp_recurrence"],
+      "facets": {
+        "recognize": "Maps every buy/sell variant onto the same state machine.",
+        "implement": "Writes buy and sell transitions with the transaction count changing once per transaction.",
+        "adapt": "Adds a cooldown day, a fee or a limit of k transactions."
+      },
+      "misconceptions": [
+        { "id": "p.stk.single_min", "facet": "adapt", "desc": "Used the one-transaction trick (track the minimum) for problems allowing several transactions." },
+        { "id": "p.stk.count_twice", "facet": "implement", "desc": "Counted a transaction on both buy and sell, halving the allowed number." },
+        { "id": "p.stk.cooldown", "facet": "adapt", "desc": "After selling, allowed buying the next day despite the cooldown." },
+        { "id": "p.stk.unlimited_greedy", "facet": "recognize", "desc": "For unlimited transactions, missed that summing every positive day-to-day gain is enough." }
+      ]
+    },
+    {
+      "id": "p.dp_lis",
+      "name": "Longest increasing subsequence",
+      "layer": 3,
+      "topic": "dp",
+      "description": "dp[i] = 1 + the best dp[j] with j < i and a[j] < a[i] (O(n²), with a parent array to print); patience sorting with lower bound gives the length in O(n log n).",
+      "prereqs": ["p.dp_recurrence", "p.bs_boundaries"],
+      "facets": {
+        "recognize": "Maps chains, nesting and divisibility questions onto LIS after sorting.",
+        "explain": "Explains what the O(n log n) tails array holds and why it is not the LIS itself.",
+        "implement": "Takes the maximum over all dp[i] and uses lower bound for strictly increasing.",
+        "adapt": "Prints the LIS, handles bitonic sequences and counts the number of LIS."
+      },
+      "misconceptions": [
+        { "id": "p.lis.tails_is_lis", "facet": "explain", "desc": "Believes the O(n log n) tails array is itself an increasing subsequence of the input." },
+        { "id": "p.lis.bound_choice", "facet": "implement", "desc": "Used upper_bound where lower_bound was needed for strictly increasing (or the reverse)." },
+        { "id": "p.lis.answer_last", "facet": "implement", "desc": "Returned dp[n - 1] instead of the maximum over all dp[i]." },
+        { "id": "p.lis.sort_first", "facet": "adapt", "desc": "For divisible subsets or string chains, did not sort first." },
+        { "id": "p.lis.count", "facet": "adapt", "desc": "When counting LIS, did not reset the count on a longer length and add on an equal one." }
+      ]
+    },
+    {
+      "id": "p.dp_partition",
+      "name": "Partition (interval) DP",
+      "layer": 3,
+      "topic": "dp",
+      "description": "State (i, j) is a range: try every split point k, combine both sides plus the cost of the split, filling by increasing range length.",
+      "prereqs": ["p.dp_recurrence"],
+      "facets": {
+        "recognize": "Spots 'best way to split or order operations on a range' problems.",
+        "explain": "Explains why the two sides of a split are independent.",
+        "implement": "Fills by increasing length (or i descending) with the right split cost.",
+        "adapt": "Handles cutting sticks, bursting balloons, boolean expressions and front partitions."
+      },
+      "misconceptions": [
+        { "id": "p.part.fill_order", "facet": "implement", "desc": "Filled by i and j directly instead of by increasing length (or i descending)." },
+        { "id": "p.part.burst_first", "facet": "adapt", "desc": "In burst balloons, chose the first balloon to burst instead of the last, so the sides were not independent." },
+        { "id": "p.part.cut_sort", "facet": "adapt", "desc": "Did not sort the cut positions or add the two stick ends." },
+        { "id": "p.part.bool_counts", "facet": "adapt", "desc": "Tracked only ways to be true, not ways to be false, for boolean expressions." },
+        { "id": "p.part.split_cost", "facet": "implement", "desc": "Used the wrong cost for a split (matrix chain cost is arr[i - 1] * arr[k] * arr[j])." }
+      ]
+    },
+    {
+      "id": "p.dp_squares",
+      "name": "DP on squares",
+      "layer": 3,
+      "topic": "dp",
+      "description": "Count squares of 1s with dp[i][j] = 1 + min(top, left, top-left); the largest rectangle reuses the histogram method on each row.",
+      "prereqs": ["p.dp_grid"],
+      "facets": {
+        "explain": "Explains why the minimum of three neighbours limits the square ending at a cell.",
+        "implement": "Writes the recurrence and sums (or maximizes) as asked."
+      },
+      "misconceptions": [
+        { "id": "p.sqdp.two_neighbours", "facet": "implement", "desc": "Took the minimum of only two neighbours." },
+        { "id": "p.sqdp.sum_vs_max", "facet": "explain", "desc": "Returned the largest square where the count of all squares was asked, or the reverse." }
+      ]
+    }
+  ]
+}

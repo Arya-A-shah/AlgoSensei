@@ -1,0 +1,1120 @@
+{
+  "sheet": "Striver A2Z - Linked List",
+  "topic": "linked_list",
+  "topic_title": "Linked list",
+  "step": 6,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "ll_1d",
+      "title": "Learn 1D LinkedList"
+    },
+    {
+      "id": "ll_dll",
+      "title": "Learn Doubly LinkedList"
+    },
+    {
+      "id": "ll_medium",
+      "title": "Medium Problems of LL"
+    },
+    {
+      "id": "ll_dll_medium",
+      "title": "Medium Problems of DLL"
+    },
+    {
+      "id": "ll_hard",
+      "title": "Hard Problems of LL"
+    }
+  ],
+  "problems": [
+    {
+      "id": "ll.array_to_list",
+      "order": 1,
+      "section": "ll_1d",
+      "tier": "Basic",
+      "title": "Introduction to LinkedList, learn about struct, and how is node represented",
+      "summary": "Define a node struct and build a list from an array.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Append each value at the tail",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.linked_list", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.pointers", "role": "core", "facets": ["implement", "explain"] }
+      ],
+      "watch_for": [
+        "cpp.ptr.null_deref",
+        "cpp.ptr.lost_reference",
+        "ds.ll.head_case"
+      ]
+    },
+    {
+      "id": "ll.insert",
+      "order": 2,
+      "section": "ll_1d",
+      "tier": "Basic",
+      "title": "Inserting a node in LinkedList",
+      "summary": "Insert at the head, the tail, before a value or at position k.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Walk to the node before the position and relink",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.linked_list", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "cpp.pointers", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.ll_dummy_node", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "ds.ll.head_case",
+        "ds.ll.tail_stop",
+        "cpp.ptr.null_deref",
+        "cpp.ptr.head_by_value"
+      ]
+    },
+    {
+      "id": "ll.delete",
+      "order": 3,
+      "section": "ll_1d",
+      "tier": "Basic",
+      "title": "Deleting a node in LinkedList",
+      "summary": "Delete the head, the tail, the kth node or a given value.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Walk to the node before and bypass",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.linked_list", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "cpp.pointers", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.ll_dummy_node", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "ds.ll.head_case",
+        "ds.ll.tail_stop",
+        "cpp.ptr.dangling",
+        "cpp.ptr.null_deref",
+        "cpp.ptr.leak",
+        "p.dummy.special_cases"
+      ]
+    },
+    {
+      "id": "ll.length",
+      "order": 4,
+      "section": "ll_1d",
+      "tier": "Basic",
+      "title": "Find the length of the linkedlist [learn traversal]",
+      "summary": "Count the nodes.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Walk until nullptr",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.linked_list", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.ll.tail_stop",
+        "cpp.ptr.null_deref"
+      ]
+    },
+    {
+      "id": "ll.search",
+      "order": 5,
+      "section": "ll_1d",
+      "tier": "Basic",
+      "title": "Search an element in the LL",
+      "summary": "Does the value occur in the list?",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Walk and compare",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.linked_list", "role": "core", "facets": ["implement"] },
+        { "id": "u.function_contract", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.ll.tail_stop",
+        "u.fn.early_return"
+      ]
+    },
+    {
+      "id": "ll.array_to_dll",
+      "order": 6,
+      "section": "ll_dll",
+      "tier": "Basic",
+      "title": "Introduction to DLL, learn about struct, and how is node represented",
+      "summary": "Define a doubly linked node and build a list from an array.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Append at the tail, linking both ways",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.doubly_linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.doubly_linked_list", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.pointers", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.dll.one_side_link",
+        "ds.dll.head_prev"
+      ]
+    },
+    {
+      "id": "ll.dll_insert",
+      "order": 7,
+      "section": "ll_dll",
+      "tier": "Basic",
+      "title": "Insert a node in DLL",
+      "summary": "Insert before the head, the tail, the kth node or a given node.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Relink four pointers",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.doubly_linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.doubly_linked_list", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "ds.linked_list", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.dll.one_side_link",
+        "ds.dll.head_prev",
+        "ds.ll.head_case"
+      ]
+    },
+    {
+      "id": "ll.dll_delete",
+      "order": 8,
+      "section": "ll_dll",
+      "tier": "Basic",
+      "title": "Delete a node in DLL",
+      "summary": "Delete the head, the tail, the kth node or a given node.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Bypass from both neighbours",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.doubly_linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.doubly_linked_list", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "cpp.pointers", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.dll.one_side_link",
+        "ds.dll.head_prev",
+        "cpp.ptr.dangling"
+      ]
+    },
+    {
+      "id": "ll.dll_reverse",
+      "order": 9,
+      "section": "ll_dll",
+      "tier": "Core",
+      "title": "Reverse a DLL",
+      "summary": "Reverse a doubly linked list in place.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Copy values to a stack, write back",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Swap prev and next at each node",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.doubly_linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.doubly_linked_list", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "p.ll_reversal", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "ds.dll.reverse_step",
+        "p.llrev.copy_values",
+        "p.llrev.return_head"
+      ]
+    },
+    {
+      "id": "ll.middle",
+      "order": 10,
+      "section": "ll_medium",
+      "tier": "Basic",
+      "title": "Middle of a LinkedList [TortoiseHare Method]",
+      "summary": "Return the middle node (the second one if there are two).",
+      "links": {
+        "leetcode": "middle-of-the-linked-list"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count, then walk n / 2",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Fast and slow pointers",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.fast_slow_pointers"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_slow_pointers", "role": "core", "facets": ["recognize", "implement", "adapt"] }
+      ],
+      "watch_for": [
+        "p.fs.null_check",
+        "p.fs.middle_choice",
+        "ds.ll.to_array"
+      ]
+    },
+    {
+      "id": "ll.reverse",
+      "order": 11,
+      "section": "ll_medium",
+      "tier": "Basic",
+      "title": "Reverse a LinkedList [Iterative]",
+      "summary": "Reverse a singly linked list (iteratively, then recursively).",
+      "links": {
+        "leetcode": "reverse-linked-list"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Stack of values",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "prev / curr / next",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.ll_reversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_reversal", "role": "core", "facets": ["recognize", "explain", "implement", "trace"] },
+        { "id": "u.recursion", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.llrev.lost_next",
+        "p.llrev.return_head",
+        "p.llrev.recursive_cycle",
+        "p.llrev.copy_values"
+      ]
+    },
+    {
+      "id": "ll.detect_cycle",
+      "order": 12,
+      "section": "ll_medium",
+      "tier": "Basic",
+      "title": "Detect a loop in LL",
+      "summary": "Does the list contain a cycle?",
+      "links": {
+        "leetcode": "linked-list-cycle"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Set of visited nodes",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.hashset"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Floyd's tortoise and hare",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.fast_slow_pointers"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_slow_pointers", "role": "core", "facets": ["recognize", "explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.fs.null_check",
+        "p.fs.hash_set",
+        "cpp.ptr.null_deref"
+      ]
+    },
+    {
+      "id": "ll.cycle_start",
+      "order": 13,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Find the starting point in LL",
+      "summary": "Return the node where the cycle begins, or nullptr.",
+      "links": {
+        "leetcode": "linked-list-cycle-ii"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Set of visited nodes",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.hashset"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Meet, reset one pointer to head, step both by one",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.fast_slow_pointers"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_slow_pointers", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.fs.cycle_start",
+        "p.fs.null_check",
+        "p.fs.hash_set"
+      ]
+    },
+    {
+      "id": "ll.loop_length",
+      "order": 14,
+      "section": "ll_medium",
+      "tier": "Basic",
+      "title": "Length of Loop in LL",
+      "summary": "Number of nodes in the cycle, or 0.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Meet, then walk once around the loop",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.fast_slow_pointers"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_slow_pointers", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.fs.loop_length",
+        "p.fs.null_check"
+      ]
+    },
+    {
+      "id": "ll.palindrome",
+      "order": 15,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Check if LL is palindrome or not",
+      "summary": "Is the list a palindrome, in O(1) extra space?",
+      "links": {
+        "leetcode": "palindrome-linked-list"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Copy to a stack and compare",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Find middle, reverse second half, compare, restore",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.fast_slow_pointers",
+            "p.ll_reversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_slow_pointers", "role": "core", "facets": ["implement"] },
+        { "id": "p.ll_reversal", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.fs.middle_choice",
+        "p.llrev.lost_next",
+        "ds.ll.to_array",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "ll.odd_even",
+      "order": 16,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Segregate odd and even nodes in LL",
+      "summary": "Group nodes at odd positions before those at even positions.",
+      "links": {
+        "leetcode": "odd-even-linked-list"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Collect values by position, write back",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Two chains, then join",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.ll_relink"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_relink", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "cpp.pointers", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.relink.end_null",
+        "p.relink.join_order",
+        "cpp.ptr.null_deref",
+        "p.relink.values_not_nodes"
+      ]
+    },
+    {
+      "id": "ll.remove_nth_end",
+      "order": 17,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Remove Nth node from the back of the LL",
+      "summary": "Delete the nth node from the end in one pass.",
+      "links": {
+        "leetcode": "remove-nth-node-from-end-of-list"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count length, then walk to len - n",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Gap of n between two pointers, with a dummy",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.fast_slow_pointers",
+            "p.ll_dummy_node"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_slow_pointers", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.ll_dummy_node", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.fs.gap_off_by_one",
+        "ds.ll.head_case",
+        "p.dummy.returned_dummy",
+        "p.dummy.special_cases"
+      ]
+    },
+    {
+      "id": "ll.delete_middle",
+      "order": 18,
+      "section": "ll_medium",
+      "tier": "Basic",
+      "title": "Delete the middle node of LL",
+      "summary": "Remove the middle node (index n / 2).",
+      "links": {
+        "leetcode": "delete-the-middle-node-of-a-linked-list"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Fast starts two ahead so slow stops before the middle",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.fast_slow_pointers"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_slow_pointers", "role": "core", "facets": ["adapt"] },
+        { "id": "ds.linked_list", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.fs.middle_choice",
+        "ds.ll.head_case",
+        "p.fs.null_check"
+      ]
+    },
+    {
+      "id": "ll.sort",
+      "order": 19,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Sort LL",
+      "summary": "Sort a linked list in O(n log n) time.",
+      "links": {
+        "leetcode": "sort-list"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Copy to array, sort, write back",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.sort_then_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Merge sort on the list",
+          "time": "O(n log n)",
+          "space": "O(log n)",
+          "demonstrates": [
+            "p.ll_merge"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_merge", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.fast_slow_pointers", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.recursion", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.llm.no_split",
+        "p.llm.leftover",
+        "p.llm.array_sort",
+        "u.rec.missing_base",
+        "ds.ll.random_access"
+      ]
+    },
+    {
+      "id": "ll.sort_012",
+      "order": 20,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Sort a LL of 0's 1's and 2's by changing links",
+      "summary": "Group 0s, 1s and 2s by relinking nodes.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count, overwrite values",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.frequency_counting"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Three dummy chains, then join",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.ll_relink",
+            "p.ll_dummy_node"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_relink", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "p.ll_dummy_node", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.relink.join_order",
+        "p.relink.end_null",
+        "p.relink.values_not_nodes"
+      ]
+    },
+    {
+      "id": "ll.intersection",
+      "order": 21,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Find the intersection point of Y LL",
+      "summary": "Node where two lists merge, or nullptr.",
+      "links": {
+        "leetcode": "intersection-of-two-linked-lists"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Set of nodes from one list",
+          "time": "O(n + m)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.hashset"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Skip the length difference first",
+          "time": "O(n + m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.linked_list"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Switch heads at the end",
+          "time": "O(n + m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.ll_intersection"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_intersection", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.llx.compare_values",
+        "p.llx.no_intersection",
+        "ds.ll.head_case"
+      ]
+    },
+    {
+      "id": "ll.add_one",
+      "order": 22,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Add 1 to a number represented by LL",
+      "summary": "Digits stored most significant first; add 1.",
+      "links": {
+        "leetcode": "plus-one-linked-list",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Reverse, add with carry, reverse back",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.ll_reversal",
+            "p.ll_carry_arithmetic"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Recursion returns the carry",
+          "time": "O(n)",
+          "space": "O(n) stack",
+          "demonstrates": [
+            "p.ll_carry_arithmetic",
+            "u.recursion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_carry_arithmetic", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "u.recursion", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.carry.final_carry",
+        "p.carry.to_integer",
+        "u.rec.ignored_return"
+      ]
+    },
+    {
+      "id": "ll.add_two_numbers",
+      "order": 23,
+      "section": "ll_medium",
+      "tier": "Core",
+      "title": "Add 2 numbers in LL",
+      "summary": "Digits stored in reverse order; return the sum as a list.",
+      "links": {
+        "leetcode": "add-two-numbers"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Digit-by-digit with carry and a dummy",
+          "time": "O(max(n, m))",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.ll_carry_arithmetic",
+            "p.ll_dummy_node"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_carry_arithmetic", "role": "core", "facets": ["implement"] },
+        { "id": "p.ll_dummy_node", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.carry.final_carry",
+        "p.carry.unequal_length",
+        "p.carry.to_integer"
+      ]
+    },
+    {
+      "id": "ll.dll_delete_key",
+      "order": 24,
+      "section": "ll_dll_medium",
+      "tier": "Basic",
+      "title": "Delete all occurrences of a key in DLL",
+      "summary": "Remove every node with the given value.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Walk and unlink both ways",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.doubly_linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.doubly_linked_list", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.pointers", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.dll.one_side_link",
+        "ds.dll.head_prev",
+        "cpp.ptr.dangling"
+      ]
+    },
+    {
+      "id": "ll.dll_pair_sum",
+      "order": 25,
+      "section": "ll_dll_medium",
+      "tier": "Core",
+      "title": "Find pairs with given sum in DLL",
+      "summary": "All pairs with the given sum in a sorted DLL.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Every pair",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Pointers from both ends",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.two_pointers_opposite"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.two_pointers_opposite", "role": "core", "facets": ["recognize", "adapt"] },
+        { "id": "ds.doubly_linked_list", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.opp.termination",
+        "p.opp.wrong_move"
+      ]
+    },
+    {
+      "id": "ll.dll_remove_dupes",
+      "order": 26,
+      "section": "ll_dll_medium",
+      "tier": "Basic",
+      "title": "Remove duplicates from sorted DLL",
+      "summary": "Keep one node per value.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Skip runs of equal values, relink",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.doubly_linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.doubly_linked_list", "role": "core", "facets": ["implement"] },
+        { "id": "p.skip_duplicates", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.dll.one_side_link",
+        "p.dup.skip_out_of_bounds"
+      ]
+    },
+    {
+      "id": "ll.reverse_k_group",
+      "order": 27,
+      "section": "ll_hard",
+      "tier": "Pro",
+      "title": "Reverse LL in group of given size K",
+      "summary": "Reverse every k nodes; leave a short last group as is.",
+      "links": {
+        "leetcode": "reverse-nodes-in-k-group"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Find each group, reverse it, reconnect",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.ll_reversal",
+            "p.ll_relink"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_reversal", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.ll_relink", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.ll_dummy_node", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.llrev.reconnect",
+        "p.llrev.lost_next",
+        "p.relink.end_null"
+      ]
+    },
+    {
+      "id": "ll.rotate",
+      "order": 28,
+      "section": "ll_hard",
+      "tier": "Core",
+      "title": "Rotate a LL",
+      "summary": "Rotate the list right by k places.",
+      "links": {
+        "leetcode": "rotate-list"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Close into a ring, cut at len - k % len",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.ll_relink"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_relink", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "u.modular_arithmetic", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.relink.rotate_mod",
+        "p.relink.end_null",
+        "u.mod.mod_zero",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "ll.flatten",
+      "order": 29,
+      "section": "ll_hard",
+      "tier": "Pro",
+      "title": "Flattening of LL",
+      "summary": "Each node has a sorted child list; flatten all into one sorted list.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Collect values, sort, rebuild",
+          "time": "O(N log N)",
+          "space": "O(N)",
+          "demonstrates": [
+            "p.sort_then_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Merge the lists pairwise along child pointers",
+          "time": "O(N * k)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.ll_merge"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_merge", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "u.recursion", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.llm.flatten_pointer",
+        "p.llm.leftover",
+        "p.llm.array_sort"
+      ]
+    },
+    {
+      "id": "ll.clone_random",
+      "order": 30,
+      "section": "ll_hard",
+      "tier": "Pro",
+      "title": "Clone a Linked List with random and next pointer",
+      "summary": "Deep-copy a list whose nodes also have a random pointer.",
+      "links": {
+        "leetcode": "copy-list-with-random-pointer"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Hashmap original -> copy",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.ll_clone_random",
+            "ds.hashmap"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Interleave copies, set randoms, separate",
+          "time": "O(n)",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.ll_clone_random"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.ll_clone_random", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.clone.random_to_original",
+        "p.clone.not_restored",
+        "p.clone.random_null"
+      ]
+    }
+  ]
+}

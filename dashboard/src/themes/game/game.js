@@ -39,19 +39,19 @@ export const STATUS = {
 // "Tracking extremes (largest / second largest)" -> "Tracking extremes"
 export const shortName = (name = "") => name.replace(/\s*\(.*?\)\s*/g, " ").replace(/\s+&\s+.*$/, "").replace(/\s*->\s*/g, " → ").trim();
 
-// Belts are earned by solving sheet problems.
+// Belts are earned by solving sheet problems, as a share of the whole sheet.
 export const BELTS = [
-  { name: "White", color: "#ece4d6", at: 0 },
-  { name: "Yellow", color: "#f2cf4a", at: 3 },
-  { name: "Orange", color: "#ef8a2f", at: 7 },
-  { name: "Green", color: "#3fa45f", at: 12 },
-  { name: "Blue", color: "#3a7bd5", at: 18 },
-  { name: "Brown", color: "#7a4a26", at: 24 },
-  { name: "Black", color: "#121014", at: 30 },
+  { name: "White", color: "#ece4d6", share: 0 },
+  { name: "Yellow", color: "#f2cf4a", share: 0.09 },
+  { name: "Orange", color: "#ef8a2f", share: 0.22 },
+  { name: "Green", color: "#3fa45f", share: 0.375 },
+  { name: "Blue", color: "#3a7bd5", share: 0.56 },
+  { name: "Brown", color: "#7a4a26", share: 0.75 },
+  { name: "Black", color: "#121014", share: 0.94 },
 ];
 
 export function beltRank(solved = 0, total = 32) {
-  const steps = BELTS.map((b) => ({ ...b, at: Math.min(b.at, total) }));
+  const steps = BELTS.map((b) => ({ ...b, at: Math.max(b.share ? 1 : 0, Math.round(b.share * total)) }));
   let i = 0;
   while (i + 1 < steps.length && solved >= steps[i + 1].at) i++;
   const next = steps[i + 1] ?? null;

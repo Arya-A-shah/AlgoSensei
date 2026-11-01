@@ -1,5 +1,8 @@
 {
   "sheet": "Striver A2Z - Arrays",
+  "topic": "arrays",
+  "topic_title": "Arrays",
+  "step": 3,
   "language": "cpp",
   "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
   "sections": [

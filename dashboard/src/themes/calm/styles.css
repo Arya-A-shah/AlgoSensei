@@ -122,14 +122,21 @@ code { font-family: var(--mono); font-size: 0.88em; }
 .nav .icon-only .nav-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 /* ---------- problem strip ---------- */
-.strip { overflow-x: auto; background: var(--panel); border-top: 1px solid var(--line); scrollbar-width: thin; }
-.strip-empty { height: 92px; }
-.strip ol { list-style: none; margin: 0; padding: 24px clamp(16px, 3vw, 28px) 10px; display: flex; gap: 6px; width: max-content; }
-.strip li { position: relative; }
-.strip li.new-section:not(:first-child) { margin-left: 14px; padding-left: 14px; border-left: 1px solid var(--line); }
-.strip-section { position: absolute; top: -20px; left: 0; font-size: 0.78rem; font-weight: 600; color: var(--muted); white-space: nowrap; }
-.strip li.new-section:not(:first-child) .strip-section { left: 14px; }
-
+.strip { background: var(--panel); border-top: 1px solid var(--line); }
+.strip-empty { height: 128px; }
+.strip-topics { display: flex; gap: 4px; overflow-x: auto; padding: 8px clamp(16px, 3vw, 28px) 0; scrollbar-width: none; }
+.topic-tab {
+  flex: none; display: inline-flex; align-items: baseline; gap: 0.35rem; padding: 0.3rem 0.7rem; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--washi); color: var(--muted); font-weight: 600; font-size: 0.85rem;
+}
+.topic-tab small { font-weight: 500; font-size: 0.75rem; }
+.topic-tab:hover { color: var(--ink); }
+.topic-tab[aria-selected="true"] { color: var(--ai-ink); background: var(--ai); border-color: var(--ai); }
+.strip-groups { list-style: none; margin: 0; padding: 8px clamp(16px, 3vw, 28px) 10px; display: flex; gap: 14px; overflow-x: auto; scrollbar-width: thin; }
+.strip-group { flex: none; display: grid; gap: 4px; min-width: 0; }
+.strip-group + .strip-group { padding-left: 14px; border-left: 1px solid var(--line); }
+.strip-section { width: 0; min-width: 100%; font-size: 0.78rem; font-weight: 600; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.strip-tiles { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; }
 .tile {
   position: relative; display: flex; flex-direction: column; gap: 1px; width: 120px; height: 62px; padding: 5px 9px 6px;
   background: var(--washi); border: 1px solid var(--line); border-radius: 6px; color: var(--ink); text-decoration: none;

@@ -8,6 +8,7 @@
       "id": "ds.array",
       "name": "Array",
       "layer": 2,
+      "topic": "arrays",
       "description": "Contiguous storage: O(1) random access, O(n) insert/delete by shifting; doubles as a direct-address table for bounded values.",
       "prereqs": ["u.indexing", "cpp.vector"],
       "facets": {
@@ -24,6 +25,7 @@
       "id": "ds.sorted_array",
       "name": "Sorted array properties",
       "layer": 2,
+      "topic": "arrays",
       "description": "Monotonic order: duplicates are adjacent, pairs can be found with converging pointers, two sorted arrays merge linearly.",
       "prereqs": ["ds.array"],
       "facets": {
@@ -39,6 +41,7 @@
       "id": "ds.matrix",
       "name": "Matrix (2D grid)",
       "layer": 2,
+      "topic": "arrays",
       "description": "Rows, columns, diagonals, layers/boundaries; square vs rectangular; properties like transpose symmetry.",
       "prereqs": ["u.2d_indexing", "cpp.2d_vector"],
       "facets": {
@@ -54,6 +57,7 @@
       "id": "ds.hashmap",
       "name": "Hash map",
       "layer": 2,
+      "topic": "arrays",
       "description": "Key -> value lookup in O(1) average; used for frequency counts and value -> index lookup.",
       "prereqs": ["ds.array", "cpp.hash_containers"],
       "facets": {
@@ -70,6 +74,7 @@
       "id": "ds.hashset",
       "name": "Hash set",
       "layer": 2,
+      "topic": "arrays",
       "description": "Membership and de-duplication in O(1) average.",
       "prereqs": ["ds.array", "cpp.hash_containers"],
       "facets": {
@@ -78,6 +83,191 @@
       },
       "misconceptions": [
         { "id": "ds.hs.lost_multiplicity", "facet": "recognize", "desc": "Used a set where the count of duplicates matters." }
+      ]
+    },
+    {
+      "id": "ds.string",
+      "name": "String as a character sequence",
+      "layer": 2,
+      "topic": "strings",
+      "description": "A string is an array of characters: scans, two pointers and counting arrays all apply, and a 26- or 256-slot array counts characters.",
+      "prereqs": ["ds.array", "cpp.strings"],
+      "facets": {
+        "recognize": "Reaches for a fixed-size counting array for characters and treats strings with array techniques.",
+        "explain": "Knows the cost of indexing (O(1)) versus substring, comparison and concatenation (O(length)).",
+        "implement": "Iterates, compares and builds strings correctly."
+      },
+      "misconceptions": [
+        { "id": "ds.str.charset", "facet": "recognize", "desc": "Assumed only lowercase letters; broke on uppercase, digits, spaces or other characters." },
+        { "id": "ds.str.map_for_26", "facet": "recognize", "desc": "Used a hashmap for character counts where a fixed array of 26 or 256 is simpler and faster." },
+        { "id": "ds.str.substring_cost", "facet": "explain", "desc": "Treated substr, comparison or concatenation as O(1)." }
+      ]
+    },
+    {
+      "id": "ds.linked_list",
+      "name": "Singly linked list",
+      "layer": 2,
+      "topic": "linked_list",
+      "description": "Nodes joined by next pointers: O(1) insert or delete at a known node, O(n) to reach a position, no random access.",
+      "prereqs": ["cpp.pointers", "u.loop_bounds"],
+      "facets": {
+        "recognize": "Solves list problems by relinking, without copying values into an array.",
+        "explain": "States the costs: O(n) access by position, O(1) relink at a known node.",
+        "implement": "Traverses, inserts and deletes at the head, middle and tail without losing nodes or following nullptr.",
+        "trace": "Draws the pointers before and after each relink."
+      },
+      "misconceptions": [
+        { "id": "ds.ll.head_case", "facet": "implement", "desc": "Did not handle inserting or deleting at the head, or an empty or one-node list." },
+        { "id": "ds.ll.tail_stop", "facet": "implement", "desc": "Stopped the walk one node too early or too late (while (curr) versus while (curr->next))." },
+        { "id": "ds.ll.to_array", "facet": "recognize", "desc": "Copied the list into an array to solve it, using O(n) space where O(1) was expected." },
+        { "id": "ds.ll.random_access", "facet": "explain", "desc": "Assumed reaching the kth node is O(1)." }
+      ]
+    },
+    {
+      "id": "ds.doubly_linked_list",
+      "name": "Doubly linked list",
+      "layer": 2,
+      "topic": "linked_list",
+      "description": "Each node links to both neighbours, so a node can be removed in O(1) given only a pointer to it; every relink updates two pointers.",
+      "prereqs": ["ds.linked_list"],
+      "facets": {
+        "explain": "Explains why prev pointers make O(1) removal possible (used by LRU caches).",
+        "implement": "Updates next and prev on both sides, including the head's prev and the tail's next.",
+        "trace": "Draws next and prev after each change."
+      },
+      "misconceptions": [
+        { "id": "ds.dll.one_side_link", "facet": "implement", "desc": "Updated next but not prev (or the reverse), leaving a half-linked node." },
+        { "id": "ds.dll.head_prev", "facet": "implement", "desc": "Left the new head's prev or the new tail's next pointing at a removed node." },
+        { "id": "ds.dll.reverse_step", "facet": "implement", "desc": "While reversing, swapped prev and next but then advanced with the wrong pointer." }
+      ]
+    },
+    {
+      "id": "ds.stack",
+      "name": "Stack (last in, first out)",
+      "layer": 2,
+      "topic": "stack_queue",
+      "description": "Push and pop at one end in O(1); the top is always the most recent unfinished item.",
+      "prereqs": ["ds.array", "cpp.stl_adaptors"],
+      "facets": {
+        "recognize": "Reaches for a stack when the most recent unfinished item decides what happens next (brackets, undo, nearest greater).",
+        "explain": "Explains LIFO order and O(1) push and pop.",
+        "implement": "Uses and builds stacks with empty checks."
+      },
+      "misconceptions": [
+        { "id": "ds.stk.empty_access", "facet": "implement", "desc": "Popped or read the top without checking that the stack is empty." },
+        { "id": "ds.stk.wrong_structure", "facet": "recognize", "desc": "Used a queue or a rescan where last-in-first-out order is what the problem needs." },
+        { "id": "ds.stk.leftover", "facet": "implement", "desc": "Did not check that the stack is empty at the end (unmatched items remain)." }
+      ]
+    },
+    {
+      "id": "ds.queue",
+      "name": "Queue and deque (first in, first out)",
+      "layer": 2,
+      "topic": "stack_queue",
+      "description": "Push at the back and pop at the front in O(1); a deque allows both ends. Queues drive BFS and sliding windows.",
+      "prereqs": ["ds.array", "cpp.stl_adaptors"],
+      "facets": {
+        "recognize": "Reaches for a queue when items must be handled in arrival order (BFS levels, streams).",
+        "explain": "Explains FIFO order and how a circular array or two stacks implement it.",
+        "implement": "Implements a circular-array queue and uses deque ends correctly."
+      },
+      "misconceptions": [
+        { "id": "ds.q.circular_index", "facet": "implement", "desc": "In an array queue, did not wrap front or rear with % capacity, or confused full with empty." },
+        { "id": "ds.q.wrong_end", "facet": "implement", "desc": "Removed from the wrong end of a deque." },
+        { "id": "ds.q.size_in_loop", "facet": "implement", "desc": "Used q.size() in a loop condition while pushing, instead of saving the size first." }
+      ]
+    },
+    {
+      "id": "ds.heap",
+      "name": "Heap / priority queue",
+      "layer": 2,
+      "topic": "general",
+      "description": "Gives the smallest (or largest) item in O(1) and inserts or removes in O(log n).",
+      "prereqs": ["ds.array", "cpp.stl_adaptors"],
+      "facets": {
+        "recognize": "Uses a heap when the next item to process is always the minimum or maximum (Dijkstra, top k, merging streams).",
+        "explain": "States O(log n) push/pop and that priorities cannot be changed in place.",
+        "implement": "Builds a min-heap with greater<> and skips stale entries instead of updating them."
+      },
+      "misconceptions": [
+        { "id": "ds.heap.decrease_key", "facet": "explain", "desc": "Assumed a priority_queue entry can be updated in place; push a new entry and skip stale ones instead." },
+        { "id": "ds.heap.resort", "facet": "recognize", "desc": "Re-sorted the whole collection after every insert instead of using a heap." },
+        { "id": "ds.heap.min_max", "facet": "implement", "desc": "Built a max-heap where a min-heap was needed (or the reverse)." }
+      ]
+    },
+    {
+      "id": "ds.binary_tree",
+      "name": "Binary tree",
+      "layer": 2,
+      "topic": "binary_trees",
+      "description": "Each node has up to two children; almost every tree problem is recursion on the left and right subtrees with nullptr as the base case.",
+      "prereqs": ["cpp.pointers", "u.recursion"],
+      "facets": {
+        "recognize": "Frames tree questions as 'what do I need from each subtree?'.",
+        "explain": "Uses height, depth, levels, leaves and complete/full/perfect correctly.",
+        "implement": "Defines TreeNode and writes recursion with a nullptr base case.",
+        "trace": "Can trace recursive calls and returns on a small tree."
+      },
+      "misconceptions": [
+        { "id": "ds.bt.null_child", "facet": "implement", "desc": "Followed root->left or root->right without a nullptr check, or had no base case for an empty tree." },
+        { "id": "ds.bt.height_vs_depth", "facet": "explain", "desc": "Mixed up height (down to the deepest leaf) and depth (down from the root), or counted edges where nodes were asked." },
+        { "id": "ds.bt.assume_bst", "facet": "recognize", "desc": "Assumed values are ordered like a BST in a plain binary tree." },
+        { "id": "ds.bt.shape_terms", "facet": "explain", "desc": "Mixed up full, complete, perfect and balanced trees." }
+      ]
+    },
+    {
+      "id": "ds.bst",
+      "name": "Binary search tree",
+      "layer": 2,
+      "topic": "bst",
+      "description": "Everything in the left subtree is smaller and everything in the right subtree larger than the node; search, insert and delete take O(h).",
+      "prereqs": ["ds.binary_tree"],
+      "facets": {
+        "recognize": "Uses the ordering to visit one root-to-leaf path instead of the whole tree.",
+        "explain": "States that the property holds for whole subtrees, not just children, and that h can be n when unbalanced.",
+        "implement": "Searches and inserts iteratively or recursively using comparisons."
+      },
+      "misconceptions": [
+        { "id": "ds.bst.local_check", "facet": "explain", "desc": "Believes checking each node against its two children is enough for the BST property." },
+        { "id": "ds.bst.full_traversal", "facet": "recognize", "desc": "Searched the whole tree (O(n)) instead of following the ordering (O(h))." },
+        { "id": "ds.bst.height_assumption", "facet": "explain", "desc": "Assumed O(log n) operations without a balanced tree; a skewed BST is O(n)." }
+      ]
+    },
+    {
+      "id": "ds.graph",
+      "name": "Graph (adjacency list)",
+      "layer": 2,
+      "topic": "graphs",
+      "description": "Vertices joined by edges, directed or not, weighted or not; usually stored as an adjacency list using O(V + E) space.",
+      "prereqs": ["ds.array", "cpp.2d_vector"],
+      "facets": {
+        "recognize": "Spots graphs hidden in grids, word transformations, dependencies and equations.",
+        "explain": "Compares adjacency list and matrix costs, directed and undirected edges, and vertex numbering.",
+        "implement": "Builds the adjacency list from the input, both directions for undirected edges, sized for the vertex numbering."
+      },
+      "misconceptions": [
+        { "id": "ds.g.one_direction", "facet": "implement", "desc": "Added an undirected edge in one direction only." },
+        { "id": "ds.g.index_base", "facet": "implement", "desc": "Sized the adjacency list n when vertices are numbered 1..n (or the reverse)." },
+        { "id": "ds.g.matrix_for_sparse", "facet": "recognize", "desc": "Used an adjacency matrix (O(V²)) for a large sparse graph." },
+        { "id": "ds.g.one_component", "facet": "implement", "desc": "Traversed only from vertex 0, missing other components." }
+      ]
+    },
+    {
+      "id": "ds.disjoint_set",
+      "name": "Disjoint set union (union-find)",
+      "layer": 2,
+      "topic": "graphs",
+      "description": "Tracks which component each element is in; with path compression and union by rank or size, find and union are near O(1).",
+      "prereqs": ["ds.array"],
+      "facets": {
+        "explain": "Explains why path compression and union by rank keep the trees shallow.",
+        "implement": "Writes find with path compression and unions roots by rank or size."
+      },
+      "misconceptions": [
+        { "id": "ds.dsu.no_compression", "facet": "implement", "desc": "Did not compress paths or union by rank or size, so find degraded to O(n)." },
+        { "id": "ds.dsu.union_nodes", "facet": "implement", "desc": "Linked the elements themselves instead of their roots." },
+        { "id": "ds.dsu.already_joined", "facet": "implement", "desc": "Did not check whether two elements were already connected before uniting or counting." },
+        { "id": "ds.dsu.parent_compare", "facet": "implement", "desc": "Compared parent[a] == parent[b] instead of find(a) == find(b)." }
       ]
     }
   ]

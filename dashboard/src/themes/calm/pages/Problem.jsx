@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useOverview, useLoad, Loading, ErrorNote, Verdict, lcUrl, timeAgo } from "../ui.jsx";
 import { Dots } from "../art.jsx";
-import { PROBLEM_STATE, SECTION, shortName } from "../words.js";
+import { PROBLEM_STATE, shortName } from "../words.js";
 import { ConceptChip } from "./Skills.jsx";
 
 export default function Problem({ path }) {
@@ -14,8 +14,10 @@ export default function Problem({ path }) {
   const p = data.sheet[i];
   if (!p) return <div className="note"><p>That problem isn't on the sheet.</p><a className="btn" href="#/">Back home</a></div>;
 
-  const prev = data.sheet[i - 1];
-  const next = data.sheet[i + 1];
+  // Previous / next stay inside the topic.
+  const prev = data.sheet[i - 1]?.topic === p.topic ? data.sheet[i - 1] : null;
+  const next = data.sheet[i + 1]?.topic === p.topic ? data.sheet[i + 1] : null;
+  const topicTitle = data.topics.find((t) => t.topic === p.topic)?.title ?? p.topic;
   const tagged = p.nodes.map((t) => ({ ...t, node: nodes.get(t.id) })).filter((t) => t.node);
   const core = tagged.filter((t) => t.role === "core");
   const uses = tagged.filter((t) => t.role !== "core");
@@ -25,7 +27,7 @@ export default function Problem({ path }) {
       <header className="problem-head">
         <span className={`problem-num n-${p.status}`} aria-hidden="true">{p.order}</span>
         <div>
-          <p className="eyebrow">{SECTION[p.section] ?? p.section}, {p.tier}</p>
+          <p className="eyebrow">{topicTitle} / {p.sectionTitle ?? p.section} / {p.tier}</p>
           <h1 className="h1"><span className="sr-only">Problem {p.order}: </span>{p.title}</h1>
           <p className="detail-status">
             <span className={`chip-status s-${p.status}`}>{PROBLEM_STATE[p.status]}</span>

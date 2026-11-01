@@ -1,17 +1,22 @@
 // Loads the knowledge graph once and exposes lookups the services need.
-import { loadGraph, ancestors, FACETS } from "../../knowledge-graph/tools/lib.js";
+import { loadGraph, ancestors, topics, bySheetOrder, FACETS } from "../../knowledge-graph/tools/lib.js";
 import { buildContextPack, nodeCatalog } from "../../knowledge-graph/tools/pack.js";
 
 export const graph = loadGraph();
 export { ancestors, buildContextPack, nodeCatalog, FACETS };
 
-// LeetCode slug -> sheet problem
-export const problemBySlug = new Map();
-for (const p of graph.problems.values()) {
-  if (p.links?.leetcode) problemBySlug.set(p.links.leetcode, p);
-}
+// Every sheet problem in learning order: A2Z step, then position within the step.
+export const sheetProblems = [...graph.problems.values()].sort(bySheetOrder);
 
-export const sheetProblems = [...graph.problems.values()].sort((a, b) => a.order - b.order);
+// Topics (one per problem set) with their sections, in A2Z order.
+export const topicList = topics(graph);
+
+// LeetCode slug -> sheet problem. If two sheet problems share a LeetCode problem,
+// attempts are credited to the earlier one.
+export const problemBySlug = new Map();
+for (const p of sheetProblems) {
+  if (p.links?.leetcode && !problemBySlug.has(p.links.leetcode)) problemBySlug.set(p.links.leetcode, p);
+}
 
 export const FACET_LABEL = {
   recognize: "Recognize",
@@ -41,5 +46,5 @@ export function problemsForNode(nodeId) {
     const t = p.nodes.find((n) => n.id === nodeId);
     if (t) out.push({ problem: p, role: t.role, facets: t.facets });
   }
-  return out.sort((a, b) => (a.role === b.role ? a.problem.order - b.problem.order : a.role === "core" ? -1 : 1));
+  return out.sort((a, b) => (a.role === b.role ? bySheetOrder(a.problem, b.problem) : a.role === "core" ? -1 : 1));
 }

@@ -1,0 +1,209 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Stack and queue patterns (A2Z step 9).",
+  "nodes": [
+    {
+      "id": "p.bracket_matching",
+      "name": "Matching brackets with a stack",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Push each opener; on a closer the top must be its matching opener. Balanced means every closer matched and the stack ends empty.",
+      "prereqs": ["ds.stack"],
+      "facets": {
+        "recognize": "Uses a stack whenever nesting must be checked across several bracket types.",
+        "implement": "Compares types, handles a closer on an empty stack and checks for leftovers.",
+        "trace": "Can show the stack after each character."
+      },
+      "misconceptions": [
+        { "id": "p.brk.type_mismatch", "facet": "implement", "desc": "Matched any closer with any opener without comparing their types." },
+        { "id": "p.brk.counter_only", "facet": "recognize", "desc": "Used one counter for several bracket types, so \"([)]\" passed." }
+      ]
+    },
+    {
+      "id": "p.augmented_stack",
+      "name": "Stack that tracks a running minimum",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Push the running minimum with each value (or an encoded value) so the minimum is available in O(1) after any pop.",
+      "prereqs": ["ds.stack"],
+      "facets": {
+        "explain": "Explains why one min variable is not enough once the minimum is popped.",
+        "implement": "Stores (value, min so far) pairs, or a second stack of minimums.",
+        "adapt": "Uses the O(1)-space encoding 2 * value - min in long long."
+      },
+      "misconceptions": [
+        { "id": "p.aug.single_min", "facet": "implement", "desc": "Kept one min variable, which is wrong after the minimum is popped." },
+        { "id": "p.aug.encoding_overflow", "facet": "adapt", "desc": "In the O(1)-space encoding, computed 2 * value - min in int and overflowed." },
+        { "id": "p.aug.scan_for_min", "facet": "explain", "desc": "Scanned the stack for the minimum on every getMin (O(n))." }
+      ]
+    },
+    {
+      "id": "p.expression_conversion",
+      "name": "Converting infix, prefix and postfix",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Infix to postfix keeps an operator stack ordered by precedence and associativity; prefix and postfix conversions keep a stack of operand strings.",
+      "prereqs": ["ds.stack", "ds.string"],
+      "facets": {
+        "explain": "Explains precedence, associativity and why postfix needs no parentheses.",
+        "implement": "Pops by precedence, handles parentheses, and combines operands in the right order for the scan direction.",
+        "trace": "Can show the stack and output after each token."
+      },
+      "misconceptions": [
+        { "id": "p.expr.precedence", "facet": "implement", "desc": "Popped operators of lower precedence, or did not pop equal precedence for left-associative operators." },
+        { "id": "p.expr.right_assoc", "facet": "implement", "desc": "Treated ^ as left-associative." },
+        { "id": "p.expr.parentheses", "facet": "implement", "desc": "Did not pop until '(' on ')', or let '(' reach the output." },
+        { "id": "p.expr.operand_order", "facet": "implement", "desc": "Combined two operands in the wrong order for the scan direction (prefix scans right to left)." }
+      ]
+    },
+    {
+      "id": "p.monotonic_stack",
+      "name": "Monotonic stack",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Keep a stack whose values stay increasing or decreasing; popping the elements a new one beats answers 'next greater / smaller' for all of them in O(n) total.",
+      "prereqs": ["ds.stack", "p.linear_scan"],
+      "facets": {
+        "recognize": "Spots next/previous greater or smaller element questions, spans and nearest boundaries.",
+        "explain": "Explains why each element is pushed and popped once, so the inner loop is O(n) overall.",
+        "implement": "Chooses the stack order, scan direction and comparison that answer the question.",
+        "trace": "Can show the stack after each element.",
+        "adapt": "Handles circular arrays (2n passes with i % n), previous versus next, and equal values."
+      },
+      "misconceptions": [
+        { "id": "p.mono.direction", "facet": "implement", "desc": "Kept the stack in the wrong order, so it answered a different question (next smaller instead of next greater)." },
+        { "id": "p.mono.values_not_indices", "facet": "implement", "desc": "Stored values where indices were needed for widths or distances." },
+        { "id": "p.mono.circular", "facet": "adapt", "desc": "For a circular array, did not loop 2n times with i % n." },
+        { "id": "p.mono.strictness", "facet": "adapt", "desc": "Used < where <= was needed when popping (or the reverse), mishandling equal values." },
+        { "id": "p.mono.nested", "facet": "recognize", "desc": "Used nested loops (O(n²)) for next greater or smaller elements." },
+        { "id": "p.mono.amortized", "facet": "explain", "desc": "Cannot explain why a while loop inside the for loop is still O(n) overall." }
+      ]
+    },
+    {
+      "id": "p.contribution_technique",
+      "name": "Counting each element's contribution",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Count the subarrays in which an element is the minimum (or maximum) from its previous and next smaller distances, and add value times that count.",
+      "prereqs": ["p.monotonic_stack", "cpp.integer_types"],
+      "facets": {
+        "explain": "Explains why left distance times right distance counts the subarrays where an element is the minimum.",
+        "implement": "Breaks ties on one side only and accumulates in long long, with the modulus if required."
+      },
+      "misconceptions": [
+        { "id": "p.contrib.ties", "facet": "implement", "desc": "Used strict comparisons on both sides, so subarrays with equal minimums were counted twice or not at all." },
+        { "id": "p.contrib.overflow", "facet": "implement", "desc": "Accumulated without long long or without the required modulus." },
+        { "id": "p.contrib.all_subarrays", "facet": "explain", "desc": "Enumerated every subarray (O(n²)) instead of counting contributions." }
+      ]
+    },
+    {
+      "id": "p.stack_simulation",
+      "name": "Simulating cancellation with a stack",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Push items and let each new one cancel or merge with the top for as long as the rule applies (asteroid collisions, removing digits).",
+      "prereqs": ["ds.stack"],
+      "facets": {
+        "implement": "Keeps resolving against the top in a loop, handles ties and cleans up the result.",
+        "trace": "Can show the stack after each item."
+      },
+      "misconceptions": [
+        { "id": "p.sim.single_pop", "facet": "implement", "desc": "Resolved only one collision per new item instead of continuing while the rule applies." },
+        { "id": "p.sim.equal_case", "facet": "implement", "desc": "Mishandled equal sizes, where both items must disappear." },
+        { "id": "p.sim.leading_zeros", "facet": "implement", "desc": "After removing digits, left leading zeros or returned an empty string instead of \"0\"." },
+        { "id": "p.sim.remaining_k", "facet": "implement", "desc": "Did not remove the leftover k digits from the end when nothing was popped." }
+      ]
+    },
+    {
+      "id": "p.monotonic_deque",
+      "name": "Monotonic deque",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Keep window indices in a deque with decreasing values: drop expired indices from the front and smaller values from the back; the front is the window maximum.",
+      "prereqs": ["ds.queue", "p.monotonic_stack", "p.sliding_window"],
+      "facets": {
+        "recognize": "Uses a deque for the maximum or minimum of every window of size k.",
+        "implement": "Stores indices, expires them from the front and pops smaller values from the back.",
+        "trace": "Can show the deque after each index."
+      },
+      "misconceptions": [
+        { "id": "p.mdq.expire", "facet": "implement", "desc": "Did not remove indices that fell out of the window from the front." },
+        { "id": "p.mdq.values_stored", "facet": "implement", "desc": "Stored values instead of indices, so expiry could not be checked." },
+        { "id": "p.mdq.rescan", "facet": "recognize", "desc": "Rescanned each window or used a heap without expiry (O(n k)) instead of a deque." }
+      ]
+    },
+    {
+      "id": "p.histogram_area",
+      "name": "Largest rectangle in a histogram",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "For each bar, width = next smaller index - previous smaller index - 1; one monotonic-stack pass finds both. A binary matrix becomes one histogram per row.",
+      "prereqs": ["p.monotonic_stack"],
+      "facets": {
+        "explain": "Explains why each bar's best rectangle spans to its nearest smaller bars.",
+        "implement": "Computes widths correctly when the stack empties and flushes the remaining bars at the end.",
+        "adapt": "Builds per-row heights for maximal rectangles in a binary matrix."
+      },
+      "misconceptions": [
+        { "id": "p.hist.width", "facet": "implement", "desc": "Computed the width wrongly when the stack became empty (the width runs to the start)." },
+        { "id": "p.hist.flush", "facet": "implement", "desc": "Did not process bars left on the stack at the end (append a zero-height bar)." },
+        { "id": "p.hist.row_heights", "facet": "adapt", "desc": "For a binary matrix, did not reset a column's height to 0 on a 0 cell." }
+      ]
+    },
+    {
+      "id": "p.trapping_water",
+      "name": "Trapping rain water",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Water over a bar = min(highest bar on its left, highest on its right) - its height; use prefix and suffix maxima, or two pointers moving the lower side.",
+      "prereqs": ["p.two_pointers_opposite", "p.suffix_scan"],
+      "facets": {
+        "explain": "Explains why the lower of the two maxima limits the water, and why the lower side can move.",
+        "implement": "Writes the prefix/suffix version or the two-pointer version without negative water."
+      },
+      "misconceptions": [
+        { "id": "p.trap.wrong_side", "facet": "implement", "desc": "With two pointers, moved the taller side instead of the shorter one." },
+        { "id": "p.trap.exclude_self", "facet": "implement", "desc": "Left the bar itself out of its left and right maxima, giving negative water." },
+        { "id": "p.trap.rescan", "facet": "explain", "desc": "Recomputed the left and right maxima for every index (O(n²))." }
+      ]
+    },
+    {
+      "id": "p.cache_design",
+      "name": "Cache design (LRU, LFU)",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "A hashmap finds a key's node in O(1); a doubly linked list keeps recency order so the least recently used node is removed in O(1). LFU keeps one such list per frequency.",
+      "prereqs": ["ds.hashmap", "ds.doubly_linked_list", "cpp.class_design"],
+      "facets": {
+        "explain": "Explains why both structures are needed for O(1) get and put.",
+        "implement": "Moves an entry to the front on get and put, and removes the evicted node from both structures.",
+        "adapt": "Extends to LFU with per-frequency lists and a tracked minimum frequency."
+      },
+      "misconceptions": [
+        { "id": "p.cache.get_not_refresh", "facet": "implement", "desc": "Did not move an entry to the front on get, only on put." },
+        { "id": "p.cache.update_existing", "facet": "implement", "desc": "On put of an existing key, added a second node instead of updating and moving the first." },
+        { "id": "p.cache.half_evict", "facet": "implement", "desc": "Removed the evicted node from the list but not its key from the map, or the reverse." },
+        { "id": "p.cache.scan_oldest", "facet": "explain", "desc": "Tracked recency with timestamps and scanned for the oldest entry (O(n) eviction)." },
+        { "id": "p.cache.min_freq", "facet": "adapt", "desc": "In LFU, did not update the minimum frequency when its list emptied, or broke ties without recency." }
+      ]
+    },
+    {
+      "id": "p.candidate_elimination",
+      "name": "Eliminating candidates in pairs",
+      "layer": 3,
+      "topic": "stack_queue",
+      "description": "Compare two candidates; one comparison rules one of them out, so n - 1 comparisons leave a single candidate to verify.",
+      "prereqs": ["p.two_pointers_opposite"],
+      "facets": {
+        "explain": "Explains why one comparison always rules out one candidate.",
+        "implement": "Eliminates with two pointers or a stack, then verifies the survivor."
+      },
+      "misconceptions": [
+        { "id": "p.elim.no_verify", "facet": "implement", "desc": "Returned the remaining candidate without verifying it." },
+        { "id": "p.elim.full_scan", "facet": "explain", "desc": "Checked every row and column (O(n²)) instead of eliminating." }
+      ]
+    }
+  ]
+}

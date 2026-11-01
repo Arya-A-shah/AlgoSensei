@@ -127,7 +127,7 @@ export async function nextMoves(userId, { now = new Date(), limit = 7 } = {}) {
       score: gaps.size ? 0.4 : 0.62,
       title: `Next problem: ${next.title}`,
       reason: `Introduces ${core.join(", ")}. Its prerequisites look solid enough.`,
-      detail: { problemId: next.id, slug: next.links?.leetcode ?? null, tier: next.tier, section: next.section, order: next.order, core },
+      detail: { problemId: next.id, slug: next.links?.leetcode ?? null, tier: next.tier, section: next.section, order: next.order, topic: next.topic, topicTitle: next.topicTitle, core },
     });
   }
 

@@ -1,0 +1,311 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Graph patterns (A2Z step 15).",
+  "nodes": [
+    {
+      "id": "p.graph_traversal",
+      "name": "BFS and DFS on a graph",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Visit every reachable vertex once using a visited array: BFS goes level by level with a queue, DFS goes deep with recursion or a stack.",
+      "prereqs": ["ds.graph", "ds.queue", "u.recursion"],
+      "facets": {
+        "recognize": "Chooses BFS for levels and distances, DFS for exploring paths and structure.",
+        "explain": "Explains why both are O(V + E).",
+        "implement": "Marks vertices when they are pushed (BFS) or entered (DFS).",
+        "trace": "Can show the queue or call stack on a small graph."
+      },
+      "misconceptions": [
+        { "id": "p.gt.mark_late", "facet": "implement", "desc": "Marked vertices visited when popped instead of when pushed, queueing them many times." },
+        { "id": "p.gt.no_visited", "facet": "implement", "desc": "Kept no visited array, looping forever on cycles." },
+        { "id": "p.gt.complexity", "facet": "explain", "desc": "Cannot explain why BFS and DFS are O(V + E)." }
+      ]
+    },
+    {
+      "id": "p.connected_components",
+      "name": "Counting connected components",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Start a traversal from every unvisited vertex; each start is a new component.",
+      "prereqs": ["p.graph_traversal"],
+      "facets": {
+        "recognize": "Maps provinces, islands and groups onto connected components.",
+        "implement": "Counts once per new start and handles adjacency-matrix input."
+      },
+      "misconceptions": [
+        { "id": "p.cc.count_inside", "facet": "implement", "desc": "Incremented the count inside the traversal instead of once per start." },
+        { "id": "p.cc.matrix_input", "facet": "implement", "desc": "Treated an adjacency matrix like an edge list, or mishandled the diagonal." }
+      ]
+    },
+    {
+      "id": "p.grid_graph",
+      "name": "Grids as graphs",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Each cell is a vertex with 4 (or 8) neighbours; direction arrays and a bounds check replace the adjacency list.",
+      "prereqs": ["p.graph_traversal", "ds.matrix"],
+      "facets": {
+        "recognize": "Sees islands, regions and fills as graph traversal on cells.",
+        "implement": "Uses direction arrays and checks bounds before reading a cell.",
+        "adapt": "Handles 8 directions, regions connected to the border and shape signatures."
+      },
+      "misconceptions": [
+        { "id": "p.grid.bounds", "facet": "implement", "desc": "Read a neighbour before checking it is inside the grid." },
+        { "id": "p.grid.directions", "facet": "implement", "desc": "Got the direction arrays wrong (a direction missing, or diagonals where only 4 are allowed)." },
+        { "id": "p.grid.same_colour", "facet": "implement", "desc": "In flood fill, recursed forever when the new colour equals the old one." },
+        { "id": "p.grid.border_start", "facet": "adapt", "desc": "Searched from every inner cell instead of starting from the border for boundary-connected regions." },
+        { "id": "p.grid.shape_signature", "facet": "adapt", "desc": "Recorded absolute coordinates for island shapes instead of coordinates relative to the start cell." }
+      ]
+    },
+    {
+      "id": "p.multi_source_bfs",
+      "name": "Multi-source BFS",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Push every source into the queue at time 0; one BFS then gives each cell its distance to the nearest source.",
+      "prereqs": ["p.graph_traversal", "p.grid_graph"],
+      "facets": {
+        "recognize": "Spots 'nearest of many sources' and 'spreads every minute' problems.",
+        "explain": "Explains why starting all sources together gives nearest distances.",
+        "implement": "Seeds the queue with all sources, counts time per level and detects unreachable cells."
+      },
+      "misconceptions": [
+        { "id": "p.msbfs.per_source", "facet": "recognize", "desc": "Ran a separate BFS from every source (O(k * n * m))." },
+        { "id": "p.msbfs.time_count", "facet": "implement", "desc": "Counted time per popped cell instead of per level, or was off by one at the end." },
+        { "id": "p.msbfs.unreachable", "facet": "implement", "desc": "Did not detect cells that are never reached." }
+      ]
+    },
+    {
+      "id": "p.cycle_undirected",
+      "name": "Cycle detection in an undirected graph",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "During BFS or DFS, reaching an already-visited vertex that is not the parent means a cycle.",
+      "prereqs": ["p.graph_traversal"],
+      "facets": {
+        "explain": "Explains why the edge back to the parent does not count.",
+        "implement": "Tracks the parent and checks every component."
+      },
+      "misconceptions": [
+        { "id": "p.cyu.parent", "facet": "implement", "desc": "Did not track the parent, so the edge back to it looked like a cycle." },
+        { "id": "p.cyu.components", "facet": "implement", "desc": "Checked only the first component." }
+      ]
+    },
+    {
+      "id": "p.cycle_directed",
+      "name": "Cycle detection in a directed graph",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "DFS with an 'on the current path' mark: an edge to a vertex on the path is a cycle. Kahn's algorithm finds one when not every vertex is removed.",
+      "prereqs": ["p.graph_traversal"],
+      "facets": {
+        "explain": "Explains why plain visited is not enough in a directed graph.",
+        "implement": "Sets and clears the path mark, or counts Kahn's removed vertices.",
+        "adapt": "Finds eventual safe states (vertices that cannot reach a cycle)."
+      },
+      "misconceptions": [
+        { "id": "p.cyd.visited_only", "facet": "implement", "desc": "Used only the visited array, reporting a cycle when two paths reach the same vertex." },
+        { "id": "p.cyd.unmark_path", "facet": "implement", "desc": "Did not clear the path mark when DFS returned." },
+        { "id": "p.cyd.undirected_logic", "facet": "explain", "desc": "Applied the parent-check method meant for undirected graphs." }
+      ]
+    },
+    {
+      "id": "p.bipartite",
+      "name": "Bipartite check",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Colour a vertex, give every neighbour the opposite colour; a neighbour with the same colour means the graph is not bipartite.",
+      "prereqs": ["p.graph_traversal"],
+      "facets": {
+        "explain": "Explains that a graph is bipartite exactly when it has no odd cycle.",
+        "implement": "Colours with BFS or DFS from every uncoloured vertex."
+      },
+      "misconceptions": [
+        { "id": "p.bip.components", "facet": "implement", "desc": "Coloured only from vertex 0, missing other components." },
+        { "id": "p.bip.odd_cycle", "facet": "explain", "desc": "Cannot explain the link between bipartite graphs and odd cycles." }
+      ]
+    },
+    {
+      "id": "p.topological_sort",
+      "name": "Topological sort",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Order a DAG so every edge points forward: reverse DFS finish order, or Kahn's algorithm removing in-degree-0 vertices.",
+      "prereqs": ["p.graph_traversal", "p.cycle_directed"],
+      "facets": {
+        "recognize": "Spots ordering with prerequisites (courses, build steps, alien alphabets).",
+        "explain": "Explains why it exists only for DAGs.",
+        "implement": "Builds edges in the right direction and checks every vertex was ordered.",
+        "adapt": "Builds the alien-dictionary graph from the first differing letters of adjacent words."
+      },
+      "misconceptions": [
+        { "id": "p.topo.edge_direction", "facet": "implement", "desc": "Built prerequisite edges in the wrong direction." },
+        { "id": "p.topo.no_cycle_check", "facet": "implement", "desc": "Returned an order without checking that every vertex was included." },
+        { "id": "p.topo.prefix_case", "facet": "adapt", "desc": "In alien dictionary, missed the invalid case where a word comes before its own prefix." },
+        { "id": "p.topo.dfs_order", "facet": "implement", "desc": "Used DFS order without reversing the finish order." },
+        { "id": "p.topo.not_dag", "facet": "recognize", "desc": "Applied topological sort to an undirected or cyclic graph." }
+      ]
+    },
+    {
+      "id": "p.bfs_shortest_path",
+      "name": "Shortest paths with unit weights",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "In an unweighted graph BFS reaches each vertex first along a shortest path: dist[v] = dist[u] + 1.",
+      "prereqs": ["p.graph_traversal"],
+      "facets": {
+        "recognize": "Uses BFS, not DFS, for fewest-steps questions.",
+        "implement": "Sets distances when vertices are pushed.",
+        "adapt": "Generates neighbours on the fly (word ladder, state spaces) and records all shortest paths."
+      },
+      "misconceptions": [
+        { "id": "p.usp.dfs", "facet": "recognize", "desc": "Used DFS to find a shortest path in an unweighted graph." },
+        { "id": "p.usp.neighbour_gen", "facet": "adapt", "desc": "In word ladder, compared every pair of words (O(n² L)) instead of trying one-letter changes against a set." },
+        { "id": "p.usp.erase_early", "facet": "adapt", "desc": "In word ladder II, erased words when first seen instead of after the level, losing other shortest paths." }
+      ]
+    },
+    {
+      "id": "p.dag_shortest_path",
+      "name": "Shortest paths in a DAG",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Relax edges in topological order; it works even with negative weights because there are no cycles.",
+      "prereqs": ["p.topological_sort"],
+      "facets": {
+        "explain": "Explains why topological order makes one relaxation pass enough.",
+        "implement": "Relaxes only from reached vertices."
+      },
+      "misconceptions": [
+        { "id": "p.dagsp.unreached", "facet": "implement", "desc": "Relaxed edges out of vertices that were never reached (distance still infinity)." },
+        { "id": "p.dagsp.order", "facet": "explain", "desc": "Relaxed in arbitrary order instead of topological order." }
+      ]
+    },
+    {
+      "id": "p.dijkstra",
+      "name": "Dijkstra's algorithm",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Repeatedly settle the closest unsettled vertex from a min-heap and relax its edges; weights must be non-negative.",
+      "prereqs": ["ds.graph", "ds.heap"],
+      "facets": {
+        "recognize": "Uses Dijkstra for weighted shortest paths with non-negative weights.",
+        "explain": "Explains why the closest heap entry is final, and why that fails with negative weights.",
+        "implement": "Uses a min-heap of (distance, vertex), skips stale entries and stores distances in long long when needed.",
+        "adapt": "Adapts the cost (max edge on the path), counts shortest paths and adds state (stops) when required."
+      },
+      "misconceptions": [
+        { "id": "p.dij.stale", "facet": "implement", "desc": "Did not skip stale heap entries (d > dist[u])." },
+        { "id": "p.dij.max_heap", "facet": "implement", "desc": "Used the default max-heap." },
+        { "id": "p.dij.negative", "facet": "explain", "desc": "Applied Dijkstra to a graph with negative weights." },
+        { "id": "p.dij.count_ways", "facet": "adapt", "desc": "When counting shortest paths, reset or added the count at the wrong time (equal distance adds, shorter resets)." },
+        { "id": "p.dij.stops", "facet": "adapt", "desc": "For cheapest flights within k stops, kept only the best distance, discarding cheaper-later paths with fewer stops." },
+        { "id": "p.dij.overflow", "facet": "implement", "desc": "Summed distances in int and overflowed." }
+      ]
+    },
+    {
+      "id": "p.bellman_ford",
+      "name": "Bellman-Ford",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Relax every edge V - 1 times; if one more pass still improves a distance, there is a negative cycle.",
+      "prereqs": ["ds.graph"],
+      "facets": {
+        "explain": "Explains why V - 1 rounds suffice and what the extra round detects.",
+        "implement": "Relaxes only from reached vertices and runs the detection round."
+      },
+      "misconceptions": [
+        { "id": "p.bf.rounds", "facet": "implement", "desc": "Ran fewer than V - 1 rounds." },
+        { "id": "p.bf.unreached", "facet": "implement", "desc": "Relaxed from unreached vertices (infinity + w)." },
+        { "id": "p.bf.no_detection", "facet": "implement", "desc": "Did not run the extra round to detect a negative cycle." }
+      ]
+    },
+    {
+      "id": "p.floyd_warshall",
+      "name": "Floyd-Warshall",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]) with k as the outermost loop gives all-pairs distances in O(V³).",
+      "prereqs": ["ds.graph", "u.nested_loops"],
+      "facets": {
+        "explain": "Explains why k must be the outermost loop.",
+        "implement": "Initializes the matrix, guards infinite sums and checks the diagonal for negative cycles."
+      },
+      "misconceptions": [
+        { "id": "p.fw.loop_order", "facet": "implement", "desc": "Put k in an inner loop." },
+        { "id": "p.fw.infinity_add", "facet": "implement", "desc": "Added two infinite distances and overflowed." },
+        { "id": "p.fw.diagonal", "facet": "implement", "desc": "Did not set dist[i][i] = 0, or missed negative cycles shown by dist[i][i] < 0." }
+      ]
+    },
+    {
+      "id": "p.mst",
+      "name": "Minimum spanning tree",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Prim grows one tree using a heap of crossing edges; Kruskal adds edges by increasing weight, skipping those that join already-connected vertices.",
+      "prereqs": ["ds.graph", "ds.heap", "ds.disjoint_set"],
+      "facets": {
+        "explain": "Explains why the cheapest crossing edge is always safe to add.",
+        "implement": "Writes Prim with a visited check on pop, or Kruskal with union-find."
+      },
+      "misconceptions": [
+        { "id": "p.mst.prim_mark", "facet": "implement", "desc": "In Prim, marked vertices when pushed instead of popped, or added an edge to a vertex already in the tree." },
+        { "id": "p.mst.kruskal_cycle", "facet": "implement", "desc": "In Kruskal, did not skip edges whose ends are already connected." },
+        { "id": "p.mst.vs_shortest", "facet": "explain", "desc": "Confused a minimum spanning tree with a shortest-path tree." }
+      ]
+    },
+    {
+      "id": "p.union_find_apps",
+      "name": "Solving problems with union-find",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "Unite elements that belong together, then answer with the number or size of components; map cells or names to integer ids first.",
+      "prereqs": ["ds.disjoint_set", "ds.graph"],
+      "facets": {
+        "recognize": "Uses union-find for connectivity that grows over time or groups defined by shared keys.",
+        "implement": "Maps items to ids consistently and counts components as unions succeed.",
+        "adapt": "Handles islands added one by one, merged accounts and flipping one cell to join islands."
+      },
+      "misconceptions": [
+        { "id": "p.uf.id_mapping", "facet": "implement", "desc": "Mapped cells or names to ids inconsistently (cell id is row * cols + col)." },
+        { "id": "p.uf.spare_edges", "facet": "adapt", "desc": "For connecting a network, did not compare spare edges with components - 1." },
+        { "id": "p.uf.double_neighbour", "facet": "adapt", "desc": "In making a large island, added the same neighbouring component twice." },
+        { "id": "p.uf.recompute", "facet": "recognize", "desc": "Re-ran a full traversal after every update instead of uniting incrementally." }
+      ]
+    },
+    {
+      "id": "p.tarjan_low_link",
+      "name": "Bridges and articulation points",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "DFS records each vertex's discovery time and the lowest time reachable from its subtree: (u, v) is a bridge if low[v] > tin[u]; u is an articulation point if low[v] >= tin[u] (the root needs two children).",
+      "prereqs": ["p.graph_traversal"],
+      "facets": {
+        "explain": "Explains what low[v] means and why the two conditions differ.",
+        "implement": "Skips the parent edge and treats the DFS root specially."
+      },
+      "misconceptions": [
+        { "id": "p.tarjan.parent_edge", "facet": "implement", "desc": "Used the edge back to the parent to update low." },
+        { "id": "p.tarjan.root_case", "facet": "implement", "desc": "Treated the DFS root like any other vertex for articulation points." },
+        { "id": "p.tarjan.condition", "facet": "implement", "desc": "Used >= for bridges or > for articulation points." }
+      ]
+    },
+    {
+      "id": "p.scc_kosaraju",
+      "name": "Strongly connected components",
+      "layer": 3,
+      "topic": "graphs",
+      "description": "DFS to get a finish order, reverse every edge, then DFS in decreasing finish order on the reversed graph; each DFS is one component.",
+      "prereqs": ["p.graph_traversal", "p.topological_sort"],
+      "facets": {
+        "explain": "Explains why reversing edges stops a DFS from leaking into other components.",
+        "implement": "Builds the reversed graph and runs the second pass in decreasing finish order."
+      },
+      "misconceptions": [
+        { "id": "p.scc.no_reverse", "facet": "implement", "desc": "Ran the second pass on the original graph." },
+        { "id": "p.scc.order", "facet": "implement", "desc": "Ran the second pass in increasing instead of decreasing finish order." }
+      ]
+    }
+  ]
+}

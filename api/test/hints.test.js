@@ -112,3 +112,25 @@ test("cleanliness: deeper hints cost more credit; legacy hints keep their old we
   assert.equal(cleanliness({ wrongSubmits: 0, hints: 1 }), 0.7, "pre-ladder hint");
   assert.equal(cleanliness({ wrongSubmits: 5, hints: 1, maxHintLevel: 3 }), 0.35, "floored");
 });
+
+test("sheet order runs topic by topic in A2Z step order, and every LeetCode slug maps to one problem", async () => {
+  const { sheetProblems, topicList, problemBySlug } = await import("../src/graph.js");
+  assert.deepEqual(topicList.map((t) => t.step), [...topicList.map((t) => t.step)].sort((a, b) => a - b));
+  assert.equal(topicList[0].topic, "arrays");
+  for (let i = 1; i < sheetProblems.length; i++) {
+    const a = sheetProblems[i - 1], b = sheetProblems[i];
+    assert.ok(a.step < b.step || (a.step === b.step && a.order < b.order), `${a.id} before ${b.id}`);
+  }
+  for (const [slug, p] of problemBySlug) assert.equal(p.links.leetcode, slug);
+  assert.equal(problemBySlug.get("two-sum").id, "arr.two_sum");
+  assert.equal(problemBySlug.get("coin-change-ii").topic, "dp");
+});
+
+test("context packs build for every sheet problem and stay within the graph", async () => {
+  const { sheetProblems } = await import("../src/graph.js");
+  for (const p of sheetProblems) {
+    const pack = buildContextPack(graph, p);
+    assert.ok(pack.tested_nodes.length > 0, p.id);
+    for (const n of [...pack.tested_nodes, ...pack.prerequisite_nodes]) assert.ok(graph.nodes.has(n.id), `${p.id}: ${n.id}`);
+  }
+});

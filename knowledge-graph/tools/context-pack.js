@@ -8,14 +8,16 @@
 //     with the problem's watch_for list flagged as 'likely'
 //   - the prerequisite chain, so the grader can attribute a failure to a deeper root cause
 //   - the exact JSON shape the grader must return
-import { loadGraph } from "./lib.js";
+import { loadGraph, bySheetOrder } from "./lib.js";
 import { buildContextPack } from "./pack.js";
 
 const g = loadGraph();
 const arg = process.argv[2];
 
 if (!arg || arg === "--list") {
-  for (const p of [...g.problems.values()].sort((a, b) => a.order - b.order)) {
+  let topic = null;
+  for (const p of [...g.problems.values()].sort(bySheetOrder)) {
+    if (p.topic !== topic) console.log(`\n${(topic = p.topic, p.topicTitle)} (A2Z step ${p.step})`);
     console.log(`${String(p.order).padStart(2)}  ${p.id.padEnd(34)} ${p.tier.padEnd(5)}  ${p.title}`);
   }
   process.exit(0);

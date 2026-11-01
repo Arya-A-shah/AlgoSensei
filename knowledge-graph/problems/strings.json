@@ -1,0 +1,601 @@
+{
+  "sheet": "Striver A2Z - Strings",
+  "topic": "strings",
+  "topic_title": "Strings",
+  "step": 5,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "str_basic",
+      "title": "Basic and Easy String Problems"
+    },
+    {
+      "id": "str_medium",
+      "title": "Medium String Problems"
+    }
+  ],
+  "problems": [
+    {
+      "id": "str.remove_outer_parens",
+      "order": 1,
+      "section": "str_basic",
+      "tier": "Basic",
+      "title": "Remove outermost Parentheses",
+      "summary": "Remove the outermost parentheses of every primitive part.",
+      "links": {
+        "leetcode": "remove-outermost-parentheses"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Stack of indices",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.bracket_matching"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Depth counter",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.balance_counter",
+            "p.string_build"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.balance_counter", "role": "core", "facets": ["recognize", "implement", "trace"] },
+        { "id": "p.string_build", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bal.update_order",
+        "p.bal.used_stack",
+        "cpp.str.concat_in_loop"
+      ]
+    },
+    {
+      "id": "str.reverse_words",
+      "order": 2,
+      "section": "str_basic",
+      "tier": "Core",
+      "title": "Reverse words in a given string / Palindrome Check",
+      "summary": "Reverse the order of words, trimming extra spaces (and check a string is a palindrome).",
+      "links": {
+        "leetcode": "reverse-words-in-a-string",
+        "leetcode_note": "Palindrome check is LeetCode 125 (valid-palindrome)."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Split into words, join in reverse",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.string_build"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Reverse whole string, then each word, compacting in place",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.string_build",
+            "p.reversal_trick"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.string_build", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "p.reversal_trick", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.two_pointers_opposite", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.sb.extra_spaces",
+        "p.sb.reverse_twice",
+        "p.sb.insert_front",
+        "p.sb.trim_bounds",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "str.largest_odd",
+      "order": 3,
+      "section": "str_basic",
+      "tier": "Basic",
+      "title": "Largest odd number in a string",
+      "summary": "Largest odd number that is a prefix-substring of a numeric string.",
+      "links": {
+        "leetcode": "largest-odd-number-in-string"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Try every substring",
+          "time": "O(n³)",
+          "space": "O(n)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Last odd digit from the right; return the prefix",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.suffix_scan"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.suffix_scan", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "ds.string", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.strings", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "cpp.str.char_vs_digit",
+        "cpp.str.substr_args",
+        "p.suffix.forward_nested"
+      ]
+    },
+    {
+      "id": "str.longest_common_prefix",
+      "order": 4,
+      "section": "str_basic",
+      "tier": "Basic",
+      "title": "Longest Common Prefix",
+      "summary": "Longest prefix shared by every string.",
+      "links": {
+        "leetcode": "longest-common-prefix"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Compare column by column",
+          "time": "O(n * m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Sort, compare only first and last",
+          "time": "O(n log n * m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.sort_then_scan"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.string", "role": "core", "facets": ["implement"] },
+        { "id": "p.sort_then_scan", "role": "supporting", "facets": ["recognize", "explain"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "u.idx.out_of_bounds",
+        "r.edge.empty_or_single",
+        "cpp.str.substr_args"
+      ]
+    },
+    {
+      "id": "str.isomorphic",
+      "order": 5,
+      "section": "str_basic",
+      "tier": "Core",
+      "title": "Isomorphic String",
+      "summary": "Can s be mapped character-for-character onto t (one-to-one)?",
+      "links": {
+        "leetcode": "isomorphic-strings"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Two maps (or last-seen positions) checked together",
+          "time": "O(n)",
+          "space": "O(256)",
+          "demonstrates": [
+            "p.char_mapping"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.char_mapping", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "ds.string", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.cmap.one_direction",
+        "p.cmap.count_compare",
+        "ds.str.charset",
+        "cpp.str.char_arithmetic"
+      ]
+    },
+    {
+      "id": "str.rotation",
+      "order": 6,
+      "section": "str_basic",
+      "tier": "Basic",
+      "title": "check whether one string is a rotation of another",
+      "summary": "Is goal a rotation of s?",
+      "links": {
+        "leetcode": "rotate-string"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Try every rotation",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Same length and goal occurs in s + s",
+          "time": "O(n) to O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.string"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.string", "role": "core", "facets": ["recognize"] },
+        { "id": "cpp.strings", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "cpp.str.find_npos",
+        "r.model.missed_constraint"
+      ]
+    },
+    {
+      "id": "str.anagram",
+      "order": 7,
+      "section": "str_basic",
+      "tier": "Basic",
+      "title": "Check if two strings are anagram of each other",
+      "summary": "Do s and t contain the same characters with the same counts?",
+      "links": {
+        "leetcode": "valid-anagram"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Sort both and compare",
+          "time": "O(n log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.sort_then_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "One count array, + for s and - for t",
+          "time": "O(n)",
+          "space": "O(26)",
+          "demonstrates": [
+            "p.frequency_counting"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.frequency_counting", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "ds.string", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "ds.str.map_for_26",
+        "ds.str.charset",
+        "p.freq.nested_counting",
+        "cpp.str.char_arithmetic"
+      ]
+    },
+    {
+      "id": "str.sort_by_frequency",
+      "order": 8,
+      "section": "str_medium",
+      "tier": "Core",
+      "title": "Sort Characters by frequency",
+      "summary": "Rearrange characters by decreasing frequency.",
+      "links": {
+        "leetcode": "sort-characters-by-frequency"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Count, sort pairs by count",
+          "time": "O(n + k log k)",
+          "space": "O(k)",
+          "demonstrates": [
+            "p.frequency_counting",
+            "p.sort_then_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Count, bucket by frequency",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.frequency_counting"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.frequency_counting", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.stl_algorithms", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.string_build", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.str.map_for_26",
+        "ds.str.charset",
+        "cpp.str.concat_in_loop"
+      ]
+    },
+    {
+      "id": "str.max_nesting_depth",
+      "order": 9,
+      "section": "str_medium",
+      "tier": "Basic",
+      "title": "Maximum Nesting Depth of Parentheses",
+      "summary": "Deepest nesting of parentheses in a valid expression.",
+      "links": {
+        "leetcode": "maximum-nesting-depth-of-the-parentheses"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Depth counter with running max",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.balance_counter"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.balance_counter", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "p.track_extremes", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bal.max_timing",
+        "p.bal.used_stack"
+      ]
+    },
+    {
+      "id": "str.roman",
+      "order": 10,
+      "section": "str_medium",
+      "tier": "Core",
+      "title": "Roman Number to Integer and vice versa",
+      "summary": "Convert Roman numerals to integers and back.",
+      "links": {
+        "leetcode": "roman-to-integer",
+        "leetcode_note": "Integer to Roman is LeetCode 12 (integer-to-roman)."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Subtract when a smaller value precedes a larger one; greedy table for the reverse",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.string_parsing"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.string_parsing", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.conditionals", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.parse.roman_subtractive",
+        "p.parse.greedy_table",
+        "u.idx.out_of_bounds"
+      ]
+    },
+    {
+      "id": "str.atoi",
+      "order": 11,
+      "section": "str_medium",
+      "tier": "Core",
+      "title": "Implement Atoi",
+      "summary": "Parse a 32-bit signed integer from a string, clamping on overflow.",
+      "links": {
+        "leetcode": "string-to-integer-atoi"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Skip spaces, read sign, accumulate digits with overflow check",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.string_parsing"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.string_parsing", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.limits", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.parse.overflow_check",
+        "p.parse.step_order",
+        "p.parse.no_stop",
+        "cpp.str.char_vs_digit",
+        "r.edge.extremes"
+      ]
+    },
+    {
+      "id": "str.count_k_distinct",
+      "order": 12,
+      "section": "str_medium",
+      "tier": "Pro",
+      "title": "Count Number of Substrings",
+      "summary": "Number of substrings with exactly k distinct characters.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Every substring with a running distinct count",
+          "time": "O(n²)",
+          "space": "O(26)",
+          "demonstrates": [
+            "p.substring_enumeration"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "atMost(k) - atMost(k - 1) with a sliding window",
+          "time": "O(n)",
+          "space": "O(26)",
+          "demonstrates": [
+            "p.sliding_window"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.sliding_window", "role": "core", "facets": ["recognize", "implement", "adapt"] },
+        { "id": "p.frequency_counting", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.sw.exactly_k",
+        "p.sw.shrink_if",
+        "p.sw.count_formula",
+        "p.sw.stale_count",
+        "cpp.int.overflow_sum",
+        "p.sw.all_substrings"
+      ]
+    },
+    {
+      "id": "str.longest_palindrome",
+      "order": 13,
+      "section": "str_medium",
+      "tier": "Core",
+      "title": "Longest Palindromic Substring [Do it without DP]",
+      "summary": "Longest substring that reads the same both ways.",
+      "links": {
+        "leetcode": "longest-palindromic-substring"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Check every substring",
+          "time": "O(n³)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Expand around 2n - 1 centers",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.expand_center"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.expand_center", "role": "core", "facets": ["recognize", "explain", "implement", "trace"] },
+        { "id": "cpp.strings", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.ec.odd_only",
+        "p.ec.bounds",
+        "p.ec.length_calc",
+        "p.ec.check_all_substrings",
+        "cpp.str.substr_args",
+        "ds.str.substring_cost"
+      ]
+    },
+    {
+      "id": "str.sum_of_beauty",
+      "order": 14,
+      "section": "str_medium",
+      "tier": "Core",
+      "title": "Sum of Beauty of all substring",
+      "summary": "Sum over all substrings of (max frequency - min frequency).",
+      "links": {
+        "leetcode": "sum-of-beauty-of-all-substrings"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Recount every substring",
+          "time": "O(n³)",
+          "space": "O(26)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Extend each start, update counts, scan 26",
+          "time": "O(26 n²)",
+          "space": "O(26)",
+          "demonstrates": [
+            "p.substring_enumeration"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.substring_enumeration", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.track_extremes", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.subenum.recompute",
+        "p.subenum.reset",
+        "u.init.max_zero"
+      ]
+    },
+    {
+      "id": "str.reverse_each_word",
+      "order": 15,
+      "section": "str_medium",
+      "tier": "Basic",
+      "title": "Reverse Every Word in A String",
+      "summary": "Reverse the characters of each word, keeping word order.",
+      "links": {
+        "leetcode": "reverse-words-in-a-string-iii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Find each word's bounds, reverse in place",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.string_build",
+            "p.reversal_trick"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.string_build", "role": "core", "facets": ["implement"] },
+        { "id": "p.reversal_trick", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.sb.reverse_twice",
+        "p.rev.range_off",
+        "p.sb.trim_bounds"
+      ]
+    }
+  ]
+}

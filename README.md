@@ -13,7 +13,7 @@ Two themes, switchable in **Settings**: **Calm** (default; shoji background, sen
 
 ```
 AlgoSensei/
-  knowledge-graph/   concept DAG (59 nodes, 158 misconceptions) + Striver arrays tagging (32 problems)
+  knowledge-graph/   concept DAG (158 nodes, 518 misconceptions) + 305 Striver A2Z problems across 10 topics
   api/               Hono + MongoDB: events, Gemini grading, mastery model, FSRS, next-move engine
   extension/         WXT Chrome extension: Socratic hints + attempt capture
   dashboard/         Vite + React dashboard (themes/calm, themes/game)
@@ -100,7 +100,8 @@ cd knowledge-graph && npm run validate
 
 ## Known limits
 
-- Only LeetCode is captured. Sheet problems without a LeetCode version (Linear Search, Leaders, Union of sorted arrays…) show as untracked until takeuforward / GFG capture is added.
+- Only LeetCode is captured. 99 of the 305 sheet problems have no LeetCode version (GFG or Coding Ninjas only) and show as untracked until takeuforward / GFG capture is added.
+- Topics covered so far: Arrays, Binary Search, Strings, Linked List, Recursion, Stack & Queue, Binary Trees, BST, Graphs and DP. The sheet's remaining steps (basics, sorting, bit manipulation, sliding window, heaps, greedy, tries, hard strings) are not tagged yet.
 - Auth is a per-browser device token, which is fine for personal use. Add real accounts before sharing a server.
 - Interception depends on LeetCode's current endpoints. If they change, `interceptor.content.js` is the single place to update.
 - Mastery weights and thresholds are sensible defaults (`mastery.js`, `recommend.js`), not yet tuned on real data.
