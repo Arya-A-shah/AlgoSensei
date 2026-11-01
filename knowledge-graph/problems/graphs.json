@@ -1,0 +1,1480 @@
+{
+  "sheet": "Striver A2Z - Graphs",
+  "topic": "graphs",
+  "topic_title": "Graphs",
+  "step": 15,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "g_learning",
+      "title": "Learning"
+    },
+    {
+      "id": "g_bfs_dfs",
+      "title": "Problems on BFS/DFS"
+    },
+    {
+      "id": "g_topo",
+      "title": "Topo Sort and Problems"
+    },
+    {
+      "id": "g_shortest",
+      "title": "Shortest Path Algorithms and Problems"
+    },
+    {
+      "id": "g_mst",
+      "title": "MinimumSpanningTree/Disjoint Set and Problems"
+    },
+    {
+      "id": "g_other",
+      "title": "Other Algorithms"
+    }
+  ],
+  "problems": [
+    {
+      "id": "gr.representation",
+      "order": 1,
+      "section": "g_learning",
+      "tier": "Basic",
+      "title": "Graph Representation | C++",
+      "summary": "Store a graph as an adjacency matrix and an adjacency list.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "vector<vector<int>> adjacency list",
+          "time": "O(V + E)",
+          "space": "O(V + E)",
+          "demonstrates": [
+            "ds.graph"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.graph", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "cpp.2d_vector", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.g.one_direction",
+        "ds.g.index_base",
+        "ds.g.matrix_for_sparse"
+      ]
+    },
+    {
+      "id": "gr.bfs",
+      "order": 2,
+      "section": "g_learning",
+      "tier": "Basic",
+      "title": "BFS",
+      "summary": "Breadth-first traversal from vertex 0 (and DFS).",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Queue with visited marked on push",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.graph_traversal"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.graph_traversal", "role": "core", "facets": ["explain", "implement", "trace"] },
+        { "id": "ds.queue", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.gt.mark_late",
+        "p.gt.no_visited",
+        "p.gt.complexity"
+      ]
+    },
+    {
+      "id": "gr.provinces",
+      "order": 3,
+      "section": "g_bfs_dfs",
+      "tier": "Basic",
+      "title": "Number of provinces (leetcode)",
+      "summary": "Connected components of an adjacency matrix.",
+      "links": {
+        "leetcode": "number-of-provinces"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS from each unvisited city",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.connected_components"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Union-find",
+          "time": "O(n² α(n))",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.union_find_apps"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.connected_components", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.graph_traversal", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.cc.count_inside",
+        "p.cc.matrix_input",
+        "ds.g.one_component"
+      ]
+    },
+    {
+      "id": "gr.islands",
+      "order": 4,
+      "section": "g_bfs_dfs",
+      "tier": "Basic",
+      "title": "Connected Components Problem in Matrix",
+      "summary": "Number of islands of 1s in a grid.",
+      "links": {
+        "leetcode": "number-of-islands"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Flood fill from each unvisited land cell",
+          "time": "O(n * m)",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.grid_graph",
+            "p.connected_components"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.grid_graph", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.connected_components", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.grid.bounds",
+        "p.grid.directions",
+        "p.cc.count_inside"
+      ]
+    },
+    {
+      "id": "gr.rotting_oranges",
+      "order": 5,
+      "section": "g_bfs_dfs",
+      "tier": "Core",
+      "title": "Rotten Oranges",
+      "summary": "Minutes until every orange rots, or -1.",
+      "links": {
+        "leetcode": "rotting-oranges"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Multi-source BFS from all rotten oranges",
+          "time": "O(n * m)",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.multi_source_bfs"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.multi_source_bfs", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.grid_graph", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.msbfs.per_source",
+        "p.msbfs.time_count",
+        "p.msbfs.unreachable",
+        "p.grid.bounds"
+      ]
+    },
+    {
+      "id": "gr.flood_fill",
+      "order": 6,
+      "section": "g_bfs_dfs",
+      "tier": "Basic",
+      "title": "Flood fill",
+      "summary": "Recolour the region connected to a starting pixel.",
+      "links": {
+        "leetcode": "flood-fill"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS or BFS over same-coloured neighbours",
+          "time": "O(n * m)",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.grid_graph"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.grid_graph", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.grid.same_colour",
+        "p.grid.bounds",
+        "p.grid.directions"
+      ]
+    },
+    {
+      "id": "gr.cycle_undirected",
+      "order": 7,
+      "section": "g_bfs_dfs",
+      "tier": "Core",
+      "title": "Cycle Detection in undirected Graph (bfs)",
+      "summary": "Does an undirected graph contain a cycle?",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS or DFS tracking the parent",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.cycle_undirected"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.cycle_undirected", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.graph_traversal", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.cyu.parent",
+        "p.cyu.components",
+        "ds.g.one_direction"
+      ]
+    },
+    {
+      "id": "gr.01_matrix",
+      "order": 8,
+      "section": "g_bfs_dfs",
+      "tier": "Core",
+      "title": "0/1 Matrix (Bfs Problem)",
+      "summary": "Distance from each cell to the nearest 0.",
+      "links": {
+        "leetcode": "01-matrix"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "BFS from every cell",
+          "time": "O((n m)²)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.graph_traversal"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Multi-source BFS from all zeros",
+          "time": "O(n * m)",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.multi_source_bfs"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.multi_source_bfs", "role": "core", "facets": ["recognize", "explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.msbfs.per_source",
+        "p.grid.bounds",
+        "p.gt.mark_late"
+      ]
+    },
+    {
+      "id": "gr.surrounded_regions",
+      "order": 9,
+      "section": "g_bfs_dfs",
+      "tier": "Core",
+      "title": "Surrounded Regions (dfs)",
+      "summary": "Capture every O region not connected to the border.",
+      "links": {
+        "leetcode": "surrounded-regions"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS from border Os, flip the rest",
+          "time": "O(n * m)",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.grid_graph"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.grid_graph", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.grid.border_start",
+        "p.grid.bounds"
+      ]
+    },
+    {
+      "id": "gr.enclaves",
+      "order": 10,
+      "section": "g_bfs_dfs",
+      "tier": "Core",
+      "title": "Number of Enclaves [flood fill implementation - multisource]",
+      "summary": "Land cells that cannot walk off the grid.",
+      "links": {
+        "leetcode": "number-of-enclaves"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Multi-source BFS from border land, count the rest",
+          "time": "O(n * m)",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.grid_graph",
+            "p.multi_source_bfs"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.grid_graph", "role": "core", "facets": ["adapt"] },
+        { "id": "p.multi_source_bfs", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.grid.border_start",
+        "p.grid.bounds"
+      ]
+    },
+    {
+      "id": "gr.word_ladder",
+      "order": 11,
+      "section": "g_bfs_dfs",
+      "tier": "Pro",
+      "title": "Word ladder - 1",
+      "summary": "Fewest words in a transformation sequence, changing one letter at a time.",
+      "links": {
+        "leetcode": "word-ladder"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS, generating one-letter changes against a set",
+          "time": "O(n * L * 26)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.bfs_shortest_path"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bfs_shortest_path", "role": "core", "facets": ["recognize", "adapt"] },
+        { "id": "ds.hashset", "role": "supporting", "facets": ["implement"] },
+        { "id": "ds.graph", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.usp.neighbour_gen",
+        "p.usp.dfs",
+        "p.gt.mark_late"
+      ]
+    },
+    {
+      "id": "gr.word_ladder_2",
+      "order": 12,
+      "section": "g_bfs_dfs",
+      "tier": "Pro",
+      "title": "Word ladder - 2",
+      "summary": "All shortest transformation sequences.",
+      "links": {
+        "leetcode": "word-ladder-ii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Level BFS recording parents, then backtrack paths",
+          "time": "Exponential in the number of paths",
+          "space": "O(n * L)",
+          "demonstrates": [
+            "p.bfs_shortest_path",
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bfs_shortest_path", "role": "core", "facets": ["adapt"] },
+        { "id": "p.backtracking", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.usp.erase_early",
+        "p.usp.neighbour_gen",
+        "p.bt.no_undo"
+      ]
+    },
+    {
+      "id": "gr.distinct_islands",
+      "order": 13,
+      "section": "g_bfs_dfs",
+      "tier": "Core",
+      "title": "Number of Distinct Islands [dfs multisource]",
+      "summary": "Number of island shapes, up to translation.",
+      "links": {
+        "leetcode": "number-of-distinct-islands",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS each island, store offsets from its first cell in a set",
+          "time": "O(n * m log)",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.grid_graph"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.grid_graph", "role": "core", "facets": ["adapt"] },
+        { "id": "cpp.ordered_containers", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.grid.shape_signature",
+        "p.grid.bounds"
+      ]
+    },
+    {
+      "id": "gr.bipartite",
+      "order": 14,
+      "section": "g_bfs_dfs",
+      "tier": "Core",
+      "title": "Bipartite Graph (DFS)",
+      "summary": "Can the vertices be split so every edge crosses?",
+      "links": {
+        "leetcode": "is-graph-bipartite"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Two-colour with BFS or DFS",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.bipartite"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bipartite", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.bip.components",
+        "p.bip.odd_cycle"
+      ]
+    },
+    {
+      "id": "gr.cycle_directed_dfs",
+      "order": 15,
+      "section": "g_bfs_dfs",
+      "tier": "Core",
+      "title": "Cycle Detection in Directed Graph (DFS)",
+      "summary": "Does a directed graph contain a cycle?",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS with visited and on-path marks",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.cycle_directed"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.cycle_directed", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.cyd.visited_only",
+        "p.cyd.unmark_path",
+        "p.cyd.undirected_logic"
+      ]
+    },
+    {
+      "id": "gr.topo_sort",
+      "order": 16,
+      "section": "g_topo",
+      "tier": "Core",
+      "title": "Topo Sort",
+      "summary": "Any topological order of a DAG.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS, push on finish, reverse",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.topological_sort"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Kahn's algorithm",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.topological_sort"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.topological_sort", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.topo.dfs_order",
+        "p.topo.not_dag"
+      ]
+    },
+    {
+      "id": "gr.cycle_directed_bfs",
+      "order": 17,
+      "section": "g_topo",
+      "tier": "Core",
+      "title": "Cycle Detection in Directed Graph (BFS)",
+      "summary": "Cycle check with Kahn's algorithm.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Kahn's algorithm; a cycle if fewer than V vertices are removed",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.topological_sort",
+            "p.cycle_directed"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.topological_sort", "role": "core", "facets": ["adapt"] },
+        { "id": "p.cycle_directed", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.topo.no_cycle_check",
+        "p.cyd.undirected_logic"
+      ]
+    },
+    {
+      "id": "gr.course_schedule",
+      "order": 18,
+      "section": "g_topo",
+      "tier": "Core",
+      "title": "Course Schedule - I",
+      "summary": "Can every course be finished given prerequisites?",
+      "links": {
+        "leetcode": "course-schedule"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Kahn's algorithm on the prerequisite graph",
+          "time": "O(V + E)",
+          "space": "O(V + E)",
+          "demonstrates": [
+            "p.topological_sort"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.topological_sort", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "ds.graph", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.topo.edge_direction",
+        "p.topo.no_cycle_check"
+      ]
+    },
+    {
+      "id": "gr.course_schedule_2",
+      "order": 19,
+      "section": "g_topo",
+      "tier": "Core",
+      "title": "Course Schedule - II",
+      "summary": "An order to take all courses, or empty if impossible.",
+      "links": {
+        "leetcode": "course-schedule-ii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Kahn's algorithm returning the order",
+          "time": "O(V + E)",
+          "space": "O(V + E)",
+          "demonstrates": [
+            "p.topological_sort"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.topological_sort", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.topo.edge_direction",
+        "p.topo.no_cycle_check",
+        "p.topo.dfs_order"
+      ]
+    },
+    {
+      "id": "gr.safe_states",
+      "order": 20,
+      "section": "g_topo",
+      "tier": "Core",
+      "title": "Find eventual safe states",
+      "summary": "Vertices from which every path ends at a terminal vertex.",
+      "links": {
+        "leetcode": "find-eventual-safe-states"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS cycle marks, or Kahn on the reversed graph",
+          "time": "O(V + E)",
+          "space": "O(V + E)",
+          "demonstrates": [
+            "p.cycle_directed",
+            "p.topological_sort"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.cycle_directed", "role": "core", "facets": ["adapt"] },
+        { "id": "p.topological_sort", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.cyd.unmark_path",
+        "p.topo.edge_direction"
+      ]
+    },
+    {
+      "id": "gr.alien_dictionary",
+      "order": 21,
+      "section": "g_topo",
+      "tier": "Pro",
+      "title": "Alien dictionary",
+      "summary": "Letter order of an alien language from sorted words.",
+      "links": {
+        "leetcode": "alien-dictionary",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Edges from the first differing letters, then topological sort",
+          "time": "O(total length)",
+          "space": "O(26²)",
+          "demonstrates": [
+            "p.topological_sort"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.topological_sort", "role": "core", "facets": ["adapt", "recognize"] },
+        { "id": "ds.string", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.topo.prefix_case",
+        "p.topo.no_cycle_check",
+        "p.topo.edge_direction"
+      ]
+    },
+    {
+      "id": "gr.sp_unit_weights",
+      "order": 22,
+      "section": "g_shortest",
+      "tier": "Basic",
+      "title": "Shortest Path in UG with unit weights",
+      "summary": "Distance from a source to every vertex.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS distances",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.bfs_shortest_path"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bfs_shortest_path", "role": "core", "facets": ["recognize", "implement"] }
+      ],
+      "watch_for": [
+        "p.usp.dfs",
+        "p.gt.mark_late"
+      ]
+    },
+    {
+      "id": "gr.sp_dag",
+      "order": 23,
+      "section": "g_shortest",
+      "tier": "Core",
+      "title": "Shortest Path in DAG",
+      "summary": "Weighted shortest distances from a source in a DAG.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Topological order, then relax",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.dag_shortest_path"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dag_shortest_path", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.topological_sort", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dagsp.unreached",
+        "p.dagsp.order"
+      ]
+    },
+    {
+      "id": "gr.dijkstra",
+      "order": 24,
+      "section": "g_shortest",
+      "tier": "Core",
+      "title": "Dijkstra's Algorithm",
+      "summary": "Shortest distances with non-negative weights.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Min-heap of (distance, vertex)",
+          "time": "O(E log V)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.dijkstra"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dijkstra", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "ds.heap", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.stl_adaptors", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dij.stale",
+        "p.dij.max_heap",
+        "p.dij.negative",
+        "cpp.adapt.comparator_direction",
+        "ds.heap.decrease_key",
+        "cpp.adapt.pq_default_max"
+      ]
+    },
+    {
+      "id": "gr.binary_maze",
+      "order": 25,
+      "section": "g_shortest",
+      "tier": "Core",
+      "title": "Shortest path in a binary maze",
+      "summary": "Shortest clear path in a binary grid (8 directions).",
+      "links": {
+        "leetcode": "shortest-path-in-binary-matrix"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS on cells",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.bfs_shortest_path",
+            "p.grid_graph"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bfs_shortest_path", "role": "core", "facets": ["implement"] },
+        { "id": "p.grid_graph", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.grid.directions",
+        "p.grid.bounds",
+        "p.usp.dfs"
+      ]
+    },
+    {
+      "id": "gr.min_effort",
+      "order": 26,
+      "section": "g_shortest",
+      "tier": "Pro",
+      "title": "Path with minimum effort",
+      "summary": "Path minimizing the largest height step.",
+      "links": {
+        "leetcode": "path-with-minimum-effort"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Dijkstra where a path costs its largest step",
+          "time": "O(nm log nm)",
+          "space": "O(nm)",
+          "demonstrates": [
+            "p.dijkstra"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search the effort with BFS",
+          "time": "O(nm log H)",
+          "space": "O(nm)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dijkstra", "role": "core", "facets": ["adapt"] },
+        { "id": "p.grid_graph", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dij.stale",
+        "p.grid.bounds"
+      ]
+    },
+    {
+      "id": "gr.cheapest_flights",
+      "order": 27,
+      "section": "g_shortest",
+      "tier": "Pro",
+      "title": "Cheapest flights within k stops",
+      "summary": "Cheapest price from src to dst with at most k stops.",
+      "links": {
+        "leetcode": "cheapest-flights-within-k-stops"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS by stops (queue of stops, node, cost) relaxing cost",
+          "time": "O(E * k)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.dijkstra",
+            "p.bfs_shortest_path"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Bellman-Ford limited to k + 1 rounds",
+          "time": "O(E * k)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.bellman_ford"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dijkstra", "role": "core", "facets": ["adapt"] },
+        { "id": "p.bellman_ford", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dij.stops",
+        "p.bf.rounds"
+      ]
+    },
+    {
+      "id": "gr.network_delay",
+      "order": 28,
+      "section": "g_shortest",
+      "tier": "Core",
+      "title": "Network Delay time",
+      "summary": "Time for a signal from k to reach every node.",
+      "links": {
+        "leetcode": "network-delay-time"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Dijkstra, answer is the largest distance",
+          "time": "O(E log V)",
+          "space": "O(V + E)",
+          "demonstrates": [
+            "p.dijkstra"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dijkstra", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "ds.graph", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dij.stale",
+        "ds.g.index_base",
+        "p.dij.max_heap",
+        "ds.heap.min_max"
+      ]
+    },
+    {
+      "id": "gr.ways_to_arrive",
+      "order": 29,
+      "section": "g_shortest",
+      "tier": "Pro",
+      "title": "Number of ways to arrive at destination",
+      "summary": "Count shortest paths from 0 to n - 1, mod 1e9 + 7.",
+      "links": {
+        "leetcode": "number-of-ways-to-arrive-at-destination"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Dijkstra with a ways array",
+          "time": "O(E log V)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.dijkstra"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dijkstra", "role": "core", "facets": ["adapt"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dij.count_ways",
+        "p.dij.overflow",
+        "p.dij.stale"
+      ]
+    },
+    {
+      "id": "gr.min_multiplications",
+      "order": 30,
+      "section": "g_shortest",
+      "tier": "Core",
+      "title": "Minimum steps to reach end from start by performing multiplication and mod operations with array elements",
+      "summary": "Fewest multiplications (mod 100000) to turn start into end.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "BFS over the 100000 states",
+          "time": "O(100000 * n)",
+          "space": "O(100000)",
+          "demonstrates": [
+            "p.bfs_shortest_path"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bfs_shortest_path", "role": "core", "facets": ["adapt", "recognize"] },
+        { "id": "u.modular_arithmetic", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.usp.dfs",
+        "p.gt.mark_late"
+      ]
+    },
+    {
+      "id": "gr.bellman_ford",
+      "order": 31,
+      "section": "g_shortest",
+      "tier": "Core",
+      "title": "Bellman Ford Algorithm",
+      "summary": "Shortest distances with negative weights; detect negative cycles.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "V - 1 rounds of relaxation plus a check round",
+          "time": "O(V * E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.bellman_ford"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bellman_ford", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.bf.rounds",
+        "p.bf.unreached",
+        "p.bf.no_detection"
+      ]
+    },
+    {
+      "id": "gr.floyd_warshall",
+      "order": 32,
+      "section": "g_shortest",
+      "tier": "Core",
+      "title": "Floyd Warshall Algorithm",
+      "summary": "All-pairs shortest distances.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Triple loop with k outermost",
+          "time": "O(V³)",
+          "space": "O(V²)",
+          "demonstrates": [
+            "p.floyd_warshall"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.floyd_warshall", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.fw.loop_order",
+        "p.fw.infinity_add",
+        "p.fw.diagonal"
+      ]
+    },
+    {
+      "id": "gr.city_threshold",
+      "order": 33,
+      "section": "g_shortest",
+      "tier": "Core",
+      "title": "Find the city with the smallest number of neighbors in a threshold distance",
+      "summary": "City reaching the fewest others within the threshold (largest id on ties).",
+      "links": {
+        "leetcode": "find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Floyd-Warshall, then count per city",
+          "time": "O(n³)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.floyd_warshall"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Dijkstra from every city",
+          "time": "O(n E log n)",
+          "space": "O(n + E)",
+          "demonstrates": [
+            "p.dijkstra"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.floyd_warshall", "role": "core", "facets": ["implement"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.fw.infinity_add",
+        "p.fw.loop_order",
+        "r.model.output_format"
+      ]
+    },
+    {
+      "id": "gr.mst",
+      "order": 34,
+      "section": "g_mst",
+      "tier": "Core",
+      "title": "Minimum Spanning Tree",
+      "summary": "Total weight of a minimum spanning tree (Prim and Kruskal).",
+      "links": {
+        "leetcode": null,
+        "leetcode_note": "LeetCode 1584 (min-cost-to-connect-all-points) practises the same idea."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Prim with a min-heap",
+          "time": "O(E log V)",
+          "space": "O(V + E)",
+          "demonstrates": [
+            "p.mst"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Kruskal with union-find",
+          "time": "O(E log E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.mst",
+            "ds.disjoint_set"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.mst", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "ds.disjoint_set", "role": "supporting", "facets": ["implement"] },
+        { "id": "ds.heap", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.mst.prim_mark",
+        "p.mst.kruskal_cycle",
+        "p.mst.vs_shortest",
+        "ds.heap.min_max",
+        "ds.heap.resort"
+      ]
+    },
+    {
+      "id": "gr.disjoint_set",
+      "order": 35,
+      "section": "g_mst",
+      "tier": "Core",
+      "title": "Disjoint Set [Union by Rank]",
+      "summary": "Implement find and union by rank and by size.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Path compression with union by rank or size",
+          "time": "O(α(n)) each",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.disjoint_set"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.disjoint_set", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "ds.dsu.no_compression",
+        "ds.dsu.union_nodes",
+        "ds.dsu.parent_compare"
+      ]
+    },
+    {
+      "id": "gr.network_connected",
+      "order": 36,
+      "section": "g_mst",
+      "tier": "Core",
+      "title": "Number of operations to make network connected",
+      "summary": "Fewest cable moves to connect every computer, or -1.",
+      "links": {
+        "leetcode": "number-of-operations-to-make-network-connected"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Union-find counting components and spare edges",
+          "time": "O(E α(n))",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.union_find_apps"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.union_find_apps", "role": "core", "facets": ["recognize", "adapt"] },
+        { "id": "ds.disjoint_set", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.uf.spare_edges",
+        "ds.dsu.already_joined"
+      ]
+    },
+    {
+      "id": "gr.stones_removed",
+      "order": 37,
+      "section": "g_mst",
+      "tier": "Pro",
+      "title": "Most stones removed with same rows or columns",
+      "summary": "Most stones removable when each shares a row or column with another.",
+      "links": {
+        "leetcode": "most-stones-removed-with-same-row-or-column"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Union rows and columns as nodes; answer = stones - components",
+          "time": "O(n α(n))",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.union_find_apps"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.union_find_apps", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.uf.id_mapping",
+        "ds.dsu.already_joined"
+      ]
+    },
+    {
+      "id": "gr.accounts_merge",
+      "order": 38,
+      "section": "g_mst",
+      "tier": "Pro",
+      "title": "Accounts merge",
+      "summary": "Merge accounts that share an email.",
+      "links": {
+        "leetcode": "accounts-merge"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Union accounts by shared email, group and sort",
+          "time": "O(N log N)",
+          "space": "O(N)",
+          "demonstrates": [
+            "p.union_find_apps"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.union_find_apps", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.ordered_containers", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.uf.id_mapping",
+        "ds.dsu.union_nodes"
+      ]
+    },
+    {
+      "id": "gr.islands_2",
+      "order": 39,
+      "section": "g_mst",
+      "tier": "Pro",
+      "title": "Number of Islands II",
+      "summary": "Island count after each land addition.",
+      "links": {
+        "leetcode": "number-of-islands-ii",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Recount islands after each addition",
+          "time": "O(k * n * m)",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.grid_graph"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Union-find with cell ids",
+          "time": "O(k α(nm))",
+          "space": "O(n * m)",
+          "demonstrates": [
+            "p.union_find_apps"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.union_find_apps", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.grid_graph", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.uf.recompute",
+        "p.uf.id_mapping",
+        "p.grid.bounds"
+      ]
+    },
+    {
+      "id": "gr.large_island",
+      "order": 40,
+      "section": "g_mst",
+      "tier": "Pro",
+      "title": "Making a Large Island",
+      "summary": "Largest island after flipping at most one 0.",
+      "links": {
+        "leetcode": "making-a-large-island"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Label islands with union-find sizes; try each 0 with distinct neighbours",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.union_find_apps"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.union_find_apps", "role": "core", "facets": ["adapt"] },
+        { "id": "p.grid_graph", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.uf.double_neighbour",
+        "p.uf.id_mapping",
+        "p.grid.bounds"
+      ]
+    },
+    {
+      "id": "gr.swim_rising_water",
+      "order": 41,
+      "section": "g_mst",
+      "tier": "Pro",
+      "title": "Swim in rising water",
+      "summary": "Least time to swim from top-left to bottom-right.",
+      "links": {
+        "leetcode": "swim-in-rising-water"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Dijkstra on the maximum elevation along the path",
+          "time": "O(n² log n)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dijkstra"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Union cells in increasing elevation until the corners join",
+          "time": "O(n² log n)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.union_find_apps"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dijkstra", "role": "core", "facets": ["adapt"] },
+        { "id": "p.union_find_apps", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.dij.stale",
+        "p.uf.id_mapping"
+      ]
+    },
+    {
+      "id": "gr.bridges",
+      "order": 42,
+      "section": "g_other",
+      "tier": "Pro",
+      "title": "Bridges in Graph",
+      "summary": "Edges whose removal disconnects the graph.",
+      "links": {
+        "leetcode": "critical-connections-in-a-network"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Remove each edge and test connectivity",
+          "time": "O(E (V + E))",
+          "space": "O(V + E)",
+          "demonstrates": [
+            "p.graph_traversal"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Tarjan's discovery and low times",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.tarjan_low_link"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tarjan_low_link", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.tarjan.parent_edge",
+        "p.tarjan.condition"
+      ]
+    },
+    {
+      "id": "gr.articulation_points",
+      "order": 43,
+      "section": "g_other",
+      "tier": "Pro",
+      "title": "Articulation Point",
+      "summary": "Vertices whose removal disconnects the graph.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Tarjan's discovery and low times with the root rule",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "demonstrates": [
+            "p.tarjan_low_link"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.tarjan_low_link", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.tarjan.root_case",
+        "p.tarjan.condition",
+        "p.tarjan.parent_edge"
+      ]
+    },
+    {
+      "id": "gr.kosaraju",
+      "order": 44,
+      "section": "g_other",
+      "tier": "Pro",
+      "title": "Kosaraju's Algorithm",
+      "summary": "Number of strongly connected components.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Finish order, reversed graph, second DFS pass",
+          "time": "O(V + E)",
+          "space": "O(V + E)",
+          "demonstrates": [
+            "p.scc_kosaraju"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.scc_kosaraju", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.scc.no_reverse",
+        "p.scc.order"
+      ]
+    }
+  ]
+}

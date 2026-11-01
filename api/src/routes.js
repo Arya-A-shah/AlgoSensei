@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { ObjectId } from "mongodb";
 import { col } from "./db.js";
 import { config } from "./config.js";
-import { graph, sheetProblems, FACET_LABEL, FACET_BLOOM } from "./graph.js";
+import { graph, sheetProblems, topicList, FACET_LABEL, FACET_BLOOM } from "./graph.js";
 import { registerUser, requireUser } from "./auth.js";
 import { ingestEvent, processAttempt, resolveProblem } from "./pipeline.js";
 import { loadMastery, nodeSummary } from "./mastery.js";
@@ -13,6 +13,8 @@ import { generateHint, clampLevel } from "./hints.js";
 export const api = new Hono();
 
 const LAYER_TITLES = Object.fromEntries(graph.layers.map(({ data }) => [data.layer, data.title]));
+const SECTION_TITLES = new Map(topicList.flatMap((t) => t.sections.map((s) => [`${t.topic}|${s.id}`, s.title])));
+const TOPICS = topicList.map(({ topic, title, step, sections }) => ({ topic, title, step, sections }));
 const nodeName = (id) => graph.nodes.get(id)?.name ?? id;
 const promptKey = (c) => c.req.header("X-Gemini-Key") || config.geminiKey || "";
 const oid = (s) => { try { return new ObjectId(s); } catch { return null; } };
@@ -98,7 +100,7 @@ api.get("/me/overview", async (c) => {
         if (e.polarity === "negative" && e.misconception) seen.set(e.misconception, (seen.get(e.misconception) ?? 0) + 1);
       }
       return {
-        id: n.id, name: n.name, description: n.description, prereqs: n.prereqs,
+        id: n.id, name: n.name, description: n.description, prereqs: n.prereqs, topic: n.topic ?? null,
         summary: nodeSummary(m),
         facets: Object.fromEntries(Object.keys(n.facets).map((f) => [f, {
           criterion: n.facets[f],
@@ -115,6 +117,7 @@ api.get("/me/overview", async (c) => {
     const pr = byProblemId.get(p.id) ?? (p.links?.leetcode ? bySlug.get(p.links.leetcode) : null);
     return {
       id: p.id, title: p.title, order: p.order, section: p.section, tier: p.tier, slug: p.links?.leetcode ?? null,
+      topic: p.topic, step: p.step, sectionTitle: SECTION_TITLES.get(`${p.topic}|${p.section}`) ?? p.section,
       status: pr?.solved ? "solved" : pr && (pr.runs || pr.submits) ? "attempted" : "new",
       firstTry: pr?.firstTryAccepted ?? null,
       core: p.nodes.filter((t) => t.role === "core").map((t) => nodeName(t.id)),
@@ -148,7 +151,7 @@ api.get("/me/overview", async (c) => {
       cardsTotal, cardsDue, streakDays: streak,
     },
     activity: [...days].sort().map(([day, n]) => ({ day, n })),
-    layers, sheet, recentChanges,
+    layers, sheet, topics: TOPICS, recentChanges,
   });
 });
 

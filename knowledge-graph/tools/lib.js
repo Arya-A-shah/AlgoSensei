@@ -36,12 +36,20 @@ export function loadGraph() {
   for (const { file, data } of problemSets) {
     for (const p of data.problems) {
       if (problems.has(p.id)) duplicates.push(`problem ${p.id} (${file})`);
-      problems.set(p.id, { ...p, sheet: data.sheet, file });
+      problems.set(p.id, { ...p, sheet: data.sheet, topic: data.topic, topicTitle: data.topic_title, step: data.step, file });
     }
   }
 
   return { layers, nodes, misconceptions, problems, problemSets, duplicates };
 }
+
+// Problem sets in sheet order (by A2Z step), and every problem in learning order.
+export function topics(graph) {
+  return graph.problemSets
+    .map(({ data }) => ({ topic: data.topic, title: data.topic_title, step: data.step, sheet: data.sheet, sections: data.sections ?? [] }))
+    .sort((a, b) => a.step - b.step);
+}
+export const bySheetOrder = (a, b) => (a.step - b.step) || (a.order - b.order);
 
 // All transitive prerequisites of a node, nearest first, with their depth.
 export function ancestors(graph, id) {

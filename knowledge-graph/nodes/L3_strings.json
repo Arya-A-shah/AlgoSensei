@@ -1,0 +1,137 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "String patterns (A2Z step 5).",
+  "nodes": [
+    {
+      "id": "p.string_build",
+      "name": "Building a string in one pass",
+      "layer": 3,
+      "topic": "strings",
+      "description": "Scan once and append to a result (or rewrite in place with read/write indices) instead of repeated insertion or concatenation.",
+      "prereqs": ["p.linear_scan", "ds.string"],
+      "facets": {
+        "implement": "Appends with += or push_back, reverses once at the end when needed, and handles separators exactly.",
+        "trace": "Can show the result after each word or character.",
+        "adapt": "Adapts the same scan to reversing words, keeping a prefix or trimming spaces."
+      },
+      "misconceptions": [
+        { "id": "p.sb.extra_spaces", "facet": "implement", "desc": "Left leading, trailing or repeated spaces when splitting or joining words." },
+        { "id": "p.sb.reverse_twice", "facet": "adapt", "desc": "Reversed the whole string but not each word back (or the reverse)." },
+        { "id": "p.sb.insert_front", "facet": "implement", "desc": "Inserted at the front of the result repeatedly (O(n²)) instead of appending and reversing once." },
+        { "id": "p.sb.trim_bounds", "facet": "implement", "desc": "Walked the index past the end while skipping spaces." }
+      ]
+    },
+    {
+      "id": "p.balance_counter",
+      "name": "Depth counter for parentheses",
+      "layer": 3,
+      "topic": "strings",
+      "description": "Track open-minus-close depth while scanning; depth alone tells nesting and where each balanced part starts and ends, no stack needed.",
+      "prereqs": ["p.linear_scan", "u.accumulation"],
+      "facets": {
+        "recognize": "Sees that only the count of open brackets matters, so a counter replaces a stack.",
+        "implement": "Updates the depth and decides what to keep in the right order.",
+        "trace": "Can show the depth after each character."
+      },
+      "misconceptions": [
+        { "id": "p.bal.update_order", "facet": "implement", "desc": "Changed the depth before deciding whether to keep the character (or after), so outer parentheses were kept or inner ones dropped." },
+        { "id": "p.bal.used_stack", "facet": "recognize", "desc": "Pushed characters on a stack when only the depth count matters." },
+        { "id": "p.bal.max_timing", "facet": "trace", "desc": "Read the maximum depth before incrementing it (or after decrementing)." }
+      ]
+    },
+    {
+      "id": "p.char_mapping",
+      "name": "Character mapping in both directions",
+      "layer": 3,
+      "topic": "strings",
+      "description": "Keep a mapping from characters of s to t and from t to s; both must stay consistent at every position.",
+      "prereqs": ["ds.string", "ds.hashmap"],
+      "facets": {
+        "recognize": "Sees that a one-to-one correspondence needs a check in both directions.",
+        "implement": "Maintains two maps (or two arrays of last positions) and checks both at each index."
+      },
+      "misconceptions": [
+        { "id": "p.cmap.one_direction", "facet": "implement", "desc": "Checked only s -> t, so two characters of s could map to the same character of t." },
+        { "id": "p.cmap.count_compare", "facet": "recognize", "desc": "Compared character counts, which ignores positions." }
+      ]
+    },
+    {
+      "id": "p.expand_center",
+      "name": "Expand around center",
+      "layer": 3,
+      "topic": "strings",
+      "description": "Every palindrome has a center; expand from each of the 2n - 1 centers (odd and even length) while the two ends match.",
+      "prereqs": ["p.two_pointers_opposite", "ds.string"],
+      "facets": {
+        "recognize": "Uses center expansion for longest palindromic substring and counting palindromic substrings.",
+        "explain": "Explains why there are 2n - 1 centers and why expansion gives O(n²) instead of O(n³).",
+        "implement": "Expands with bounds checks and recovers start and length correctly when expansion stops.",
+        "trace": "Can show l and r during an expansion."
+      },
+      "misconceptions": [
+        { "id": "p.ec.odd_only", "facet": "implement", "desc": "Expanded only around single characters, missing even-length palindromes." },
+        { "id": "p.ec.bounds", "facet": "implement", "desc": "Read s[l - 1] or s[r + 1] without checking bounds while expanding." },
+        { "id": "p.ec.length_calc", "facet": "implement", "desc": "Computed the palindrome's start or length wrongly after expansion stopped (length is r - l - 1)." },
+        { "id": "p.ec.check_all_substrings", "facet": "recognize", "desc": "Checked every substring for being a palindrome (O(n³))." }
+      ]
+    },
+    {
+      "id": "p.string_parsing",
+      "name": "Parsing numbers and symbols from text",
+      "layer": 3,
+      "topic": "strings",
+      "description": "Read text character by character: skip whitespace, read a sign, accumulate digits and clamp before overflow; map symbols through a lookup table.",
+      "prereqs": ["ds.string", "cpp.integer_types", "u.conditionals"],
+      "facets": {
+        "implement": "Handles whitespace, sign, digits and the first invalid character in order, checking overflow before it happens.",
+        "adapt": "Converts in both directions (Roman to integer and back) with a greedy table that includes subtractive pairs."
+      },
+      "misconceptions": [
+        { "id": "p.parse.overflow_check", "facet": "implement", "desc": "Checked for overflow after the multiply-add instead of before, or accumulated in int." },
+        { "id": "p.parse.step_order", "facet": "implement", "desc": "Handled whitespace, sign and digits in the wrong order (accepted a sign after digits, or spaces after the sign)." },
+        { "id": "p.parse.no_stop", "facet": "implement", "desc": "Did not stop at the first non-digit character." },
+        { "id": "p.parse.roman_subtractive", "facet": "implement", "desc": "Missed the subtractive rule: a smaller numeral before a larger one is subtracted (IV, IX, XL)." },
+        { "id": "p.parse.greedy_table", "facet": "adapt", "desc": "For integer to Roman, left the subtractive values (900, 400, 90, 40, 9, 4) out of the greedy table." }
+      ]
+    },
+    {
+      "id": "p.sliding_window",
+      "name": "Sliding window",
+      "layer": 3,
+      "topic": "strings",
+      "description": "Keep a window [l, r] that satisfies a condition: extend r, shrink l while the condition breaks. Count 'exactly k' as atMost(k) - atMost(k - 1).",
+      "prereqs": ["p.two_pointers_same_dir", "p.frequency_counting"],
+      "facets": {
+        "recognize": "Spots longest/shortest/count of subarrays or substrings under a condition that stays valid as the window shrinks.",
+        "explain": "Explains why each index enters and leaves the window once (O(n)).",
+        "implement": "Shrinks with a while loop, updates counts on both edges and counts r - l + 1 windows ending at r.",
+        "adapt": "Turns 'exactly k' into a difference of two 'at most' counts."
+      },
+      "misconceptions": [
+        { "id": "p.sw.shrink_if", "facet": "implement", "desc": "Shrank the window with if instead of while, leaving it invalid." },
+        { "id": "p.sw.count_formula", "facet": "implement", "desc": "Counted windows wrongly (the number of substrings ending at r is r - l + 1)." },
+        { "id": "p.sw.exactly_k", "facet": "adapt", "desc": "Tried to count 'exactly k' directly instead of atMost(k) - atMost(k - 1)." },
+        { "id": "p.sw.stale_count", "facet": "implement", "desc": "Did not decrement or erase counts when the left edge moved, so the distinct count went stale." },
+        { "id": "p.sw.all_substrings", "facet": "recognize", "desc": "Enumerated all substrings (O(n²) or worse) where a window works." }
+      ]
+    },
+    {
+      "id": "p.substring_enumeration",
+      "name": "Enumerating substrings with running state",
+      "layer": 3,
+      "topic": "strings",
+      "description": "For each start, extend the end one character at a time and update the state (counts, max, min) instead of recomputing it.",
+      "prereqs": ["u.nested_loops", "p.frequency_counting"],
+      "facets": {
+        "recognize": "Sees when O(n²) substrings are acceptable and state can be carried as the end moves.",
+        "implement": "Resets state when the start moves and updates it incrementally as the end moves."
+      },
+      "misconceptions": [
+        { "id": "p.subenum.recompute", "facet": "implement", "desc": "Recomputed counts for every substring from scratch (O(n³))." },
+        { "id": "p.subenum.reset", "facet": "implement", "desc": "Did not reset the counts when the start index moved." }
+      ]
+    }
+  ]
+}

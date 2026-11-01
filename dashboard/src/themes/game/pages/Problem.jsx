@@ -30,7 +30,8 @@ export default function Problem({ path }) {
         <span className="fight-num" aria-hidden="true">{p.order}</span>
         <div className="fight-body">
           <p className="fight-meta">
-            <span>{SECTION[p.section] ?? p.section}</span>
+            <span>{data.topics?.find((t) => t.topic === p.topic)?.title ?? ""}</span>
+            <span>{p.sectionTitle ?? SECTION[p.section] ?? p.section}</span>
             <span>{p.tier}</span>
           </p>
           <h1 className="h-page"><span className="sr-only">Problem {p.order}: </span>{p.title}</h1>

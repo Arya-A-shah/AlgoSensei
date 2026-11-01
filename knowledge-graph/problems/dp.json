@@ -1,0 +1,2344 @@
+{
+  "sheet": "Striver A2Z - Dynamic Programming",
+  "topic": "dp",
+  "topic_title": "Dynamic programming",
+  "step": 16,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "dp_intro",
+      "title": "Introduction to DP"
+    },
+    {
+      "id": "dp_1d",
+      "title": "1D DP"
+    },
+    {
+      "id": "dp_grids",
+      "title": "2D/3D DP and DP on Grids"
+    },
+    {
+      "id": "dp_subseq",
+      "title": "DP on Subsequences"
+    },
+    {
+      "id": "dp_strings",
+      "title": "DP on Strings"
+    },
+    {
+      "id": "dp_stocks",
+      "title": "DP on Stocks"
+    },
+    {
+      "id": "dp_lis",
+      "title": "DP on LIS"
+    },
+    {
+      "id": "dp_mcm",
+      "title": "MCM DP | Partition DP"
+    },
+    {
+      "id": "dp_squares",
+      "title": "DP on Squares"
+    }
+  ],
+  "problems": [
+    {
+      "id": "dp.fibonacci",
+      "order": 1,
+      "section": "dp_intro",
+      "tier": "Basic",
+      "title": "Dynamic Programming Introduction",
+      "summary": "Fibonacci numbers, solved by memoization, tabulation and two variables.",
+      "links": {
+        "leetcode": "fibonacci-number"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Plain recursion",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "u.recursion"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_memoization", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.dp_tabulation", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.memo.not_stored",
+        "p.memo.sentinel",
+        "p.tab.fill_order",
+        "p.space.no_swap",
+        "p.memo.stack_depth"
+      ]
+    },
+    {
+      "id": "dp.climbing_stairs",
+      "order": 2,
+      "section": "dp_1d",
+      "tier": "Basic",
+      "title": "Climbing Stairs",
+      "summary": "Ways to climb n stairs taking 1 or 2 steps.",
+      "links": {
+        "leetcode": "climbing-stairs"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_1d", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["recognize", "implement"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dpr.base_cases",
+        "p.memo.not_stored",
+        "p.space.no_swap"
+      ]
+    },
+    {
+      "id": "dp.frog_jump",
+      "order": 3,
+      "section": "dp_1d",
+      "tier": "Basic",
+      "title": "Frog Jump (DP-3)",
+      "summary": "Least energy to reach the last stair jumping 1 or 2, paying the height difference.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Greedy: always jump to the closer height",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_1d", "role": "core", "facets": ["implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["recognize", "explain"] },
+        { "id": "p.dp_memoization", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dpr.greedy_instead",
+        "p.dpr.base_cases",
+        "p.memo.not_stored",
+        "p.memo.stack_depth"
+      ]
+    },
+    {
+      "id": "dp.frog_jump_k",
+      "order": 4,
+      "section": "dp_1d",
+      "tier": "Core",
+      "title": "Frog Jump with k distances (DP-4)",
+      "summary": "Same, but jumps of up to k stairs.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n k)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n k)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n k)",
+          "space": "O(k)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_1d", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.dp1.lookback_bounds",
+        "p.dpr.base_cases"
+      ]
+    },
+    {
+      "id": "dp.non_adjacent",
+      "order": 5,
+      "section": "dp_1d",
+      "tier": "Core",
+      "title": "Maximum sum of non-adjacent elements (DP 5)",
+      "summary": "Largest sum with no two chosen elements adjacent.",
+      "links": {
+        "leetcode": "house-robber"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Every subsequence",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_1d", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["explain"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dp1.adjacent_pick",
+        "p.dpr.base_cases",
+        "p.space.no_swap"
+      ]
+    },
+    {
+      "id": "dp.house_robber_2",
+      "order": 6,
+      "section": "dp_1d",
+      "tier": "Core",
+      "title": "House Robber (DP 6)",
+      "summary": "Non-adjacent sum on a circular street.",
+      "links": {
+        "leetcode": "house-robber-ii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Run the linear solution twice: without the first and without the last house",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_1d",
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_1d", "role": "core", "facets": ["adapt"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.dp1.circular",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "dp.ninja_training",
+      "order": 7,
+      "section": "dp_grids",
+      "tier": "Core",
+      "title": "Ninja's Training (DP 7)",
+      "summary": "Most points over n days, never repeating yesterday's activity.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Greedy: best activity each day",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n * 4 * 3)",
+          "space": "O(n * 4)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n * 4 * 3)",
+          "space": "O(n * 4)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n * 4 * 3)",
+          "space": "O(4)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_recurrence", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.dp_tabulation", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dpr.state_missing",
+        "p.dpr.greedy_instead",
+        "p.tab.fill_order",
+        "p.dpr.cannot_define"
+      ]
+    },
+    {
+      "id": "dp.unique_paths",
+      "order": 8,
+      "section": "dp_grids",
+      "tier": "Basic",
+      "title": "Grid Unique Paths: DP on Grids (DP8)",
+      "summary": "Paths from top-left to bottom-right moving right or down.",
+      "links": {
+        "leetcode": "unique-paths"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Combinatorics: C(m + n - 2, m - 1)",
+          "time": "O(min(m, n))",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.pascal_combinatorics"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(m n)",
+          "space": "O(m n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(m n)",
+          "space": "O(m n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(m n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_grid", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["explain"] },
+        { "id": "p.pascal_combinatorics", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.gdp.first_row_col",
+        "p.dpr.base_cases",
+        "p.pascal.factorial",
+        "p.memo.by_value"
+      ]
+    },
+    {
+      "id": "dp.unique_paths_2",
+      "order": 9,
+      "section": "dp_grids",
+      "tier": "Core",
+      "title": "Grid Unique Paths 2 (DP 9)",
+      "summary": "Same with obstacles.",
+      "links": {
+        "leetcode": "unique-paths-ii"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(m n)",
+          "space": "O(m n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(m n)",
+          "space": "O(m n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(m n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_grid", "role": "core", "facets": ["implement"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.gdp.obstacle",
+        "p.gdp.first_row_col",
+        "p.space.overwrite"
+      ]
+    },
+    {
+      "id": "dp.min_path_sum",
+      "order": 10,
+      "section": "dp_grids",
+      "tier": "Basic",
+      "title": "Minimum path sum in Grid (DP 10)",
+      "summary": "Cheapest path moving right or down.",
+      "links": {
+        "leetcode": "minimum-path-sum"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(m n)",
+          "space": "O(m n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(m n)",
+          "space": "O(m n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(m n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_grid", "role": "core", "facets": ["implement"] },
+        { "id": "p.dp_tabulation", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.gdp.first_row_col",
+        "p.tab.init",
+        "p.dpr.greedy_instead"
+      ]
+    },
+    {
+      "id": "dp.triangle",
+      "order": 11,
+      "section": "dp_grids",
+      "tier": "Core",
+      "title": "Minimum path sum in Triangular Grid (DP 11)",
+      "summary": "Cheapest top-to-bottom path in a triangle.",
+      "links": {
+        "leetcode": "triangle"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_grid", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.gdp.out_of_row",
+        "p.tab.fill_order",
+        "p.dpr.greedy_instead"
+      ]
+    },
+    {
+      "id": "dp.falling_path",
+      "order": 12,
+      "section": "dp_grids",
+      "tier": "Core",
+      "title": "Minimum/Maximum Falling Path Sum (DP-12)",
+      "summary": "Best path from any top cell to any bottom cell, moving down or diagonally.",
+      "links": {
+        "leetcode": "minimum-falling-path-sum"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_grid", "role": "core", "facets": ["adapt"] },
+        { "id": "p.dp_tabulation", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.gdp.out_of_row",
+        "p.tab.init"
+      ]
+    },
+    {
+      "id": "dp.cherry_pickup_2",
+      "order": 13,
+      "section": "dp_grids",
+      "tier": "Pro",
+      "title": "3-d DP: Ninja and his friends (DP-13)",
+      "summary": "Two walkers collect the most chocolates moving down the grid.",
+      "links": {
+        "leetcode": "cherry-pickup-ii"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(r c² 9)",
+          "space": "O(r c²)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(r c² 9)",
+          "space": "O(r c²)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(r c² 9)",
+          "space": "O(c²)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_grid", "role": "core", "facets": ["adapt"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["explain"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.gdp.two_walkers",
+        "p.gdp.out_of_row",
+        "p.dpr.state_missing"
+      ]
+    },
+    {
+      "id": "dp.subset_sum",
+      "order": 14,
+      "section": "dp_subseq",
+      "tier": "Core",
+      "title": "Subset sum equal to target (DP-14)",
+      "summary": "Is there a subset summing to k?",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Pick / not-pick",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n k)",
+          "space": "O(n k)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n k)",
+          "space": "O(n k)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n k)",
+          "space": "O(k)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_knapsack", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.ks.exponential",
+        "p.ks.reuse",
+        "p.dpr.base_cases",
+        "p.space.direction"
+      ]
+    },
+    {
+      "id": "dp.partition_equal",
+      "order": 15,
+      "section": "dp_subseq",
+      "tier": "Core",
+      "title": "Partition Equal Subset Sum (DP-15)",
+      "summary": "Can the array be split into two equal-sum halves?",
+      "links": {
+        "leetcode": "partition-equal-subset-sum"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Subset sum to total / 2 (reject odd totals)",
+          "time": "O(n * sum)",
+          "space": "O(sum)",
+          "demonstrates": [
+            "p.dp_knapsack",
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_knapsack", "role": "core", "facets": ["recognize", "adapt"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.ks.reuse",
+        "p.space.direction",
+        "p.ks.exponential"
+      ]
+    },
+    {
+      "id": "dp.min_diff_partition",
+      "order": 16,
+      "section": "dp_subseq",
+      "tier": "Pro",
+      "title": "Partition Set Into 2 Subsets With Min Absolute Sum Diff (DP-16)",
+      "summary": "Split into two subsets minimizing the difference of sums (non-negative values).",
+      "links": {
+        "leetcode": null,
+        "leetcode_note": "LeetCode 2035 is a harder variant with negative numbers."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Subset-sum table up to total, scan the last row",
+          "time": "O(n * sum)",
+          "space": "O(sum)",
+          "demonstrates": [
+            "p.dp_knapsack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_knapsack", "role": "core", "facets": ["adapt"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.ks.min_diff_row",
+        "p.ks.reuse",
+        "r.model.missed_constraint"
+      ]
+    },
+    {
+      "id": "dp.count_subsets_k",
+      "order": 17,
+      "section": "dp_subseq",
+      "tier": "Core",
+      "title": "Count Subsets with Sum K (DP-17)",
+      "summary": "Number of subsets summing to k, mod 1e9 + 7.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n k)",
+          "space": "O(n k)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n k)",
+          "space": "O(n k)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n k)",
+          "space": "O(k)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_knapsack", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.ks.zeros",
+        "p.ks.reuse",
+        "cpp.int.overflow_sum"
+      ]
+    },
+    {
+      "id": "dp.count_partitions_diff",
+      "order": 18,
+      "section": "dp_subseq",
+      "tier": "Pro",
+      "title": "Count Partitions with Given Difference (DP-18)",
+      "summary": "Partitions whose sums differ by d.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Count subsets with sum (total - d) / 2",
+          "time": "O(n * sum)",
+          "space": "O(sum)",
+          "demonstrates": [
+            "p.dp_knapsack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_knapsack", "role": "core", "facets": ["adapt"] },
+        { "id": "p.math_identities", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.ks.diff_formula",
+        "p.ks.zeros"
+      ]
+    },
+    {
+      "id": "dp.assign_cookies",
+      "order": 19,
+      "section": "dp_subseq",
+      "tier": "Basic",
+      "title": "Assign Cookies",
+      "summary": "Most children satisfied, one cookie each.",
+      "links": {
+        "leetcode": "assign-cookies"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Sort both, match greedily with two pointers",
+          "time": "O(n log n + m log m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.sort_then_scan",
+            "p.two_pointers_same_dir"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.sort_then_scan", "role": "core", "facets": ["recognize", "explain"] },
+        { "id": "p.two_pointers_same_dir", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.sort.when_not_allowed",
+        "p.rw.write_advance"
+      ]
+    },
+    {
+      "id": "dp.coin_change",
+      "order": 20,
+      "section": "dp_subseq",
+      "tier": "Core",
+      "title": "Minimum Coins (DP-20)",
+      "summary": "Fewest coins to make an amount, or -1.",
+      "links": {
+        "leetcode": "coin-change"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Greedy: largest coin first",
+          "time": "O(amount)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n * amount)",
+          "space": "O(n * amount)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n * amount)",
+          "space": "O(n * amount)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n * amount)",
+          "space": "O(amount)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_unbounded", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.unb.greedy_coins",
+        "p.unb.impossible",
+        "p.unb.move_on",
+        "p.dpr.greedy_instead"
+      ]
+    },
+    {
+      "id": "dp.target_sum",
+      "order": 21,
+      "section": "dp_subseq",
+      "tier": "Core",
+      "title": "Target Sum (DP-21)",
+      "summary": "Ways to assign + or - to reach the target.",
+      "links": {
+        "leetcode": "target-sum"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Try both signs",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Count subsets with sum (total + target) / 2",
+          "time": "O(n * sum)",
+          "space": "O(sum)",
+          "demonstrates": [
+            "p.dp_knapsack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_knapsack", "role": "core", "facets": ["adapt", "recognize"] },
+        { "id": "p.math_identities", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.ks.diff_formula",
+        "p.ks.zeros",
+        "p.ks.exponential"
+      ]
+    },
+    {
+      "id": "dp.coin_change_2",
+      "order": 22,
+      "section": "dp_subseq",
+      "tier": "Core",
+      "title": "Coin Change 2 (DP-22)",
+      "summary": "Number of combinations that make the amount.",
+      "links": {
+        "leetcode": "coin-change-ii"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n * amount)",
+          "space": "O(n * amount)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n * amount)",
+          "space": "O(n * amount)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n * amount)",
+          "space": "O(amount)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_unbounded", "role": "core", "facets": ["implement"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.unb.permutations",
+        "p.unb.move_on",
+        "p.space.direction"
+      ]
+    },
+    {
+      "id": "dp.unbounded_knapsack",
+      "order": 23,
+      "section": "dp_subseq",
+      "tier": "Core",
+      "title": "Unbounded Knapsack (DP-23)",
+      "summary": "Most value with unlimited copies of each item.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n W)",
+          "space": "O(n W)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n W)",
+          "space": "O(n W)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n W)",
+          "space": "O(W)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_unbounded", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.unb.move_on",
+        "p.space.direction"
+      ]
+    },
+    {
+      "id": "dp.rod_cutting",
+      "order": 24,
+      "section": "dp_subseq",
+      "tier": "Core",
+      "title": "Rod Cutting Problem (DP-24)",
+      "summary": "Best price from cutting a rod into lengths with given prices.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_unbounded", "role": "core", "facets": ["implement"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.unb.move_on",
+        "p.tab.index_shift"
+      ]
+    },
+    {
+      "id": "dp.lcs",
+      "order": 25,
+      "section": "dp_strings",
+      "tier": "Core",
+      "title": "Longest Common Subsequence (DP-25)",
+      "summary": "Length of the longest common subsequence.",
+      "links": {
+        "leetcode": "longest-common-subsequence"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "All subsequences of one string",
+          "time": "O(2^n m)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "p.dp_tabulation", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dps.shifted_index",
+        "p.tab.index_shift",
+        "p.memo.not_stored",
+        "p.dpr.cannot_define",
+        "p.memo.by_value"
+      ]
+    },
+    {
+      "id": "dp.print_lcs",
+      "order": 26,
+      "section": "dp_strings",
+      "tier": "Core",
+      "title": "Print Longest Common Subsequence (DP-26)",
+      "summary": "One longest common subsequence itself.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Fill the LCS table, walk back from the corner",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_strings"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["adapt"] },
+        { "id": "p.string_build", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dps.backtrack",
+        "p.sb.insert_front"
+      ]
+    },
+    {
+      "id": "dp.longest_common_substring",
+      "order": 27,
+      "section": "dp_strings",
+      "tier": "Core",
+      "title": "Longest Common Substring (DP-27)",
+      "summary": "Length of the longest common contiguous substring.",
+      "links": {
+        "leetcode": null,
+        "leetcode_note": "LeetCode 718 (maximum-length-of-repeated-subarray) is the same idea on arrays."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "dp = diagonal + 1 on a match, 0 otherwise; track the max",
+          "time": "O(n m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.dp_strings"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["adapt"] },
+        { "id": "p.track_extremes", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dps.substring",
+        "p.dps.shifted_index"
+      ]
+    },
+    {
+      "id": "dp.longest_palindromic_subseq",
+      "order": 28,
+      "section": "dp_strings",
+      "tier": "Core",
+      "title": "Longest Palindromic Subsequence (DP-28)",
+      "summary": "Longest subsequence that is a palindrome.",
+      "links": {
+        "leetcode": "longest-palindromic-subsequence"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "LCS of the string and its reverse",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_strings"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["recognize", "adapt"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.dps.substring",
+        "p.dps.shifted_index"
+      ]
+    },
+    {
+      "id": "dp.min_insertions_palindrome",
+      "order": 29,
+      "section": "dp_strings",
+      "tier": "Core",
+      "title": "Minimum insertions to make string palindrome (DP-29)",
+      "summary": "Fewest insertions to make a palindrome.",
+      "links": {
+        "leetcode": "minimum-insertion-steps-to-make-a-string-palindrome"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "n - longest palindromic subsequence",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_strings"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.dps.shifted_index"
+      ]
+    },
+    {
+      "id": "dp.min_ins_del",
+      "order": 30,
+      "section": "dp_strings",
+      "tier": "Core",
+      "title": "Minimum Insertions/Deletions to Convert String (DP-30)",
+      "summary": "Fewest insertions plus deletions to turn one string into another.",
+      "links": {
+        "leetcode": "delete-operation-for-two-strings",
+        "leetcode_note": "LeetCode 583 asks for deletions only; the LCS reasoning is the same."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "(n - LCS) + (m - LCS)",
+          "time": "O(n m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.dp_strings"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.dps.shifted_index"
+      ]
+    },
+    {
+      "id": "dp.shortest_supersequence",
+      "order": 31,
+      "section": "dp_strings",
+      "tier": "Pro",
+      "title": "Shortest Common Supersequence (DP-31)",
+      "summary": "Shortest string containing both as subsequences.",
+      "links": {
+        "leetcode": "shortest-common-supersequence"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Fill the LCS table, walk back adding unmatched characters",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_strings"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["adapt"] },
+        { "id": "p.string_build", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dps.backtrack",
+        "p.sb.insert_front"
+      ]
+    },
+    {
+      "id": "dp.distinct_subsequences",
+      "order": 32,
+      "section": "dp_strings",
+      "tier": "Pro",
+      "title": "Distinct Subsequences (DP-32)",
+      "summary": "Ways t appears as a subsequence of s.",
+      "links": {
+        "leetcode": "distinct-subsequences"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dps.overflow",
+        "p.dps.shifted_index",
+        "p.dpr.base_cases"
+      ]
+    },
+    {
+      "id": "dp.edit_distance",
+      "order": 33,
+      "section": "dp_strings",
+      "tier": "Pro",
+      "title": "Edit Distance (DP-33)",
+      "summary": "Fewest insertions, deletions and replacements to convert word1 to word2.",
+      "links": {
+        "leetcode": "edit-distance"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.dps.edit_ops",
+        "p.dpr.base_cases",
+        "p.dps.shifted_index"
+      ]
+    },
+    {
+      "id": "dp.wildcard",
+      "order": 34,
+      "section": "dp_strings",
+      "tier": "Pro",
+      "title": "Wildcard Matching (DP-34)",
+      "summary": "Does the pattern with ? and * match the whole string?",
+      "links": {
+        "leetcode": "wildcard-matching"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_strings", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.dps.wildcard_star",
+        "p.dpr.base_cases"
+      ]
+    },
+    {
+      "id": "dp.stock_1",
+      "order": 35,
+      "section": "dp_stocks",
+      "tier": "Basic",
+      "title": "Best Time to Buy and Sell Stock (DP-35)",
+      "summary": "Best profit from one buy and one later sell.",
+      "links": {
+        "leetcode": "best-time-to-buy-and-sell-stock"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Every pair of days",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Track the minimum price so far",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.track_extremes"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.track_extremes", "role": "core", "facets": ["adapt"] },
+        { "id": "p.dp_stocks", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "u.init.max_zero",
+        "p.ext.sort_for_max"
+      ]
+    },
+    {
+      "id": "dp.stock_2",
+      "order": 36,
+      "section": "dp_stocks",
+      "tier": "Core",
+      "title": "Buy and Sell Stock - II (DP-36)",
+      "summary": "Best profit with unlimited transactions.",
+      "links": {
+        "leetcode": "best-time-to-buy-and-sell-stock-ii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Sum of all positive day-to-day gains",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_stocks", "role": "core", "facets": ["recognize", "implement"] }
+      ],
+      "watch_for": [
+        "p.stk.single_min",
+        "p.stk.unlimited_greedy"
+      ]
+    },
+    {
+      "id": "dp.stock_3",
+      "order": 37,
+      "section": "dp_stocks",
+      "tier": "Pro",
+      "title": "Buy and Sell Stocks III (DP-37)",
+      "summary": "Best profit with at most two transactions.",
+      "links": {
+        "leetcode": "best-time-to-buy-and-sell-stock-iii"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n * 2 * 3)",
+          "space": "O(n * 2 * 3)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n * 2 * 3)",
+          "space": "O(n * 2 * 3)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n * 2 * 3)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_stocks", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.stk.count_twice",
+        "p.stk.single_min",
+        "p.dpr.state_missing"
+      ]
+    },
+    {
+      "id": "dp.stock_4",
+      "order": 38,
+      "section": "dp_stocks",
+      "tier": "Pro",
+      "title": "Buy and Sell Stock IV (DP-38)",
+      "summary": "Best profit with at most k transactions.",
+      "links": {
+        "leetcode": "best-time-to-buy-and-sell-stock-iv"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n k)",
+          "space": "O(n k)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n k)",
+          "space": "O(n k)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n k)",
+          "space": "O(k)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_stocks", "role": "core", "facets": ["adapt"] },
+        { "id": "p.dp_space_opt", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.stk.count_twice",
+        "p.dpr.state_missing"
+      ]
+    },
+    {
+      "id": "dp.stock_cooldown",
+      "order": 39,
+      "section": "dp_stocks",
+      "tier": "Core",
+      "title": "Buy and Sell Stocks With Cooldown (DP-39)",
+      "summary": "Unlimited transactions with a one-day cooldown after selling.",
+      "links": {
+        "leetcode": "best-time-to-buy-and-sell-stock-with-cooldown"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_stocks", "role": "core", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.stk.cooldown",
+        "p.dpr.base_cases"
+      ]
+    },
+    {
+      "id": "dp.stock_fee",
+      "order": 40,
+      "section": "dp_stocks",
+      "tier": "Core",
+      "title": "Buy and Sell Stocks With Transaction Fee (DP-40)",
+      "summary": "Unlimited transactions, each paying a fee.",
+      "links": {
+        "leetcode": "best-time-to-buy-and-sell-stock-with-transaction-fee"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized recursion",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Tabulation",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_tabulation"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Space-optimized tabulation",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.dp_space_opt"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_stocks", "role": "core", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.stk.count_twice",
+        "p.stk.unlimited_greedy"
+      ]
+    },
+    {
+      "id": "dp.lis",
+      "order": 41,
+      "section": "dp_lis",
+      "tier": "Core",
+      "title": "Longest Increasing Subsequence (DP-41)",
+      "summary": "Length of the longest strictly increasing subsequence.",
+      "links": {
+        "leetcode": "longest-increasing-subsequence"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Pick / not-pick with the previous index",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "dp[i] over all j < i",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_lis"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Tails array with lower bound",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_lis",
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_lis", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.dp_recurrence", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.lis.answer_last",
+        "p.lis.bound_choice",
+        "p.dpr.state_missing"
+      ]
+    },
+    {
+      "id": "dp.print_lis",
+      "order": 42,
+      "section": "dp_lis",
+      "tier": "Core",
+      "title": "Printing Longest Increasing Subsequence (DP-42)",
+      "summary": "One longest increasing subsequence itself.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "O(n²) dp with a parent array, walk back from the best end",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_lis"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_lis", "role": "core", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.lis.answer_last",
+        "p.lis.tails_is_lis"
+      ]
+    },
+    {
+      "id": "dp.lis_binary_search",
+      "order": 43,
+      "section": "dp_lis",
+      "tier": "Core",
+      "title": "Longest Increasing Subsequence (DP-43)",
+      "summary": "LIS length in O(n log n).",
+      "links": {
+        "leetcode": null,
+        "leetcode_note": "Same task as LeetCode 300, solved with binary search."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Tails array with lower bound",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_lis",
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_lis", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.bs_boundaries", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.lis.tails_is_lis",
+        "p.lis.bound_choice"
+      ]
+    },
+    {
+      "id": "dp.divisible_subset",
+      "order": 44,
+      "section": "dp_lis",
+      "tier": "Core",
+      "title": "Largest Divisible Subset (DP-44)",
+      "summary": "Largest subset where every pair divides one way.",
+      "links": {
+        "leetcode": "largest-divisible-subset"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Sort, LIS-style dp on divisibility with parents",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_lis"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_lis", "role": "core", "facets": ["adapt"] },
+        { "id": "p.sort_then_scan", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.lis.sort_first",
+        "p.lis.answer_last"
+      ]
+    },
+    {
+      "id": "dp.string_chain",
+      "order": 45,
+      "section": "dp_lis",
+      "tier": "Core",
+      "title": "Longest String Chain (DP-45)",
+      "summary": "Longest chain where each word adds one letter to the previous.",
+      "links": {
+        "leetcode": "longest-string-chain"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Sort by length, LIS-style dp with a predecessor check",
+          "time": "O(n² L)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_lis"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_lis", "role": "core", "facets": ["adapt"] },
+        { "id": "ds.string", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.lis.sort_first",
+        "p.lis.answer_last"
+      ]
+    },
+    {
+      "id": "dp.bitonic",
+      "order": 46,
+      "section": "dp_lis",
+      "tier": "Core",
+      "title": "Longest Bitonic Subsequence (DP-46)",
+      "summary": "Longest subsequence that increases then decreases.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "LIS from the left plus LIS from the right minus 1",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_lis"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_lis", "role": "core", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.lis.answer_last"
+      ]
+    },
+    {
+      "id": "dp.count_lis",
+      "order": 47,
+      "section": "dp_lis",
+      "tier": "Pro",
+      "title": "Number of Longest Increasing Subsequences (DP-47)",
+      "summary": "How many longest increasing subsequences exist.",
+      "links": {
+        "leetcode": "number-of-longest-increasing-subsequence"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Length and count arrays",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_lis"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_lis", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.lis.count",
+        "p.lis.answer_last"
+      ]
+    },
+    {
+      "id": "dp.mcm",
+      "order": 48,
+      "section": "dp_mcm",
+      "tier": "Pro",
+      "title": "Matrix Chain Multiplication (DP-48)",
+      "summary": "Fewest scalar multiplications to multiply a chain of matrices.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Memoized (i, j) with every split",
+          "time": "O(n³)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_partition",
+            "p.dp_memoization"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Tabulation by increasing length",
+          "time": "O(n³)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_partition",
+            "p.dp_tabulation"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_partition", "role": "core", "facets": ["recognize", "explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.part.split_cost",
+        "p.part.fill_order",
+        "p.memo.not_stored"
+      ]
+    },
+    {
+      "id": "dp.cut_stick",
+      "order": 49,
+      "section": "dp_mcm",
+      "tier": "Pro",
+      "title": "Minimum Cost to Cut the Stick (DP-50)",
+      "summary": "Least total cost to make all cuts.",
+      "links": {
+        "leetcode": "minimum-cost-to-cut-a-stick"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Sort cuts, add ends, partition dp over cut indices",
+          "time": "O(c³)",
+          "space": "O(c²)",
+          "demonstrates": [
+            "p.dp_partition"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_partition", "role": "core", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.part.cut_sort",
+        "p.part.fill_order"
+      ]
+    },
+    {
+      "id": "dp.burst_balloons",
+      "order": 50,
+      "section": "dp_mcm",
+      "tier": "Pro",
+      "title": "Burst Balloons (DP-51)",
+      "summary": "Most coins from bursting every balloon.",
+      "links": {
+        "leetcode": "burst-balloons"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Pad with 1s; k is the last balloon burst in (i, j)",
+          "time": "O(n³)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_partition"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_partition", "role": "core", "facets": ["adapt", "explain"] }
+      ],
+      "watch_for": [
+        "p.part.burst_first",
+        "p.part.fill_order"
+      ]
+    },
+    {
+      "id": "dp.boolean_expression",
+      "order": 51,
+      "section": "dp_mcm",
+      "tier": "Pro",
+      "title": "Evaluate Boolean Expression to True (DP-52)",
+      "summary": "Ways to parenthesize a boolean expression to make it true.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Partition dp counting true and false ways per range",
+          "time": "O(n³)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_partition"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_partition", "role": "core", "facets": ["adapt"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.part.bool_counts",
+        "cpp.int.overflow_sum"
+      ]
+    },
+    {
+      "id": "dp.palindrome_partitioning_2",
+      "order": 52,
+      "section": "dp_mcm",
+      "tier": "Pro",
+      "title": "Palindrome Partitioning - II (DP-53)",
+      "summary": "Fewest cuts so every part is a palindrome.",
+      "links": {
+        "leetcode": "palindrome-partitioning-ii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Front partition: dp[i] = 1 + min over palindromic s[i..j]",
+          "time": "O(n²)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.dp_partition"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_partition", "role": "core", "facets": ["adapt", "recognize"] },
+        { "id": "p.expand_center", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.part.fill_order",
+        "p.dpr.base_cases"
+      ]
+    },
+    {
+      "id": "dp.partition_array_max_sum",
+      "order": 53,
+      "section": "dp_mcm",
+      "tier": "Core",
+      "title": "Partition Array for Maximum Sum (DP-54)",
+      "summary": "Split into parts of length at most k; each part becomes its maximum; maximize the sum.",
+      "links": {
+        "leetcode": "partition-array-for-maximum-sum"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Front partition trying lengths 1..k with a running max",
+          "time": "O(n k)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_partition"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_partition", "role": "core", "facets": ["adapt"] },
+        { "id": "p.track_extremes", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.dpr.base_cases",
+        "p.part.fill_order"
+      ]
+    },
+    {
+      "id": "dp.max_rectangle_ones",
+      "order": 54,
+      "section": "dp_squares",
+      "tier": "Pro",
+      "title": "Maximum Rectangle Area with all 1's (DP-55)",
+      "summary": "Largest rectangle of 1s in a binary matrix.",
+      "links": {
+        "leetcode": null,
+        "leetcode_note": "Same task as LeetCode 85 (maximal-rectangle), listed under Stack and Queue."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Row heights plus largest histogram rectangle",
+          "time": "O(n m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.histogram_area"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.histogram_area", "role": "core", "facets": ["adapt"] },
+        { "id": "p.dp_squares", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.hist.row_heights",
+        "p.hist.width"
+      ]
+    },
+    {
+      "id": "dp.count_squares",
+      "order": 55,
+      "section": "dp_squares",
+      "tier": "Core",
+      "title": "Count Square Submatrices with All Ones (DP-56)",
+      "summary": "Number of all-1 square submatrices.",
+      "links": {
+        "leetcode": "count-square-submatrices-with-all-ones"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "dp = 1 + min(top, left, top-left); sum every cell",
+          "time": "O(n m)",
+          "space": "O(n m)",
+          "demonstrates": [
+            "p.dp_squares"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.dp_squares", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.sqdp.two_neighbours",
+        "p.sqdp.sum_vs_max"
+      ]
+    }
+  ]
+}

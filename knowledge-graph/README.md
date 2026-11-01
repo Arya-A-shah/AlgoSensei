@@ -3,8 +3,8 @@
 The fixed **domain model** AlgoSensei grades against. Every run/submit is mapped onto this graph, so a learner's profile can be built from their very first problem. No historical data is required.
 
 ```
-nodes/        concept DAG, one file per layer
-problems/     problem sets tagged against the nodes (arrays.json = Striver A2Z arrays, 32 problems)
+nodes/        concept DAG: one file per layer for shared concepts, plus L3_<topic>.json for each topic's patterns
+problems/     one problem set per Striver A2Z topic, tagged against the nodes
 tools/        validate.js, context-pack.js
 graph.mmd     generated Mermaid view of the prerequisite DAG
 ```
@@ -12,7 +12,8 @@ graph.mmd     generated Mermaid view of the prerequisite DAG
 ```bash
 npm run validate        # integrity checks + coverage stats (exit 1 on errors)
 npm run graph           # validate + regenerate graph.mmd
-npm run list            # list problem ids
+npm run list            # list problem ids, topic by topic
+npm run format -- <files>   # rewrite JSON in the house style (one-line tags and misconceptions)
 npm run pack -- arr.two_sum   # the exact context the grading LLM receives for one problem
 ```
 
@@ -26,8 +27,8 @@ No dependencies; requires Node 18+.
 |---|---|---|---|
 | L0 Universal | `u.` | Language-agnostic mechanics | initialization, indexing, loop bounds, swapping, recursion |
 | L1 C++ | `cpp.` | Language & STL specifics | `vector`, overflow / `long long`, `size_t`, iterators, `unordered_map` |
-| L2 Data structures | `ds.` | Purpose, guarantees, costs, when to use | array, sorted array, matrix, hashmap, hashset |
-| L3 Patterns | `p.` | Reusable techniques with an invariant | two pointers, Kadane, Boyer-Moore, DNF, merge-sort counting |
+| L2 Data structures | `ds.` | Purpose, guarantees, costs, when to use | array, hashmap, string, linked list, stack, queue, heap, binary tree, BST, graph, union-find |
+| L3 Patterns | `p.` | Reusable techniques with an invariant | two pointers, binary search on the answer, sliding window, fast/slow pointers, backtracking, monotonic stack, Dijkstra, knapsack DP |
 | L4 Reasoning | `r.` | Meta-skills across all problems | problem modeling, edge cases, tracing, invariants, complexity |
 
 A node's prerequisites must sit in the same or a lower layer (enforced by the validator). The graph is a **DAG**, not a tree, because a node can have several parents (e.g. `p.complement_lookup` needs both `ds.hashmap` and `p.linear_scan`).
@@ -64,6 +65,25 @@ Ids are prefixed by their node's short prefix (`p.dnf.*` belongs to `p.dutch_nat
 
 ## 4. Problems
 
+One file per topic, following Striver's A2Z sheet in its own order. Each file carries `topic`, `topic_title`, `step` (the A2Z step number, which orders topics) and its `sections`; problems are numbered from 1 within their topic.
+
+| Step | Topic | File | Problems | LeetCode-linked |
+|---|---|---|---|---|
+| 3 | Arrays | `problems/arrays.json` | 32 | 23 |
+| 4 | Binary search | `problems/binary_search.json` | 32 | 20 |
+| 5 | Strings | `problems/strings.json` | 15 | 14 |
+| 6 | Linked list | `problems/linked_list.json` | 30 | 15 |
+| 7 | Recursion | `problems/recursion.json` | 24 | 15 |
+| 9 | Stack and queue | `problems/stack_queue.json` | 29 | 18 |
+| 13 | Binary trees | `problems/binary_trees.json` | 30 | 23 |
+| 14 | Binary search trees | `problems/bst.json` | 14 | 12 |
+| 15 | Graphs | `problems/graphs.json` | 44 | 28 |
+| 16 | Dynamic programming | `problems/dp.json` | 55 | 38 |
+
+Pure theory entries on the sheet (for example "Introduction to Trees" or "Graph Representation | Java") are left out. Where two sheet entries are the same LeetCode problem, only the first carries the link, so attempts are credited once; the other notes which problem to practise on. Every LeetCode slug was checked against LeetCode's problem list.
+
+L2 and L3 nodes carry a `topic` (a problem-set topic, or `general` for structures used across topics such as the heap); the dashboard groups concepts by it.
+
 ```json
 { "id": "arr.sort_012", "tier": "Core",
   "approaches": [ { "level": "optimal", "name": "Dutch National Flag", "time": "O(n)", "space": "O(1)",
@@ -98,7 +118,8 @@ run/submit ──► context-pack(problem) + code + verdict + failing test + hin
 ## 6. Extending
 
 1. **New problem**: add it to a `problems/*.json` file. Tag 1–3 `core` nodes, list approaches with `demonstrates`, add `watch_for`. Run `npm run validate`.
-2. **New concept** (e.g. heap for the next sheet section): add a node to the right layer file with prereqs, facet criteria, and misconceptions. A heap node belongs in `L2_data_structures.json`, and `priority_queue` syntax (comparator direction, max-heap default) in `L1_cpp.json`.
+2. **New concept**: add a node with prereqs, facet criteria and misconceptions. Shared data structures go in `L2_data_structures.json`, language details in `L1_cpp.json`, and a topic's patterns in `L3_<topic>.json`. Give L2 and L3 nodes a `topic`.
 3. **New misconception** found in a real submission: add it to its node. Prefer this over free-text notes. Every id added makes the grader sharper.
+4. **New topic** (for example the sheet's Greedy or Heaps step): add `problems/<topic>.json` with `topic`, `topic_title`, `step` and `sections`, plus `nodes/L3_<topic>.json` for its patterns. Run `npm run format` on new files and `npm run validate`.
 
-The validator rejects unknown ids, facets a node doesn't define, prerequisite cycles, upward-layer prerequisites, and problems without a core node. It also reports nodes and misconceptions that no problem exercises yet.
+The validator rejects unknown ids, facets a node doesn't define, prerequisite cycles, upward-layer prerequisites, problems without a core node, sections a problem set doesn't list, repeated positions within a topic and malformed LeetCode slugs. It warns when two problems share a LeetCode slug, and reports nodes and misconceptions that no problem exercises yet.

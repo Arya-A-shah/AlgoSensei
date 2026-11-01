@@ -104,8 +104,10 @@ function ProblemStrip({ activeId }) {
     <nav className="strip" aria-label="Problems" ref={ref}>
       <ol>
         {data.sheet.map((p) => {
-          const head = p.section !== lastSection ? SECTION[p.section] ?? p.section : null;
-          lastSection = p.section;
+          // A label where each topic starts (and where each section starts within arrays).
+          const key = `${p.topic}|${p.section}`;
+          const head = key !== lastSection ? (lastSection?.split("|")[0] !== p.topic ? data.topics?.find((t) => t.topic === p.topic)?.title ?? p.sectionTitle : p.sectionTitle ?? SECTION[p.section]) : null;
+          lastSection = key;
           const label = `${p.order}. ${p.title}: ${p.status === "solved" ? "won" : p.status === "attempted" ? "in progress" : "not fought yet"}${p.slug ? "" : ", not on LeetCode"}`;
           return (
             <li key={p.id} className={head ? "strip-new-section" : ""}>

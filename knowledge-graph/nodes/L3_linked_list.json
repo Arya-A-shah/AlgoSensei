@@ -1,0 +1,156 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Linked list patterns (A2Z step 6).",
+  "nodes": [
+    {
+      "id": "p.ll_dummy_node",
+      "name": "Dummy head node",
+      "layer": 3,
+      "topic": "linked_list",
+      "description": "Put a dummy node before the head so inserts and deletes at the head need no special case; return dummy->next.",
+      "prereqs": ["ds.linked_list"],
+      "facets": {
+        "recognize": "Uses a dummy node whenever the head itself may change.",
+        "implement": "Builds from dummy and returns dummy->next."
+      },
+      "misconceptions": [
+        { "id": "p.dummy.returned_dummy", "facet": "implement", "desc": "Returned the dummy node instead of dummy->next." },
+        { "id": "p.dummy.special_cases", "facet": "recognize", "desc": "Wrote separate head-handling branches a dummy node would remove, and got one wrong." }
+      ]
+    },
+    {
+      "id": "p.ll_reversal",
+      "name": "Reversing a linked list",
+      "layer": 3,
+      "topic": "linked_list",
+      "description": "Walk with prev, curr and next and flip each link; recursively, reverse the rest and attach the current node at its end.",
+      "prereqs": ["ds.linked_list"],
+      "facets": {
+        "recognize": "Reverses by relinking instead of copying values out and back.",
+        "explain": "Explains what prev, curr and next hold at every step.",
+        "implement": "Saves next before flipping, and returns prev as the new head.",
+        "trace": "Can show the three pointers after each step.",
+        "adapt": "Reverses a sub-range or groups of k and reconnects them to the rest of the list."
+      },
+      "misconceptions": [
+        { "id": "p.llrev.lost_next", "facet": "implement", "desc": "Changed curr->next before saving the next node." },
+        { "id": "p.llrev.return_head", "facet": "implement", "desc": "Returned curr (nullptr) or the old head instead of prev." },
+        { "id": "p.llrev.recursive_cycle", "facet": "implement", "desc": "In the recursive version, did not set head->next = nullptr, leaving a cycle." },
+        { "id": "p.llrev.reconnect", "facet": "adapt", "desc": "After reversing a part (k-group, sublist), did not reconnect it to the nodes before and after." },
+        { "id": "p.llrev.copy_values", "facet": "recognize", "desc": "Copied values into an array or stack and wrote them back instead of relinking." }
+      ]
+    },
+    {
+      "id": "p.fast_slow_pointers",
+      "name": "Fast and slow pointers",
+      "layer": 3,
+      "topic": "linked_list",
+      "description": "Move one pointer twice as fast: they meet inside a cycle, and slow is at the middle when fast reaches the end. A gap of n nodes finds the nth from the end.",
+      "prereqs": ["ds.linked_list"],
+      "facets": {
+        "recognize": "Uses two speeds for middle, cycle detection, cycle start and nth from end.",
+        "explain": "Explains why the pointers meet in a cycle and why resetting one to the head finds the cycle start.",
+        "implement": "Checks fast and fast->next before each double step.",
+        "adapt": "Chooses the first or second middle as required; measures loop length; deletes the nth node from the end with a dummy."
+      },
+      "misconceptions": [
+        { "id": "p.fs.null_check", "facet": "implement", "desc": "Advanced fast without checking both fast and fast->next." },
+        { "id": "p.fs.middle_choice", "facet": "adapt", "desc": "Returned the first middle where the second was required (or the reverse) on an even-length list." },
+        { "id": "p.fs.cycle_start", "facet": "explain", "desc": "Cannot explain why moving one pointer back to the head finds where the cycle starts." },
+        { "id": "p.fs.loop_length", "facet": "adapt", "desc": "Counted the loop length from the wrong node or stopped one step early." },
+        { "id": "p.fs.hash_set", "facet": "recognize", "desc": "Stored visited nodes in a set (O(n) space) where two pointers give O(1)." },
+        { "id": "p.fs.gap_off_by_one", "facet": "adapt", "desc": "Made the gap n - 1 or n + 1, so the wrong node was removed from the end." }
+      ]
+    },
+    {
+      "id": "p.ll_merge",
+      "name": "Merging and sorting linked lists",
+      "layer": 3,
+      "topic": "linked_list",
+      "description": "Merge sorted lists by relinking nodes; sort a list with merge sort: find the middle, split, sort both halves, merge.",
+      "prereqs": ["p.merge_two_sorted", "p.ll_dummy_node", "p.fast_slow_pointers"],
+      "facets": {
+        "recognize": "Picks merge sort for lists (no random access, O(1) extra merge).",
+        "implement": "Splits at the middle, merges with a dummy and attaches the leftover list.",
+        "adapt": "Merges along a second pointer (flattening) and clears the pointer the result does not use."
+      },
+      "misconceptions": [
+        { "id": "p.llm.no_split", "facet": "implement", "desc": "Did not cut the list at the middle (mid->next = nullptr), so the recursion never ended." },
+        { "id": "p.llm.leftover", "facet": "implement", "desc": "Forgot to attach the leftover list after one list ran out." },
+        { "id": "p.llm.array_sort", "facet": "recognize", "desc": "Copied the values into an array and sorted them (O(n) space)." },
+        { "id": "p.llm.flatten_pointer", "facet": "adapt", "desc": "When flattening, did not clear the pointer the merged list no longer uses." }
+      ]
+    },
+    {
+      "id": "p.ll_relink",
+      "name": "Relinking nodes into groups",
+      "layer": 3,
+      "topic": "linked_list",
+      "description": "Build separate chains (odd and even positions, 0s/1s/2s, the pieces of a rotation) from existing nodes, then join the chains.",
+      "prereqs": ["ds.linked_list", "p.ll_dummy_node"],
+      "facets": {
+        "implement": "Builds each chain from a dummy, joins them in order and ends the last chain with nullptr.",
+        "trace": "Can show each chain after every node.",
+        "adapt": "Applies the same idea to rotation (close into a ring, cut at the right spot) and k-group reversal."
+      },
+      "misconceptions": [
+        { "id": "p.relink.end_null", "facet": "implement", "desc": "Did not set the last node's next to nullptr, leaving a cycle." },
+        { "id": "p.relink.join_order", "facet": "implement", "desc": "Joined the chains in the wrong order, or broke when one chain was empty." },
+        { "id": "p.relink.values_not_nodes", "facet": "adapt", "desc": "Rewrote node values where the problem asked for nodes to be relinked." },
+        { "id": "p.relink.rotate_mod", "facet": "adapt", "desc": "Rotated by k without reducing k modulo the list length." }
+      ]
+    },
+    {
+      "id": "p.ll_carry_arithmetic",
+      "name": "Digit arithmetic on lists",
+      "layer": 3,
+      "topic": "linked_list",
+      "description": "Add numbers stored as digit lists, carrying from node to node; reverse (or recurse) first when the most significant digit comes first.",
+      "prereqs": ["ds.linked_list", "u.accumulation"],
+      "facets": {
+        "implement": "Adds digit by digit with a carry, continuing while either list or the carry remains.",
+        "adapt": "Handles most-significant-first lists by reversing or recursing."
+      },
+      "misconceptions": [
+        { "id": "p.carry.final_carry", "facet": "implement", "desc": "Dropped the final carry (999 + 1 lost its leading 1)." },
+        { "id": "p.carry.unequal_length", "facet": "implement", "desc": "Stopped when the shorter list ended." },
+        { "id": "p.carry.to_integer", "facet": "adapt", "desc": "Converted the lists to integers, overflowing on long inputs." }
+      ]
+    },
+    {
+      "id": "p.ll_intersection",
+      "name": "Aligning two lists",
+      "layer": 3,
+      "topic": "linked_list",
+      "description": "Walk both lists and switch each pointer to the other list's head at its end; after equal distances they meet at the intersection (or both reach nullptr).",
+      "prereqs": ["ds.linked_list"],
+      "facets": {
+        "explain": "Explains why switching heads equalizes the distances walked.",
+        "implement": "Compares node addresses and stops when both pointers are equal, including both nullptr."
+      },
+      "misconceptions": [
+        { "id": "p.llx.compare_values", "facet": "implement", "desc": "Compared node values instead of node addresses." },
+        { "id": "p.llx.no_intersection", "facet": "implement", "desc": "Looped forever when the lists do not intersect." }
+      ]
+    },
+    {
+      "id": "p.ll_clone_random",
+      "name": "Copying a list with extra pointers",
+      "layer": 3,
+      "topic": "linked_list",
+      "description": "Map each original node to its copy (hashmap), or interleave copies with originals, set the random pointers, then separate the lists.",
+      "prereqs": ["ds.linked_list", "ds.hashmap"],
+      "facets": {
+        "explain": "Explains how the copy of any node is found from the original in O(1).",
+        "implement": "Sets each copy's random to the copy of the original's random and restores the original list."
+      },
+      "misconceptions": [
+        { "id": "p.clone.random_to_original", "facet": "implement", "desc": "Pointed a copy's random at the original node instead of its copy." },
+        { "id": "p.clone.not_restored", "facet": "implement", "desc": "After interleaving, did not restore the original list." },
+        { "id": "p.clone.random_null", "facet": "implement", "desc": "Did not handle random == nullptr." }
+      ]
+    }
+  ]
+}

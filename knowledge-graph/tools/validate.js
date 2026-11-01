@@ -3,7 +3,7 @@
 //   node tools/validate.js --mermaid  -> also writes graph.mmd (prerequisite DAG)
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { loadGraph, ancestors, FACETS, ROLES, LEVELS, ROOT } from "./lib.js";
+import { loadGraph, ancestors, topics, FACETS, ROLES, LEVELS, ROOT } from "./lib.js";
 
 const g = loadGraph();
 const errors = [...g.duplicates.map((d) => `duplicate id: ${d}`)];
@@ -11,11 +11,35 @@ const warnings = [];
 const err = (m) => errors.push(m);
 const warn = (m) => warnings.push(m);
 
+// ---- problem sets (one per A2Z topic) ----
+const topicKeys = new Set();
+const steps = new Set();
+for (const { file, data } of g.problemSets) {
+  for (const k of ["sheet", "topic", "topic_title", "step", "sections", "problems"]) {
+    if (data[k] === undefined) err(`${file}: missing field '${k}'`);
+  }
+  if (topicKeys.has(data.topic)) err(`${file}: topic '${data.topic}' used by another problem set`);
+  if (steps.has(data.step)) err(`${file}: step ${data.step} used by another problem set`);
+  topicKeys.add(data.topic);
+  steps.add(data.step);
+  const sectionIds = new Set((data.sections ?? []).map((x) => x.id));
+  const orders = new Set();
+  for (const p of data.problems ?? []) {
+    if (!sectionIds.has(p.section)) err(`problem ${p.id}: section '${p.section}' is not listed in ${file}`);
+    if (orders.has(p.order)) err(`problem ${p.id}: order ${p.order} repeats within ${file}`);
+    orders.add(p.order);
+  }
+}
+
 // ---- nodes ----
 for (const n of g.nodes.values()) {
   const where = `node ${n.id}`;
   for (const k of ["id", "name", "layer", "description", "prereqs", "facets"]) {
     if (n[k] === undefined) err(`${where}: missing field '${k}'`);
+  }
+  if (n.layer >= 2 && n.layer <= 3) {
+    if (!n.topic) err(`${where}: L${n.layer} nodes need a 'topic' (a problem-set topic or 'general')`);
+    else if (n.topic !== "general" && !topicKeys.has(n.topic)) err(`${where}: unknown topic '${n.topic}'`);
   }
   const facetKeys = Object.keys(n.facets ?? {});
   if (!facetKeys.length) err(`${where}: no facets`);
@@ -86,6 +110,16 @@ for (const p of g.problems.values()) {
   }
 }
 
+// ---- LeetCode links: attempts are matched by slug, so a slug should map to one problem ----
+const bySlug = new Map();
+for (const p of [...g.problems.values()].sort((a, b) => (a.step - b.step) || (a.order - b.order))) {
+  const slug = p.links?.leetcode;
+  if (!slug) continue;
+  if (!/^[a-z0-9-]+$/.test(slug)) err(`problem ${p.id}: malformed LeetCode slug '${slug}'`);
+  if (bySlug.has(slug)) warn(`LeetCode '${slug}' is linked from ${bySlug.get(slug)} and ${p.id}; attempts are credited to ${bySlug.get(slug)}`);
+  else bySlug.set(slug, p.id);
+}
+
 // ---- report ----
 const byLayer = {};
 for (const n of g.nodes.values()) byLayer[n.layer] = (byLayer[n.layer] ?? 0) + 1;
@@ -95,7 +129,8 @@ const unwatched = [...g.misconceptions.keys()].filter((m) => !miscUse.has(m));
 
 console.log(`Nodes: ${g.nodes.size}  (${Object.entries(byLayer).map(([l, c]) => `L${l}: ${c}`).join(", ")})`);
 console.log(`Misconceptions: ${g.misconceptions.size}  (${miscUse.size} referenced by problems)`);
-console.log(`Problems: ${g.problems.size}`);
+console.log(`Problems: ${g.problems.size}  (${topics(g).map((t) => `${t.title}: ${[...g.problems.values()].filter((p) => p.topic === t.topic).length}`).join(", ")})`);
+console.log(`LeetCode-linked: ${bySlug.size}`);
 if (unused.length) console.log(`\nNodes not tagged on any problem (${unused.length}): ${unused.join(", ")}`);
 if (neverCore.length) console.log(`Nodes never 'core' on a problem (${neverCore.length}): ${neverCore.join(", ")}`);
 if (unwatched.length) console.log(`Misconceptions no problem watches for (${unwatched.length}): ${unwatched.join(", ")}`);

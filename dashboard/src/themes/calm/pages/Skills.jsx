@@ -1,9 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useOverview, Loading, ErrorNote, Bar, pct } from "../ui.jsx";
 import { Dots, Belt } from "../art.jsx";
-import { LAYERS, LAYER_ORDER, FACETS, FACET, STATUS, shortName, beltFor } from "../words.js";
-
-let lastLayer = 3;
+import { LAYERS, FACETS, FACET, STATUS, FOUNDATIONS, FOUNDATION_GROUPS, shortName, beltFor, currentTopic, writeTopic, onTopicChange } from "../words.js";
 const firstSentence = (s = "") => (s.match(/^.*?[.!?](\s|$)/)?.[0] ?? s).trim();
 
 export default function Skills({ path }) {
@@ -13,14 +11,23 @@ export default function Skills({ path }) {
   if (error && !data) return <ErrorNote error={error} onRetry={reload} />;
   if (!data) return <Loading />;
   const node = id ? nodes.find((n) => n.id === id) : null;
-  return node ? <Concept node={node} nodes={nodes} sheet={data.sheet} /> : <ConceptList nodes={nodes} />;
+  return node ? <Concept node={node} nodes={nodes} sheet={data.sheet} topics={data.topics} /> : <ConceptList nodes={nodes} data={data} />;
 }
 
-function ConceptList({ nodes }) {
-  const [layer, setLayer] = useState(lastLayer);
-  const pick = (l) => { lastLayer = l; setLayer(l); };
-  const count = (st, l) => nodes.filter((n) => (l == null || n.layer === l) && n.summary.status === st).length;
-  const shown = nodes.filter((n) => n.layer === layer);
+// A topic's own concepts: its data structures, then its patterns.
+const topicGroups = (topic) => [
+  { name: "Data structures", match: (n) => n.layer === 2 && n.topic === topic },
+  { name: "Patterns", match: (n) => n.layer === 3 && n.topic === topic },
+];
+
+function ConceptList({ nodes, data }) {
+  const [tab, setTab] = useState(() => currentTopic(data) ?? FOUNDATIONS);
+  useEffect(() => onTopicChange(setTab), []);
+  const pick = (t) => (t === FOUNDATIONS ? setTab(t) : writeTopic(t));
+  const groupsFor = (t) => (t === FOUNDATIONS ? FOUNDATION_GROUPS : topicGroups(t));
+  const inTab = (t) => nodes.filter((n) => groupsFor(t).some((g) => g.match(n)));
+  const count = (st, list = nodes) => list.filter((n) => n.summary.status === st).length;
+  const tabs = [...data.topics.map((t) => ({ id: t.topic, name: t.title })), { id: FOUNDATIONS, name: "Foundations" }];
 
   return (
     <section className="page">
@@ -33,18 +40,40 @@ function ConceptList({ nodes }) {
         </p>
       </header>
 
-      <div className="tabs" role="tablist" aria-label="Concept groups">
-        {LAYER_ORDER.map((l) => (
-          <button key={l} role="tab" aria-selected={layer === l} className="tab" onClick={() => pick(l)}>
-            {LAYERS[l].name}
-            {count("weak", l) > 0 && <span className="tab-weak" aria-label={`${count("weak", l)} weak`}>{count("weak", l)}</span>}
-          </button>
-        ))}
+      <div className="tabs" role="tablist" aria-label="Topics">
+        {tabs.map((t) => {
+          const weak = count("weak", inTab(t.id));
+          return (
+            <button key={t.id} role="tab" aria-selected={tab === t.id} className="tab" onClick={() => pick(t.id)}>
+              {t.name}
+              {weak > 0 && <span className="tab-weak" aria-label={`${weak} weak`}>{weak}</span>}
+            </button>
+          );
+        })}
       </div>
-      <p className="lede">{LAYERS[layer].blurb}</p>
 
-      <ul className="concepts">
-        {shown.map((n) => (
+      {groupsFor(tab).map((g) => {
+        const shown = nodes.filter(g.match);
+        if (!shown.length) return null;
+        return (
+          <section key={g.name} className="concept-group">
+            <h2 className="h2">{g.name}</h2>
+            <ConceptGrid nodes={shown} />
+          </section>
+        );
+      })}
+      <p className="legend">
+        {["weak", "shaky", "solid", "unknown"].map((st) => <span key={st}><span className={`dot d-${st}`} /> {STATUS[st].name}</span>)}
+        <span>Dots: Recognize, Explain, Implement, Trace, Adapt</span>
+      </p>
+    </section>
+  );
+}
+
+function ConceptGrid({ nodes }) {
+  return (
+    <ul className="concepts">
+        {nodes.map((n) => (
           <li key={n.id}>
             <a href={`#/skills/${n.id}`} className={`concept c-${n.summary.status}`}>
               <span className="concept-top">
@@ -60,15 +89,10 @@ function ConceptList({ nodes }) {
           </li>
         ))}
       </ul>
-      <p className="legend">
-        {["weak", "shaky", "solid", "unknown"].map((st) => <span key={st}><span className={`dot d-${st}`} /> {STATUS[st].name}</span>)}
-        <span>Dots: Recognize, Explain, Implement, Trace, Adapt</span>
-      </p>
-    </section>
   );
 }
 
-function Concept({ node, nodes, sheet }) {
+function Concept({ node, nodes, sheet, topics }) {
   const byId = new Map(nodes.map((n) => [n.id, n]));
   const belt = beltFor(node.facets);
   const needs = node.prereqs.map((id) => byId.get(id)).filter(Boolean);
@@ -76,13 +100,13 @@ function Concept({ node, nodes, sheet }) {
   const practice = sheet
     .map((p) => ({ p, t: p.nodes.find((x) => x.id === node.id) }))
     .filter((x) => x.t)
-    .sort((a, b) => (a.t.role === b.t.role ? a.p.order - b.p.order : a.t.role === "core" ? -1 : 1));
+    .sort((a, b) => (a.t.role === b.t.role ? 0 : a.t.role === "core" ? -1 : 1));
 
   return (
     <section className="page">
       <a className="back" href="#/skills">Skills</a>
       <header className="detail-head">
-        <p className="eyebrow">{LAYERS[node.layer].name}</p>
+        <p className="eyebrow">{topics.find((t) => t.topic === node.topic)?.title ?? LAYERS[node.layer]?.name}</p>
         <h1 className="h1">{shortName(node.name)}</h1>
         <p className="lede">{firstSentence(node.description)}</p>
         <p className="detail-status">

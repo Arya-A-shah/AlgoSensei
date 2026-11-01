@@ -161,6 +161,76 @@
         { "id": "cpp.2d.wrong_init", "facet": "implement", "desc": "Inner vectors not sized, or sized with the wrong dimension." },
         { "id": "cpp.2d.copy_row", "facet": "implement", "desc": "Took a row by value (auto row = mat[i]) and modified the copy.", "signals": ["for (auto row : matrix) reverse(row.begin(), row.end());"] }
       ]
+    },
+    {
+      "id": "cpp.strings",
+      "name": "std::string essentials",
+      "layer": 1,
+      "description": "Strings are mutable char sequences: O(1) indexing, but substr, + and comparison cost O(length).",
+      "prereqs": ["cpp.vector"],
+      "facets": {
+        "explain": "Knows which string operations copy (substr, s + t) and which append in place (+=, push_back).",
+        "implement": "Uses char arithmetic, substr(start, length), find() against npos and to_string / stoi correctly."
+      },
+      "misconceptions": [
+        { "id": "cpp.str.concat_in_loop", "facet": "explain", "desc": "Built a string with s = s + c or s = c + s in a loop, copying the whole string each time: O(n²)." },
+        { "id": "cpp.str.char_arithmetic", "facet": "implement", "desc": "Got character arithmetic wrong ('0' vs 0, c - 'a' on an uppercase letter, char overflow in c + k)." },
+        { "id": "cpp.str.substr_args", "facet": "implement", "desc": "Called substr(start, end) as if the second argument were an end index; it is a length." },
+        { "id": "cpp.str.char_vs_digit", "facet": "implement", "desc": "Compared a char with an int digit (s[i] == 1 instead of '1'), or added digits without subtracting '0'." },
+        { "id": "cpp.str.find_npos", "facet": "implement", "desc": "Compared find() with -1 or 0 instead of string::npos." }
+      ]
+    },
+    {
+      "id": "cpp.pointers",
+      "name": "Pointers, nullptr and dynamic memory",
+      "layer": 1,
+      "description": "A pointer holds an address; -> follows it, nullptr means 'nothing', and new / delete manage node lifetime.",
+      "prereqs": ["cpp.pass_by_reference"],
+      "facets": {
+        "explain": "Explains what changes when a pointer is copied, reassigned or passed by value versus by reference.",
+        "implement": "Checks for nullptr before following a pointer, saves the next pointer before relinking, and returns or passes by reference a head that changes."
+      },
+      "misconceptions": [
+        { "id": "cpp.ptr.null_deref", "facet": "implement", "desc": "Dereferenced a pointer that can be nullptr (head->next on an empty list, curr->next->next without checking curr->next)." },
+        { "id": "cpp.ptr.lost_reference", "facet": "implement", "desc": "Overwrote the only pointer to a node before saving it, losing the rest of the list." },
+        { "id": "cpp.ptr.dangling", "facet": "implement", "desc": "Used a node after deleting it, or returned the address of a local variable." },
+        { "id": "cpp.ptr.head_by_value", "facet": "implement", "desc": "Passed the head pointer by value to a function that must change it, so the caller kept the old head." },
+        { "id": "cpp.ptr.leak", "facet": "explain", "desc": "Unlinked removed nodes without deleting them where the problem expects them freed." }
+      ]
+    },
+    {
+      "id": "cpp.stl_adaptors",
+      "name": "stack, queue, deque and priority_queue",
+      "layer": 1,
+      "description": "Container adaptors expose only their ends: top/front read, pop removes and returns nothing; priority_queue is a max-heap unless given greater<>.",
+      "prereqs": ["cpp.vector"],
+      "facets": {
+        "explain": "Knows each adaptor's operations and costs, and that adaptors cannot be iterated or indexed.",
+        "implement": "Reads top()/front() before pop(), checks empty() first and writes priority_queue comparators the right way round."
+      },
+      "misconceptions": [
+        { "id": "cpp.adapt.pop_returns", "facet": "implement", "desc": "Expected pop() to return the element; it returns void, so top() or front() must be read first." },
+        { "id": "cpp.adapt.empty_access", "facet": "implement", "desc": "Called top(), front() or pop() on an empty adaptor (undefined behaviour)." },
+        { "id": "cpp.adapt.pq_default_max", "facet": "implement", "desc": "Assumed priority_queue is a min-heap; it is a max-heap by default." },
+        { "id": "cpp.adapt.comparator_direction", "facet": "implement", "desc": "Wrote the priority_queue comparator backwards (it is the reverse of a sort comparator)." },
+        { "id": "cpp.adapt.iterate", "facet": "explain", "desc": "Tried to iterate over or index into a stack or queue." }
+      ]
+    },
+    {
+      "id": "cpp.class_design",
+      "name": "Classes for custom data structures",
+      "layer": 1,
+      "description": "Implementing a data structure means a class whose members hold the state and whose methods keep it consistent after every call.",
+      "prereqs": ["cpp.vector", "cpp.pointers"],
+      "facets": {
+        "explain": "Explains the invariant each method preserves and the amortized cost of operations like a two-stack queue.",
+        "implement": "Initializes every member, and handles full and empty states."
+      },
+      "misconceptions": [
+        { "id": "cpp.cls.state_init", "facet": "implement", "desc": "Left member variables (size, top index, head) uninitialized in the constructor." },
+        { "id": "cpp.cls.capacity", "facet": "implement", "desc": "Did not handle a full fixed-size array (overflow) or an empty one (underflow)." },
+        { "id": "cpp.cls.amortized", "facet": "explain", "desc": "Cannot explain why a queue built from two stacks is amortized O(1) per operation." }
+      ]
     }
   ]
 }

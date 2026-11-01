@@ -1,0 +1,150 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Binary search patterns (A2Z step 4).",
+  "nodes": [
+    {
+      "id": "p.binary_search",
+      "name": "Binary search on a sorted array",
+      "layer": 3,
+      "topic": "binary_search",
+      "description": "Compare with the middle element and discard the half that cannot hold the target; O(log n).",
+      "prereqs": ["ds.sorted_array", "u.loop_bounds", "cpp.integer_types"],
+      "facets": {
+        "recognize": "Spots sorted or monotonic input where a lookup must beat O(n).",
+        "explain": "States the invariant (if the target exists it is inside [low, high]) and why each step can drop half.",
+        "implement": "Writes low/high/mid with mid = low + (high - low) / 2, the right loop condition and updates that always shrink the range.",
+        "trace": "Gives low, high and mid for every iteration on a small input."
+      },
+      "misconceptions": [
+        { "id": "p.bs.mid_overflow", "facet": "implement", "desc": "Computed mid as (low + high) / 2, which overflows int when low + high exceeds INT_MAX." },
+        { "id": "p.bs.infinite_loop", "facet": "implement", "desc": "Set low = mid or high = mid with a loop condition that never shrinks the range (loops forever on two elements)." },
+        { "id": "p.bs.loop_condition", "facet": "implement", "desc": "Used low < high where low <= high was needed (or the reverse), skipping the last candidate or reading past the range." },
+        { "id": "p.bs.linear_fallback", "facet": "recognize", "desc": "Scanned linearly or nested loops on sorted input where binary search applies." },
+        { "id": "p.bs.unsorted_input", "facet": "recognize", "desc": "Applied binary search to data that is neither sorted nor monotonic." }
+      ]
+    },
+    {
+      "id": "p.bs_boundaries",
+      "name": "Lower / upper bound and first / last occurrence",
+      "layer": 3,
+      "topic": "binary_search",
+      "description": "On a match, record it and keep searching toward the boundary: first index >= x, first index > x, floor, ceil.",
+      "prereqs": ["p.binary_search"],
+      "facets": {
+        "recognize": "Maps first/last position, insert position, floor/ceil and count of x onto lower and upper bound.",
+        "explain": "Explains why the search continues after a match and why count = upper bound - lower bound.",
+        "implement": "Keeps an answer variable with the right default (n or -1) and moves the correct side on equality.",
+        "adapt": "Derives floor, ceil, insert position and occurrence count from the two bounds; uses std::lower_bound / upper_bound correctly."
+      },
+      "misconceptions": [
+        { "id": "p.bsb.stop_on_match", "facet": "implement", "desc": "Returned on the first match instead of continuing toward the boundary; first/last occurrence is wrong with duplicates." },
+        { "id": "p.bsb.equal_side", "facet": "implement", "desc": "Moved the wrong side on equality (lower bound must go left when arr[mid] >= x; upper bound only when arr[mid] > x)." },
+        { "id": "p.bsb.default_answer", "facet": "implement", "desc": "Defaulted the answer to -1 or 0 where 'past the end' must be n (insert position, lower bound)." },
+        { "id": "p.bsb.linear_expand", "facet": "explain", "desc": "Found one match, then walked left/right linearly; O(n) when every element equals the target." },
+        { "id": "p.bsb.floor_ceil_swap", "facet": "adapt", "desc": "Mixed up floor (largest <= x) and ceil (smallest >= x)." }
+      ]
+    },
+    {
+      "id": "p.bs_rotated",
+      "name": "Binary search on a rotated sorted array",
+      "layer": 3,
+      "topic": "binary_search",
+      "description": "In a rotated sorted array at least one half around mid is sorted; decide which, then check whether the target lies inside it.",
+      "prereqs": ["p.binary_search"],
+      "facets": {
+        "recognize": "Recognizes rotated sorted input (search, minimum, rotation count) as still binary-searchable.",
+        "explain": "Explains why one half is always sorted and how that decides which half to drop.",
+        "implement": "Identifies the sorted half with arr[low] <= arr[mid] and tests the target against that half's inclusive range.",
+        "adapt": "Handles duplicates (shrink both ends when arr[low] == arr[mid] == arr[high]); finds the minimum and the rotation count."
+      },
+      "misconceptions": [
+        { "id": "p.bsr.sorted_half_check", "facet": "implement", "desc": "Used the wrong test to find the sorted half, so the search dropped the half holding the target." },
+        { "id": "p.bsr.range_bounds", "facet": "implement", "desc": "Used strict comparisons when checking whether the target lies inside the sorted half, missing targets at its ends." },
+        { "id": "p.bsr.duplicates_stall", "facet": "adapt", "desc": "With duplicates, did not handle arr[low] == arr[mid] == arr[high], where the sorted half cannot be told apart." },
+        { "id": "p.bsr.min_wrong_side", "facet": "implement", "desc": "While finding the minimum, discarded a sorted half without first recording its smallest element." },
+        { "id": "p.bsr.linear_pivot", "facet": "recognize", "desc": "Found the rotation point with a linear scan." }
+      ]
+    },
+    {
+      "id": "p.bs_on_answer",
+      "name": "Binary search on the answer",
+      "layer": 3,
+      "topic": "binary_search",
+      "description": "When feasibility is monotonic in the answer (if x works, so does x + 1), binary search the smallest or largest feasible x, checking each with a greedy pass.",
+      "prereqs": ["p.binary_search", "p.linear_scan"],
+      "facets": {
+        "recognize": "Spots minimize-the-maximum / maximize-the-minimum and 'smallest value that still works' wording.",
+        "explain": "Explains why feasibility is monotonic and why the answer range runs from its smallest to largest possible value.",
+        "implement": "Sets the answer range correctly (e.g. max element .. sum), writes a correct greedy feasibility check and records the best feasible mid.",
+        "adapt": "Switches direction for max-of-min vs min-of-max, and searches over doubles with a precision bound."
+      },
+      "misconceptions": [
+        { "id": "p.boa.no_monotonic", "facet": "recognize", "desc": "Tried every candidate answer linearly without noticing that feasibility is monotonic." },
+        { "id": "p.boa.wrong_range", "facet": "implement", "desc": "Chose a search range that excludes the answer or admits impossible ones (low = 1 instead of the largest element, high too small)." },
+        { "id": "p.boa.check_overflow", "facet": "implement", "desc": "The feasibility check overflowed int (summed hours or days, or mid raised to a power)." },
+        { "id": "p.boa.direction", "facet": "implement", "desc": "Moved toward the wrong side after a feasible check (minimizing keeps going left; maximizing keeps going right)." },
+        { "id": "p.boa.greedy_check", "facet": "implement", "desc": "The feasibility check is wrong: forgot to count the first group, or allowed one element larger than the limit." },
+        { "id": "p.boa.float_precision", "facet": "adapt", "desc": "Searched over doubles with an exact-equality stop or too few iterations, so the answer missed the required precision." }
+      ]
+    },
+    {
+      "id": "p.bs_partition",
+      "name": "Binary search on a partition",
+      "layer": 3,
+      "topic": "binary_search",
+      "description": "Binary search how many elements to take from the smaller array so both left parts together form the first half (median, kth element).",
+      "prereqs": ["p.binary_search", "p.merge_two_sorted"],
+      "facets": {
+        "explain": "Explains the cut condition l1 <= r2 and l2 <= r1, and why searching the smaller array keeps the other cut in range.",
+        "implement": "Uses INT_MIN / INT_MAX for empty sides and computes the median for odd and even total length.",
+        "adapt": "Turns the median search into a kth-element search by clamping the range to [max(0, k - n2), min(k, n1)]."
+      },
+      "misconceptions": [
+        { "id": "p.bsp.larger_array", "facet": "implement", "desc": "Binary searched over the larger array, so the other array's cut went negative or past its end." },
+        { "id": "p.bsp.sentinels", "facet": "implement", "desc": "Read l1, l2, r1 or r2 out of bounds instead of using INT_MIN / INT_MAX when a side is empty." },
+        { "id": "p.bsp.odd_even", "facet": "implement", "desc": "Got the median wrong for odd total length (left part must hold (n1 + n2 + 1) / 2 elements)." },
+        { "id": "p.bsp.merged_copy", "facet": "explain", "desc": "Merged both arrays in O(n + m) when O(log min(n, m)) was required." },
+        { "id": "p.bsp.kth_bounds", "facet": "adapt", "desc": "For the kth element, did not clamp the search range to [max(0, k - n2), min(k, n1)]." }
+      ]
+    },
+    {
+      "id": "p.bs_peak",
+      "name": "Binary search on a local property",
+      "layer": 3,
+      "topic": "binary_search",
+      "description": "Discard half the range using a local fact (the slope at mid, pair parity) even when the array is not globally sorted.",
+      "prereqs": ["p.binary_search"],
+      "facets": {
+        "recognize": "Sees that peak-finding and the single-element-in-pairs problem can drop half using a local comparison.",
+        "explain": "Explains why moving toward the higher neighbour always reaches a peak, or why pair parity reveals the side of the single element.",
+        "implement": "Compares with neighbours safely at the array ends."
+      },
+      "misconceptions": [
+        { "id": "p.bspk.boundary_compare", "facet": "implement", "desc": "Compared arr[mid] with arr[mid - 1] or arr[mid + 1] without guarding mid at the ends." },
+        { "id": "p.bspk.parity", "facet": "implement", "desc": "Got the pair rule wrong (before the single element, pairs start at even indices)." },
+        { "id": "p.bspk.needs_sorted", "facet": "explain", "desc": "Believed binary search needs sorted data, so scanned linearly." }
+      ]
+    },
+    {
+      "id": "p.bs_matrix",
+      "name": "Binary search in a matrix",
+      "layer": 3,
+      "topic": "binary_search",
+      "description": "Treat a fully sorted matrix as one array (row = i / cols, col = i % cols); walk from the top-right corner in a row- and column-sorted matrix; binary search columns for a 2D peak or values for a median.",
+      "prereqs": ["p.binary_search", "ds.matrix"],
+      "facets": {
+        "recognize": "Picks the right search for how the matrix is sorted: whole matrix, rows and columns, or rows only.",
+        "implement": "Maps a flat index with the column count, and starts the staircase walk at a corner where one move increases and the other decreases.",
+        "adapt": "Finds a median by binary searching the value and counting elements <= mid in each row with upper bound."
+      },
+      "misconceptions": [
+        { "id": "p.bsm.index_map", "facet": "implement", "desc": "Mapped the flat index with the row count instead of the column count." },
+        { "id": "p.bsm.corner_start", "facet": "implement", "desc": "Started the staircase walk at the top-left or bottom-right, where both moves change the value the same way." },
+        { "id": "p.bsm.per_row_only", "facet": "recognize", "desc": "Binary searched every row (O(n log m)) when the whole matrix is sorted and one search over n * m cells suffices." },
+        { "id": "p.bsm.median_flatten", "facet": "adapt", "desc": "Found the matrix median by flattening and sorting instead of binary searching the value and counting." }
+      ]
+    }
+  ]
+}

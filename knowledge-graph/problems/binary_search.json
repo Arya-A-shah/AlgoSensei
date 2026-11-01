@@ -1,0 +1,1238 @@
+{
+  "sheet": "Striver A2Z - Binary Search",
+  "topic": "binary_search",
+  "topic_title": "Binary search",
+  "step": 4,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "bs_1d",
+      "title": "BS on 1D Arrays"
+    },
+    {
+      "id": "bs_answers",
+      "title": "BS on Answers"
+    },
+    {
+      "id": "bs_2d",
+      "title": "BS on 2D Arrays"
+    }
+  ],
+  "problems": [
+    {
+      "id": "bs.binary_search",
+      "order": 1,
+      "section": "bs_1d",
+      "tier": "Basic",
+      "title": "Binary Search to find X in sorted array",
+      "summary": "Return the index of target in a sorted array, or -1.",
+      "links": {
+        "leetcode": "binary-search"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear scan",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Iterative binary search",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.binary_search"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.binary_search", "role": "core", "facets": ["recognize", "explain", "implement", "trace"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.function_contract", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bs.mid_overflow",
+        "p.bs.loop_condition",
+        "p.bs.infinite_loop",
+        "p.bs.linear_fallback",
+        "u.fn.wrong_return_value"
+      ]
+    },
+    {
+      "id": "bs.lower_bound",
+      "order": 2,
+      "section": "bs_1d",
+      "tier": "Basic",
+      "title": "Implement Lower Bound",
+      "summary": "Smallest index i with arr[i] >= x, or n if none.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear scan for first arr[i] >= x",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search keeping the best index",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_boundaries", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.binary_search", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.stl_algorithms", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bsb.default_answer",
+        "p.bsb.equal_side",
+        "p.bsb.stop_on_match",
+        "p.bs.loop_condition"
+      ]
+    },
+    {
+      "id": "bs.upper_bound",
+      "order": 3,
+      "section": "bs_1d",
+      "tier": "Basic",
+      "title": "Implement Upper Bound",
+      "summary": "Smallest index i with arr[i] > x, or n if none.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear scan for first arr[i] > x",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search keeping the best index",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_boundaries", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.binary_search", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bsb.equal_side",
+        "p.bsb.default_answer",
+        "p.bs.loop_condition"
+      ]
+    },
+    {
+      "id": "bs.search_insert",
+      "order": 4,
+      "section": "bs_1d",
+      "tier": "Basic",
+      "title": "Search Insert Position",
+      "summary": "Index of target, or where it would be inserted to keep the array sorted.",
+      "links": {
+        "leetcode": "search-insert-position"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Lower bound",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_boundaries", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bsb.default_answer",
+        "p.bsb.equal_side",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "bs.floor_ceil",
+      "order": 5,
+      "section": "bs_1d",
+      "tier": "Basic",
+      "title": "Floor/Ceil in Sorted Array",
+      "summary": "Largest element <= x and smallest element >= x.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear scan",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Two boundary searches",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_boundaries", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "u.variable_init", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bsb.floor_ceil_swap",
+        "p.bsb.default_answer",
+        "p.bsb.equal_side",
+        "u.init.sentinel_collision"
+      ]
+    },
+    {
+      "id": "bs.first_last",
+      "order": 6,
+      "section": "bs_1d",
+      "tier": "Core",
+      "title": "Find the first or last occurrence of a given number in a sorted array",
+      "summary": "Return [first, last] index of target, or [-1, -1].",
+      "links": {
+        "leetcode": "find-first-and-last-position-of-element-in-sorted-array"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear scan",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Binary search then expand",
+          "time": "O(n) worst",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.binary_search"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Lower bound and upper bound - 1",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_boundaries", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bsb.stop_on_match",
+        "p.bsb.linear_expand",
+        "p.bsb.equal_side",
+        "r.edge.duplicates"
+      ]
+    },
+    {
+      "id": "bs.count_occurrences",
+      "order": 7,
+      "section": "bs_1d",
+      "tier": "Basic",
+      "title": "Count occurrences of a number in a sorted array with duplicates",
+      "summary": "How many times x appears in a sorted array.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear count",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Upper bound - lower bound",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_boundaries", "role": "core", "facets": ["adapt", "explain"] }
+      ],
+      "watch_for": [
+        "p.bsb.linear_expand",
+        "p.bsb.stop_on_match",
+        "p.bsb.equal_side"
+      ]
+    },
+    {
+      "id": "bs.search_rotated_1",
+      "order": 8,
+      "section": "bs_1d",
+      "tier": "Core",
+      "title": "Search in Rotated Sorted Array I",
+      "summary": "Find target in a rotated sorted array of distinct values.",
+      "links": {
+        "leetcode": "search-in-rotated-sorted-array"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear scan",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Pick the sorted half, test the target against it",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_rotated"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_rotated", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "p.binary_search", "role": "supporting", "facets": ["implement"] },
+        { "id": "u.conditionals", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bsr.sorted_half_check",
+        "p.bsr.range_bounds",
+        "p.bs.loop_condition",
+        "u.cond.strict_vs_nonstrict"
+      ]
+    },
+    {
+      "id": "bs.search_rotated_2",
+      "order": 9,
+      "section": "bs_1d",
+      "tier": "Core",
+      "title": "Search in Rotated Sorted Array II",
+      "summary": "Same, but values may repeat; return whether target exists.",
+      "links": {
+        "leetcode": "search-in-rotated-sorted-array-ii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Sorted-half search, shrinking both ends on ties",
+          "time": "O(log n) avg, O(n) worst",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_rotated"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_rotated", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bsr.duplicates_stall",
+        "p.bsr.sorted_half_check",
+        "r.edge.duplicates"
+      ]
+    },
+    {
+      "id": "bs.min_rotated",
+      "order": 10,
+      "section": "bs_1d",
+      "tier": "Core",
+      "title": "Find minimum in Rotated Sorted Array",
+      "summary": "Smallest element of a rotated sorted array of distinct values.",
+      "links": {
+        "leetcode": "find-minimum-in-rotated-sorted-array"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear minimum",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Record the sorted half's first element, search the other half",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_rotated"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_rotated", "role": "core", "facets": ["adapt", "implement", "explain"] },
+        { "id": "p.track_extremes", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bsr.min_wrong_side",
+        "p.bsr.linear_pivot",
+        "p.bs.infinite_loop"
+      ]
+    },
+    {
+      "id": "bs.rotation_count",
+      "order": 11,
+      "section": "bs_1d",
+      "tier": "Basic",
+      "title": "Find out how many times has an array been rotated",
+      "summary": "Number of rotations = index of the minimum.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Index of the minimum via binary search",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_rotated"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_rotated", "role": "core", "facets": ["adapt"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bsr.min_wrong_side",
+        "p.bsr.linear_pivot"
+      ]
+    },
+    {
+      "id": "bs.single_element",
+      "order": 12,
+      "section": "bs_1d",
+      "tier": "Core",
+      "title": "Single element in a Sorted Array",
+      "summary": "Every value appears twice except one; find it in O(log n).",
+      "links": {
+        "leetcode": "single-element-in-a-sorted-array"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "XOR of all elements",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.xor_tricks"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search on pair parity",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_peak"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_peak", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "p.xor_tricks", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bspk.parity",
+        "p.bspk.boundary_compare",
+        "p.bspk.needs_sorted"
+      ]
+    },
+    {
+      "id": "bs.peak_element",
+      "order": 13,
+      "section": "bs_1d",
+      "tier": "Core",
+      "title": "Find peak element",
+      "summary": "Any index whose value is greater than both neighbours (ends compare with -infinity).",
+      "links": {
+        "leetcode": "find-peak-element"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Linear scan for a peak",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Move toward the higher neighbour",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_peak"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_peak", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "u.indexing", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bspk.boundary_compare",
+        "p.bspk.needs_sorted",
+        "u.idx.out_of_bounds",
+        "p.bs.unsorted_input"
+      ]
+    },
+    {
+      "id": "bs.sqrt",
+      "order": 14,
+      "section": "bs_answers",
+      "tier": "Basic",
+      "title": "Find square root of a number in log n",
+      "summary": "Floor of the square root of n.",
+      "links": {
+        "leetcode": "sqrtx"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Try 1, 2, 3, ...",
+          "time": "O(sqrt n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search the largest x with x*x <= n",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.boa.check_overflow",
+        "p.boa.direction",
+        "cpp.int.overflow_before_cast"
+      ]
+    },
+    {
+      "id": "bs.nth_root",
+      "order": 15,
+      "section": "bs_answers",
+      "tier": "Core",
+      "title": "Find the Nth root of a number using binary search",
+      "summary": "Integer x with x^n == m, or -1.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Binary search x, compute x^n with early exit",
+          "time": "O(n log m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement", "recognize"] }
+      ],
+      "watch_for": [
+        "p.boa.check_overflow",
+        "cpp.int.overflow_sum",
+        "p.boa.direction"
+      ]
+    },
+    {
+      "id": "bs.koko",
+      "order": 16,
+      "section": "bs_answers",
+      "tier": "Core",
+      "title": "Koko Eating Bananas",
+      "summary": "Smallest eating speed that finishes all piles within h hours.",
+      "links": {
+        "leetcode": "koko-eating-bananas"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Try every speed from 1 to max pile",
+          "time": "O(max * n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search speed, sum ceil(pile / k)",
+          "time": "O(n log max)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.complexity_analysis", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.boa.no_monotonic",
+        "p.boa.wrong_range",
+        "p.boa.check_overflow",
+        "p.boa.direction",
+        "r.cx.constraint_blind"
+      ]
+    },
+    {
+      "id": "bs.m_bouquets",
+      "order": 17,
+      "section": "bs_answers",
+      "tier": "Core",
+      "title": "Minimum days to make M bouquets",
+      "summary": "Fewest days until m bouquets of k adjacent bloomed flowers can be made.",
+      "links": {
+        "leetcode": "minimum-number-of-days-to-make-m-bouquets"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Binary search days, count adjacent runs",
+          "time": "O(n log max)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer",
+            "p.running_streak"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.running_streak", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.boa.greedy_check",
+        "p.boa.wrong_range",
+        "p.streak.no_reset",
+        "cpp.int.overflow_sum"
+      ]
+    },
+    {
+      "id": "bs.smallest_divisor",
+      "order": 18,
+      "section": "bs_answers",
+      "tier": "Core",
+      "title": "Find the smallest Divisor",
+      "summary": "Smallest divisor so that the sum of ceil(a[i] / d) stays within the threshold.",
+      "links": {
+        "leetcode": "find-the-smallest-divisor-given-a-threshold"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Binary search the divisor",
+          "time": "O(n log max)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize", "implement"] }
+      ],
+      "watch_for": [
+        "p.boa.wrong_range",
+        "p.boa.direction",
+        "p.boa.greedy_check"
+      ]
+    },
+    {
+      "id": "bs.ship_capacity",
+      "order": 19,
+      "section": "bs_answers",
+      "tier": "Core",
+      "title": "Capacity to Ship Packages within D Days",
+      "summary": "Least ship capacity to ship packages in order within d days.",
+      "links": {
+        "leetcode": "capacity-to-ship-packages-within-d-days"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Binary search capacity between max weight and total",
+          "time": "O(n log sum)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize", "explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.boa.wrong_range",
+        "p.boa.greedy_check",
+        "p.boa.direction"
+      ]
+    },
+    {
+      "id": "bs.kth_missing",
+      "order": 20,
+      "section": "bs_answers",
+      "tier": "Core",
+      "title": "Kth Missing Positive Number",
+      "summary": "The kth positive integer missing from a sorted array.",
+      "links": {
+        "leetcode": "kth-missing-positive-number"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Walk k forward past smaller elements",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search on missing count arr[i] - (i + 1)",
+          "time": "O(log n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_boundaries", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.math_identities", "role": "supporting", "facets": ["explain"] },
+        { "id": "u.indexing", "role": "supporting", "facets": ["trace"] }
+      ],
+      "watch_for": [
+        "p.bsb.equal_side",
+        "u.idx.mirror_formula",
+        "p.math.equation_setup"
+      ]
+    },
+    {
+      "id": "bs.aggressive_cows",
+      "order": 21,
+      "section": "bs_answers",
+      "tier": "Pro",
+      "title": "Aggressive Cows",
+      "summary": "Place c cows in stalls to maximize the minimum distance between any two.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Sort, binary search the distance, place greedily",
+          "time": "O(n log n + n log max)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer",
+            "p.sort_then_scan"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize", "explain", "implement", "adapt"] },
+        { "id": "p.sort_then_scan", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.boa.no_monotonic",
+        "p.boa.direction",
+        "p.boa.greedy_check",
+        "p.sort.when_not_allowed"
+      ]
+    },
+    {
+      "id": "bs.book_allocation",
+      "order": 22,
+      "section": "bs_answers",
+      "tier": "Pro",
+      "title": "Book Allocation Problem",
+      "summary": "Split books (in order) among m students to minimize the most pages any one gets.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Binary search the page limit, count students greedily",
+          "time": "O(n log sum)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.boa.wrong_range",
+        "p.boa.greedy_check",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "bs.split_array",
+      "order": 23,
+      "section": "bs_answers",
+      "tier": "Pro",
+      "title": "Split array - Largest Sum",
+      "summary": "Split into k subarrays minimizing the largest subarray sum.",
+      "links": {
+        "leetcode": "split-array-largest-sum"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Binary search the largest allowed sum",
+          "time": "O(n log sum)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize", "implement"] }
+      ],
+      "watch_for": [
+        "p.boa.wrong_range",
+        "p.boa.greedy_check",
+        "p.boa.direction"
+      ]
+    },
+    {
+      "id": "bs.painters_partition",
+      "order": 24,
+      "section": "bs_answers",
+      "tier": "Core",
+      "title": "Painter's partition",
+      "summary": "k painters paint contiguous boards; minimize the time of the busiest one.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Same as split array largest sum",
+          "time": "O(n log sum)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["recognize"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.boa.no_monotonic",
+        "p.boa.wrong_range"
+      ]
+    },
+    {
+      "id": "bs.gas_station",
+      "order": 25,
+      "section": "bs_answers",
+      "tier": "Pro",
+      "title": "Minimize Max Distance to Gas Station",
+      "summary": "Add k stations to minimize the largest gap; answer within 1e-6.",
+      "links": {
+        "leetcode": "minimize-max-distance-to-gas-station",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Greedily add each station to the largest gap (heap)",
+          "time": "O(n log n + k log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search the gap on doubles",
+          "time": "O(n log(range / eps))",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_on_answer", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.boa.float_precision",
+        "p.boa.greedy_check",
+        "p.boa.direction"
+      ]
+    },
+    {
+      "id": "bs.median_two_sorted",
+      "order": 26,
+      "section": "bs_answers",
+      "tier": "Pro",
+      "title": "Median of 2 sorted arrays",
+      "summary": "Median of two sorted arrays in O(log min(n, m)).",
+      "links": {
+        "leetcode": "median-of-two-sorted-arrays"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Merge and pick the middle",
+          "time": "O(n + m)",
+          "space": "O(n + m)",
+          "demonstrates": [
+            "p.merge_two_sorted"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Merge virtually, counting to the middle",
+          "time": "O(n + m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.merge_two_sorted"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search the cut in the smaller array",
+          "time": "O(log min(n, m))",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_partition"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_partition", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "cpp.limits", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bsp.larger_array",
+        "p.bsp.sentinels",
+        "p.bsp.odd_even",
+        "p.bsp.merged_copy",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "bs.kth_two_sorted",
+      "order": 27,
+      "section": "bs_answers",
+      "tier": "Pro",
+      "title": "Kth element of 2 sorted arrays",
+      "summary": "The kth smallest element of the union of two sorted arrays.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Merge virtually up to k",
+          "time": "O(k)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.merge_two_sorted"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search the cut with clamped range",
+          "time": "O(log min(n, m))",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_partition"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_partition", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "cpp.limits", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bsp.kth_bounds",
+        "p.bsp.sentinels",
+        "p.bsp.larger_array"
+      ]
+    },
+    {
+      "id": "bs.row_max_ones",
+      "order": 28,
+      "section": "bs_2d",
+      "tier": "Basic",
+      "title": "Find the row with maximum number of 1's",
+      "summary": "Rows are sorted 0s then 1s; return the row with the most 1s.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count each row",
+          "time": "O(n * m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Lower bound of 1 in each row",
+          "time": "O(n log m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_boundaries"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_boundaries", "role": "core", "facets": ["adapt"] },
+        { "id": "p.bs_matrix", "role": "supporting", "facets": ["recognize"] },
+        { "id": "p.track_extremes", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bsb.default_answer",
+        "p.ext.equal_to_max",
+        "r.model.output_format"
+      ]
+    },
+    {
+      "id": "bs.search_2d_matrix",
+      "order": 29,
+      "section": "bs_2d",
+      "tier": "Core",
+      "title": "Search in a 2 D matrix",
+      "summary": "Each row sorted and each row starts after the previous one ends.",
+      "links": {
+        "leetcode": "search-a-2d-matrix"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Binary search inside the right row",
+          "time": "O(n + log m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.binary_search"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "One binary search over n * m cells",
+          "time": "O(log(n * m))",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_matrix"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_matrix", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "u.2d_indexing", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bsm.index_map",
+        "p.bsm.per_row_only",
+        "u.2d.rows_cols_swapped"
+      ]
+    },
+    {
+      "id": "bs.search_2d_matrix_2",
+      "order": 30,
+      "section": "bs_2d",
+      "tier": "Core",
+      "title": "Search in a row and column wise sorted matrix",
+      "summary": "Rows and columns are each sorted.",
+      "links": {
+        "leetcode": "search-a-2d-matrix-ii"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Binary search every row",
+          "time": "O(n log m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.binary_search"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Staircase walk from the top-right corner",
+          "time": "O(n + m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_matrix"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_matrix", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "u.2d_indexing", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bsm.corner_start",
+        "u.idx.out_of_bounds",
+        "u.2d.rows_cols_swapped"
+      ]
+    },
+    {
+      "id": "bs.peak_2d",
+      "order": 31,
+      "section": "bs_2d",
+      "tier": "Pro",
+      "title": "Find Peak Element (2D Matrix)",
+      "summary": "Any cell strictly greater than its four neighbours.",
+      "links": {
+        "leetcode": "find-a-peak-element-ii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Binary search columns, take each column's max row",
+          "time": "O(n log m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_matrix",
+            "p.bs_peak"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_matrix", "role": "core", "facets": ["adapt"] },
+        { "id": "p.bs_peak", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.track_extremes", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bspk.boundary_compare",
+        "p.bspk.needs_sorted",
+        "u.idx.out_of_bounds"
+      ]
+    },
+    {
+      "id": "bs.matrix_median",
+      "order": 32,
+      "section": "bs_2d",
+      "tier": "Pro",
+      "title": "Matrix Median",
+      "summary": "Median of a row-wise sorted matrix with an odd number of cells.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Flatten and sort",
+          "time": "O(nm log nm)",
+          "space": "O(nm)",
+          "demonstrates": [
+            "p.sort_then_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary search the value, count <= mid with upper bound per row",
+          "time": "O(n log m log range)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bs_matrix",
+            "p.bs_on_answer"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bs_matrix", "role": "core", "facets": ["adapt"] },
+        { "id": "p.bs_on_answer", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.bs_boundaries", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bsm.median_flatten",
+        "p.boa.direction",
+        "p.bsb.equal_side"
+      ]
+    }
+  ]
+}

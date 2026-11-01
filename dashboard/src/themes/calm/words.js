@@ -26,7 +26,41 @@ export const STATUS = {
 };
 
 export const PROBLEM_STATE = { solved: "Solved", attempted: "Attempted", new: "Not started" };
-export const SECTION = { fundamentals: "Basics", logic_building: "Logic", faq_medium: "Medium", faq_hard: "Hard" };
+
+// Concepts that belong to no single topic: basics, C++, reasoning, and general structures.
+export const FOUNDATIONS = "foundations";
+export const FOUNDATION_GROUPS = [
+  { name: "Basics", match: (n) => n.layer === 0 },
+  { name: "C++", match: (n) => n.layer === 1 },
+  { name: "General data structures", match: (n) => n.layer === 2 && n.topic === "general" },
+  { name: "Reasoning", match: (n) => n.layer === 4 },
+];
+
+// The topic the learner is working in, shared by the problem strip and the Skills page.
+export function readTopic() {
+  try { return localStorage.getItem("dmm.topic"); } catch { return null; }
+}
+export function writeTopic(t) {
+  try { localStorage.setItem("dmm.topic", t); } catch {}
+  window.dispatchEvent(new CustomEvent("dmm-topic", { detail: t }));
+}
+// Follow topic changes made elsewhere on the page (the strip and the Skills tabs stay in step).
+export function onTopicChange(fn) {
+  const h = (e) => fn(e.detail);
+  window.addEventListener("dmm-topic", h);
+  return () => window.removeEventListener("dmm-topic", h);
+}
+// Remembered topic if valid; otherwise the first topic in progress; otherwise the first.
+export function currentTopic(data) {
+  const topics = data?.topics ?? [];
+  const saved = readTopic();
+  if (topics.some((t) => t.topic === saved)) return saved;
+  const inProgress = topics.find((t) => {
+    const ps = data.sheet.filter((p) => p.topic === t.topic);
+    return ps.some((p) => p.status !== "new") && ps.some((p) => p.status !== "solved");
+  });
+  return (inProgress ?? topics[0])?.topic ?? null;
+}
 
 // "Tracking extremes (largest / second largest)" -> "Tracking extremes"
 export const shortName = (name = "") =>

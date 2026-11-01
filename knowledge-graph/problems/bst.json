@@ -1,0 +1,541 @@
+{
+  "sheet": "Striver A2Z - Binary Search Trees",
+  "topic": "bst",
+  "topic_title": "Binary search trees",
+  "step": 14,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "bst_concepts",
+      "title": "Concepts"
+    },
+    {
+      "id": "bst_practice",
+      "title": "Practice Problems"
+    }
+  ],
+  "problems": [
+    {
+      "id": "bst.search",
+      "order": 1,
+      "section": "bst_concepts",
+      "tier": "Basic",
+      "title": "Search in a Binary Search Tree",
+      "summary": "Return the subtree rooted at the value, or null.",
+      "links": {
+        "leetcode": "search-in-a-binary-search-tree"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Search the whole tree",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "ds.binary_tree"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Go left or right by comparison",
+          "time": "O(h)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.bst"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.bst", "role": "core", "facets": ["recognize", "implement"] }
+      ],
+      "watch_for": [
+        "ds.bst.full_traversal",
+        "ds.bt.null_child",
+        "ds.bst.height_assumption"
+      ]
+    },
+    {
+      "id": "bst.min_max",
+      "order": 2,
+      "section": "bst_concepts",
+      "tier": "Basic",
+      "title": "Find Min/Max in BST",
+      "summary": "Smallest and largest values.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Leftmost and rightmost nodes",
+          "time": "O(h)",
+          "space": "O(1)",
+          "demonstrates": [
+            "ds.bst"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.bst", "role": "core", "facets": ["implement", "explain"] }
+      ],
+      "watch_for": [
+        "ds.bst.full_traversal",
+        "ds.bt.null_child"
+      ]
+    },
+    {
+      "id": "bst.ceil",
+      "order": 3,
+      "section": "bst_practice",
+      "tier": "Basic",
+      "title": "Ceil in a Binary Search Tree",
+      "summary": "Smallest value >= key (and floor: largest <= key).",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Walk, recording the best candidate",
+          "time": "O(h)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bst_walk"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_walk", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.bstw.no_candidate",
+        "p.bstw.equal_case",
+        "ds.bst.full_traversal"
+      ]
+    },
+    {
+      "id": "bst.insert",
+      "order": 4,
+      "section": "bst_practice",
+      "tier": "Basic",
+      "title": "Insert a given Node in Binary Search Tree",
+      "summary": "Insert a value as a new leaf.",
+      "links": {
+        "leetcode": "insert-into-a-binary-search-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Walk to the empty spot and attach",
+          "time": "O(h)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bst_walk"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_walk", "role": "core", "facets": ["implement"] },
+        { "id": "ds.bst", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.bt.null_child",
+        "ds.bst.full_traversal",
+        "cpp.ptr.head_by_value",
+        "ds.bst.height_assumption"
+      ]
+    },
+    {
+      "id": "bst.delete",
+      "order": 5,
+      "section": "bst_practice",
+      "tier": "Core",
+      "title": "Delete a Node in Binary Search Tree",
+      "summary": "Delete a key and return the new root.",
+      "links": {
+        "leetcode": "delete-node-in-a-bst"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Find the node, then handle leaf / one child / two children",
+          "time": "O(h)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_delete"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_delete", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.bst_walk", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bstd.two_children",
+        "p.bstd.root_case",
+        "p.bstd.parent_link"
+      ]
+    },
+    {
+      "id": "bst.kth_smallest",
+      "order": 6,
+      "section": "bst_practice",
+      "tier": "Core",
+      "title": "Find K-th smallest/largest element in BST",
+      "summary": "kth smallest (or largest) value.",
+      "links": {
+        "leetcode": "kth-smallest-element-in-a-bst"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Inorder into an array",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Inorder with a counter, stop at k",
+          "time": "O(h + k)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_inorder"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_inorder", "role": "core", "facets": ["recognize", "implement"] }
+      ],
+      "watch_for": [
+        "p.bsti.collect_all",
+        "p.bsti.prev_tracking"
+      ]
+    },
+    {
+      "id": "bst.validate",
+      "order": 7,
+      "section": "bst_practice",
+      "tier": "Core",
+      "title": "Check if a tree is a BST or BT",
+      "summary": "Is the binary tree a valid BST?",
+      "links": {
+        "leetcode": "validate-binary-search-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Pass (low, high) bounds down",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_validate_range"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Inorder is strictly increasing",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_inorder"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_validate_range", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.bst_inorder", "role": "supporting", "facets": ["implement"] },
+        { "id": "ds.bst", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.bstv.int_bounds",
+        "p.bstv.children_only",
+        "ds.bst.local_check",
+        "p.bsti.duplicates"
+      ]
+    },
+    {
+      "id": "bst.lca",
+      "order": 8,
+      "section": "bst_practice",
+      "tier": "Basic",
+      "title": "LCA in Binary Search Tree",
+      "summary": "Lowest common ancestor using the ordering.",
+      "links": {
+        "leetcode": "lowest-common-ancestor-of-a-binary-search-tree"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Walk down until the values split",
+          "time": "O(h)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bst_walk"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_walk", "role": "core", "facets": ["adapt"] },
+        { "id": "p.root_to_node_path", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.bstw.lca_split",
+        "ds.bst.full_traversal"
+      ]
+    },
+    {
+      "id": "bst.from_preorder",
+      "order": 9,
+      "section": "bst_practice",
+      "tier": "Core",
+      "title": "Construct a BST from a preorder traversal",
+      "summary": "Rebuild a BST from its preorder.",
+      "links": {
+        "leetcode": "construct-binary-search-tree-from-preorder-traversal"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Insert values one by one",
+          "time": "O(n²) worst",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_walk"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Sort for inorder, then build from both",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_construction"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Recursion with an upper bound",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_build_preorder"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_build_preorder", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.bstb.insert_each",
+        "p.bstb.index_by_value"
+      ]
+    },
+    {
+      "id": "bst.successor",
+      "order": 10,
+      "section": "bst_practice",
+      "tier": "Core",
+      "title": "Inorder Successor/Predecessor in BST",
+      "summary": "Next larger (and next smaller) value than a given node.",
+      "links": {
+        "leetcode": "inorder-successor-in-bst",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Inorder into an array",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.tree_dfs_traversal"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Walk, recording candidates",
+          "time": "O(h)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.bst_walk"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_walk", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.bst_inorder", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bstw.no_candidate",
+        "p.bstw.equal_case",
+        "p.bsti.collect_all"
+      ]
+    },
+    {
+      "id": "bst.merge_two",
+      "order": 11,
+      "section": "bst_practice",
+      "tier": "Core",
+      "title": "Merge 2 BST's",
+      "summary": "All values of two BSTs in sorted order.",
+      "links": {
+        "leetcode": "all-elements-in-two-binary-search-trees"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Two inorders, then merge",
+          "time": "O(n + m)",
+          "space": "O(n + m)",
+          "demonstrates": [
+            "p.bst_inorder",
+            "p.merge_two_sorted"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Two BST iterators merged",
+          "time": "O(n + m)",
+          "space": "O(h1 + h2)",
+          "demonstrates": [
+            "p.bst_iterator",
+            "p.merge_two_sorted"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_inorder", "role": "core", "facets": ["adapt"] },
+        { "id": "p.merge_two_sorted", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.bst_iterator", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.merge.no_drain",
+        "p.bstit.right_spine"
+      ]
+    },
+    {
+      "id": "bst.two_sum",
+      "order": 12,
+      "section": "bst_practice",
+      "tier": "Core",
+      "title": "Two Sum In BST | Check if there exists a pair with Sum K",
+      "summary": "Do two nodes sum to k?",
+      "links": {
+        "leetcode": "two-sum-iv-input-is-a-bst"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Inorder array, two pointers",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.bst_inorder",
+            "p.two_pointers_opposite"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Forward and reverse BST iterators",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_iterator",
+            "p.two_pointers_opposite"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_iterator", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.two_pointers_opposite", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.bstit.full_inorder",
+        "p.bstit.right_spine",
+        "p.opp.wrong_move"
+      ]
+    },
+    {
+      "id": "bst.recover",
+      "order": 13,
+      "section": "bst_practice",
+      "tier": "Pro",
+      "title": "Recover BST | Correct BST with two nodes swapped",
+      "summary": "Two nodes were swapped; fix the tree without changing its shape.",
+      "links": {
+        "leetcode": "recover-binary-search-tree"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Inorder, sort, write back",
+          "time": "O(n log n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.sort_then_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Inorder with prev, first and second violations",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_inorder"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bst_inorder", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.bsti.recover_adjacent",
+        "p.bsti.prev_tracking"
+      ]
+    },
+    {
+      "id": "bst.largest_bst",
+      "order": 14,
+      "section": "bst_practice",
+      "tier": "Pro",
+      "title": "Largest BST in Binary Tree",
+      "summary": "Size of the largest subtree that is a BST.",
+      "links": {
+        "leetcode": "largest-bst-subtree",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Validate every subtree",
+          "time": "O(n²)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.bst_validate_range"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Return (min, max, size) bottom-up",
+          "time": "O(n)",
+          "space": "O(h)",
+          "demonstrates": [
+            "p.largest_bst_subtree"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.largest_bst_subtree", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.tree_postorder_info", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.lbst.validate_each",
+        "p.lbst.invalid_marker"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Binary tree patterns (A2Z step 13).",
+  "nodes": [
+    {
+      "id": "p.tree_dfs_traversal",
+      "name": "Depth-first traversals",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Visit the root before (preorder), between (inorder) or after (postorder) its subtrees; iteratively, an explicit stack replaces the call stack.",
+      "prereqs": ["ds.binary_tree"],
+      "facets": {
+        "explain": "Explains what each order is useful for (copying, sorted output for BSTs, deleting).",
+        "implement": "Writes all three recursively with the visit in the right place.",
+        "trace": "Lists the visit order for a small tree.",
+        "adapt": "Writes the iterative versions, all three in one pass, and boundary traversal."
+      },
+      "misconceptions": [
+        { "id": "p.dfs.order_mixup", "facet": "implement", "desc": "Put the visit in the wrong place (wrote preorder when inorder was asked)." },
+        { "id": "p.dfs.iter_push_order", "facet": "adapt", "desc": "In iterative preorder, pushed the left child before the right, reversing the order." },
+        { "id": "p.dfs.iter_inorder", "facet": "adapt", "desc": "In iterative inorder, popped before walking all the way left." },
+        { "id": "p.dfs.iter_postorder", "facet": "adapt", "desc": "Iterative postorder visited a node before its right subtree was finished." },
+        { "id": "p.dfs.global_result", "facet": "implement", "desc": "Kept the result in a global or static vector that is never cleared between calls." },
+        { "id": "p.dfs.boundary_dupes", "facet": "adapt", "desc": "In boundary traversal, added a leaf twice (as an edge node and as a leaf) or did not reverse the right edge." }
+      ]
+    },
+    {
+      "id": "p.tree_bfs",
+      "name": "Level-order traversal",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Process a queue one level at a time by fixing the level's size before the inner loop.",
+      "prereqs": ["ds.binary_tree", "ds.queue"],
+      "facets": {
+        "recognize": "Uses BFS for anything per level: views, zigzag, width, nearest leaf.",
+        "implement": "Saves the level size, pushes only non-null children.",
+        "trace": "Can show the queue at the start of each level.",
+        "adapt": "Builds zigzag order, left and right views, and width with position indices."
+      },
+      "misconceptions": [
+        { "id": "p.lvl.size_in_loop", "facet": "implement", "desc": "Used q.size() in the inner loop condition while pushing children, mixing levels." },
+        { "id": "p.lvl.push_null", "facet": "implement", "desc": "Pushed null children and then dereferenced them." },
+        { "id": "p.lvl.zigzag_reverse", "facet": "adapt", "desc": "For zigzag, reversed the order children are pushed instead of the level's output, breaking later levels." },
+        { "id": "p.lvl.width_overflow", "facet": "adapt", "desc": "For maximum width, numbered nodes 2i + 1 without rebasing each level, overflowing." }
+      ]
+    },
+    {
+      "id": "p.tree_postorder_info",
+      "name": "Bottom-up recursion",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Each call returns what its parent needs (height, sum, a flag) and updates a global answer on the way up, so one pass is O(n).",
+      "prereqs": ["ds.binary_tree", "u.recursion"],
+      "facets": {
+        "recognize": "Sees when an answer at a node depends on values computed for both subtrees.",
+        "explain": "Explains why the returned value differs from the answer being tracked (height versus diameter).",
+        "implement": "Returns the parent's value and updates the answer in the same call.",
+        "adapt": "Signals failure with -1, drops negative paths with max(0, ...), returns several values at once."
+      },
+      "misconceptions": [
+        { "id": "p.post.recompute", "facet": "recognize", "desc": "Called height() for every node inside another recursion (O(n²))." },
+        { "id": "p.post.answer_vs_return", "facet": "implement", "desc": "Returned the answer instead of what the parent needs (the diameter instead of the height)." },
+        { "id": "p.post.negative_paths", "facet": "adapt", "desc": "Added negative child path sums instead of taking max(0, ...)." },
+        { "id": "p.post.through_root", "facet": "explain", "desc": "Assumed the longest or best path passes through the root." },
+        { "id": "p.post.edges_vs_nodes", "facet": "implement", "desc": "Counted nodes where edges were asked, or the reverse." }
+      ]
+    },
+    {
+      "id": "p.tree_pair_recursion",
+      "name": "Comparing two trees",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Recurse on two nodes at once: identical trees compare left with left; a symmetric tree compares left with right.",
+      "prereqs": ["ds.binary_tree", "u.recursion"],
+      "facets": {
+        "explain": "Explains why comparing traversals alone can miss shape differences.",
+        "implement": "Handles both null, one null, then compares values and the right pairs of children."
+      },
+      "misconceptions": [
+        { "id": "p.pair.one_null", "facet": "implement", "desc": "Did not handle one node being null while the other is not." },
+        { "id": "p.pair.mirror_pairs", "facet": "implement", "desc": "For symmetry, compared left with left instead of left with right." },
+        { "id": "p.pair.traversal_compare", "facet": "explain", "desc": "Compared traversal sequences without null markers, which can match for different shapes." }
+      ]
+    },
+    {
+      "id": "p.tree_coordinates",
+      "name": "Vertical and horizontal coordinates",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Give each node a (column, row): children are column - 1 and + 1. Group by column in an ordered map; level order decides which node a view sees first.",
+      "prereqs": ["p.tree_bfs", "cpp.ordered_containers"],
+      "facets": {
+        "implement": "Tracks the column with each queued node and groups columns in a sorted map.",
+        "adapt": "Builds top view (first per column), bottom view (last per column) and vertical order with ties sorted by value."
+      },
+      "misconceptions": [
+        { "id": "p.coord.dfs_for_view", "facet": "implement", "desc": "Used DFS for the top view, so a deeper node could be seen first in its column." },
+        { "id": "p.coord.tie_order", "facet": "adapt", "desc": "In vertical order, did not sort nodes with the same row and column by value." },
+        { "id": "p.coord.unordered", "facet": "implement", "desc": "Grouped columns in an unordered_map, so columns came out unsorted." }
+      ]
+    },
+    {
+      "id": "p.root_to_node_path",
+      "name": "Root-to-node paths and lowest common ancestor",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Find a path by pushing the node, recursing and popping when the target is not below; the LCA is where the two searches meet.",
+      "prereqs": ["ds.binary_tree", "p.backtracking"],
+      "facets": {
+        "explain": "Explains why the first node with targets on different sides (or being one target) is the LCA.",
+        "implement": "Returns the found node up the recursion, popping path nodes on failure."
+      },
+      "misconceptions": [
+        { "id": "p.path.no_pop", "facet": "implement", "desc": "Did not pop the node when the target was not below it." },
+        { "id": "p.lca.early_return", "facet": "implement", "desc": "Returned before checking both subtrees, so the LCA came out wrong." },
+        { "id": "p.lca.two_paths", "facet": "explain", "desc": "Stored both root-to-target paths and compared them (O(n) space) where one recursion suffices." }
+      ]
+    },
+    {
+      "id": "p.tree_as_graph",
+      "name": "Treating a tree as a graph",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Record each node's parent, then BFS outward from a target through left, right and parent with a visited set.",
+      "prereqs": ["p.tree_bfs", "ds.hashmap"],
+      "facets": {
+        "recognize": "Sees that 'distance from a node' must also travel upward.",
+        "implement": "Builds the parent map, runs BFS with visited and counts levels."
+      },
+      "misconceptions": [
+        { "id": "p.tg.no_parent", "facet": "recognize", "desc": "Searched only downward from the target, missing nodes reached through parents." },
+        { "id": "p.tg.no_visited", "facet": "implement", "desc": "Did not mark visited nodes, so the search bounced between parent and child." },
+        { "id": "p.tg.time_count", "facet": "implement", "desc": "Counted time per node instead of per BFS level." }
+      ]
+    },
+    {
+      "id": "p.tree_construction",
+      "name": "Building a tree from traversals",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "The preorder (or postorder) gives the root; its index in the inorder splits the left and right subtrees.",
+      "prereqs": ["p.tree_dfs_traversal", "ds.hashmap"],
+      "facets": {
+        "explain": "Explains why inorder plus preorder or postorder is unique, but preorder plus postorder is not.",
+        "implement": "Finds the root index with a map and computes subtree ranges from the left subtree size."
+      },
+      "misconceptions": [
+        { "id": "p.build.linear_find", "facet": "implement", "desc": "Searched for the root in inorder linearly each time (O(n²)) instead of using a value -> index map." },
+        { "id": "p.build.range_math", "facet": "implement", "desc": "Computed the subtree ranges wrongly (left size = root index - inorder start)." },
+        { "id": "p.build.uniqueness", "facet": "explain", "desc": "Believes preorder plus postorder determines a unique tree." },
+        { "id": "p.build.postorder_side", "facet": "implement", "desc": "With postorder, built the left subtree first while consuming from the end." }
+      ]
+    },
+    {
+      "id": "p.tree_serialization",
+      "name": "Serializing a tree",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Write nodes in level order (or preorder) with a marker for null, and read them back in the same order.",
+      "prereqs": ["p.tree_bfs", "cpp.strings"],
+      "facets": {
+        "implement": "Writes and parses null markers and multi-digit, negative values."
+      },
+      "misconceptions": [
+        { "id": "p.ser.no_null_marker", "facet": "implement", "desc": "Left out null markers, so the shape could not be rebuilt." },
+        { "id": "p.ser.parse_values", "facet": "implement", "desc": "Parsed values one character at a time, breaking on negative or multi-digit numbers." }
+      ]
+    },
+    {
+      "id": "p.morris_traversal",
+      "name": "Morris traversal",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "Thread each node's inorder predecessor back to it so the walk can return without a stack, then remove the thread: O(1) extra space.",
+      "prereqs": ["p.tree_dfs_traversal"],
+      "facets": {
+        "explain": "Explains how the thread replaces the stack and why each edge is walked a constant number of times.",
+        "implement": "Creates and removes threads correctly for inorder.",
+        "adapt": "Writes Morris preorder and flattens a tree into a list in place."
+      },
+      "misconceptions": [
+        { "id": "p.morris.no_unthread", "facet": "implement", "desc": "Did not remove the thread, leaving the tree modified or looping forever." },
+        { "id": "p.morris.visit_point", "facet": "adapt", "desc": "Visited at the wrong moment (preorder visits when creating the thread, inorder when removing it)." },
+        { "id": "p.morris.flatten_links", "facet": "adapt", "desc": "When flattening, linked nodes in the wrong order or left left pointers set." }
+      ]
+    },
+    {
+      "id": "p.complete_tree_count",
+      "name": "Counting nodes of a complete tree",
+      "layer": 3,
+      "topic": "binary_trees",
+      "description": "If the leftmost and rightmost heights match, the subtree is perfect and has 2^h - 1 nodes; otherwise recurse. O(log² n).",
+      "prereqs": ["p.tree_postorder_info"],
+      "facets": {
+        "explain": "Explains why one of the two subtrees is always perfect.",
+        "implement": "Compares the two edge heights and uses (1 << h) - 1."
+      },
+      "misconceptions": [
+        { "id": "p.ctc.full_count", "facet": "explain", "desc": "Counted every node (O(n)) instead of using the complete-tree shortcut." },
+        { "id": "p.ctc.height_math", "facet": "implement", "desc": "Computed 2^h off by one, or with an overflowing shift." }
+      ]
+    }
+  ]
+}

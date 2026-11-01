@@ -24,6 +24,10 @@ flowchart BT
     cpp_hash_containers["unordered_map / unordered_set"]
     cpp_ordered_containers["map / set"]
     cpp_2d_vector["2D vectors"]
+    cpp_strings["std::string essentials"]
+    cpp_pointers["Pointers, nullptr and dynamic memory"]
+    cpp_stl_adaptors["stack, queue, deque and priority_queue"]
+    cpp_class_design["Classes for custom data structures"]
   end
   subgraph layer2["L2 Data structures"]
     ds_array["Array"]
@@ -31,8 +35,81 @@ flowchart BT
     ds_matrix["Matrix (2D grid)"]
     ds_hashmap["Hash map"]
     ds_hashset["Hash set"]
+    ds_string["String as a character sequence"]
+    ds_linked_list["Singly linked list"]
+    ds_doubly_linked_list["Doubly linked list"]
+    ds_stack["Stack (last in, first out)"]
+    ds_queue["Queue and deque (first in, first out)"]
+    ds_heap["Heap / priority queue"]
+    ds_binary_tree["Binary tree"]
+    ds_bst["Binary search tree"]
+    ds_graph["Graph (adjacency list)"]
+    ds_disjoint_set["Disjoint set union (union-find)"]
   end
   subgraph layer3["L3 Patterns"]
+    p_binary_search["Binary search on a sorted array"]
+    p_bs_boundaries["Lower / upper bound and first / last occurrence"]
+    p_bs_rotated["Binary search on a rotated sorted array"]
+    p_bs_on_answer["Binary search on the answer"]
+    p_bs_partition["Binary search on a partition"]
+    p_bs_peak["Binary search on a local property"]
+    p_bs_matrix["Binary search in a matrix"]
+    p_tree_dfs_traversal["Depth-first traversals"]
+    p_tree_bfs["Level-order traversal"]
+    p_tree_postorder_info["Bottom-up recursion"]
+    p_tree_pair_recursion["Comparing two trees"]
+    p_tree_coordinates["Vertical and horizontal coordinates"]
+    p_root_to_node_path["Root-to-node paths and lowest common ancestor"]
+    p_tree_as_graph["Treating a tree as a graph"]
+    p_tree_construction["Building a tree from traversals"]
+    p_tree_serialization["Serializing a tree"]
+    p_morris_traversal["Morris traversal"]
+    p_complete_tree_count["Counting nodes of a complete tree"]
+    p_bst_walk["Walking a BST by comparison"]
+    p_bst_delete["Deleting from a BST"]
+    p_bst_inorder["Using the sorted inorder of a BST"]
+    p_bst_validate_range["Validating a BST with bounds"]
+    p_bst_iterator["BST iterator with a stack"]
+    p_bst_build_preorder["Building a BST from preorder"]
+    p_largest_bst_subtree["Largest BST inside a binary tree"]
+    p_dp_recurrence["Defining DP states and transitions"]
+    p_dp_memoization["Memoization (top-down)"]
+    p_dp_tabulation["Tabulation (bottom-up)"]
+    p_dp_space_opt["Space optimization"]
+    p_dp_1d["1D DP"]
+    p_dp_grid["DP on grids"]
+    p_dp_knapsack["0/1 knapsack and subset sums"]
+    p_dp_unbounded["Unbounded knapsack"]
+    p_dp_strings["DP on two strings"]
+    p_dp_stocks["Stock problems as state machines"]
+    p_dp_lis["Longest increasing subsequence"]
+    p_dp_partition["Partition (interval) DP"]
+    p_dp_squares["DP on squares"]
+    p_graph_traversal["BFS and DFS on a graph"]
+    p_connected_components["Counting connected components"]
+    p_grid_graph["Grids as graphs"]
+    p_multi_source_bfs["Multi-source BFS"]
+    p_cycle_undirected["Cycle detection in an undirected graph"]
+    p_cycle_directed["Cycle detection in a directed graph"]
+    p_bipartite["Bipartite check"]
+    p_topological_sort["Topological sort"]
+    p_bfs_shortest_path["Shortest paths with unit weights"]
+    p_dag_shortest_path["Shortest paths in a DAG"]
+    p_dijkstra["Dijkstra's algorithm"]
+    p_bellman_ford["Bellman-Ford"]
+    p_floyd_warshall["Floyd-Warshall"]
+    p_mst["Minimum spanning tree"]
+    p_union_find_apps["Solving problems with union-find"]
+    p_tarjan_low_link["Bridges and articulation points"]
+    p_scc_kosaraju["Strongly connected components"]
+    p_ll_dummy_node["Dummy head node"]
+    p_ll_reversal["Reversing a linked list"]
+    p_fast_slow_pointers["Fast and slow pointers"]
+    p_ll_merge["Merging and sorting linked lists"]
+    p_ll_relink["Relinking nodes into groups"]
+    p_ll_carry_arithmetic["Digit arithmetic on lists"]
+    p_ll_intersection["Aligning two lists"]
+    p_ll_clone_random["Copying a list with extra pointers"]
     p_linear_scan["Single-pass linear scan"]
     p_track_extremes["Tracking extremes (largest / second largest)"]
     p_running_streak["Running streak / consecutive runs"]
@@ -59,6 +136,28 @@ flowchart BT
     p_next_permutation["Next lexicographic permutation"]
     p_merge_sort_counting["Counting pairs during merge sort"]
     p_gap_merge["Merging in place (swap-and-sort / gap method)"]
+    p_fast_power["Fast exponentiation"]
+    p_subsequences["Pick / not-pick recursion"]
+    p_backtracking["Backtracking: choose, explore, undo"]
+    p_grid_backtracking["Backtracking on a grid"]
+    p_bracket_matching["Matching brackets with a stack"]
+    p_augmented_stack["Stack that tracks a running minimum"]
+    p_expression_conversion["Converting infix, prefix and postfix"]
+    p_monotonic_stack["Monotonic stack"]
+    p_contribution_technique["Counting each element's contribution"]
+    p_stack_simulation["Simulating cancellation with a stack"]
+    p_monotonic_deque["Monotonic deque"]
+    p_histogram_area["Largest rectangle in a histogram"]
+    p_trapping_water["Trapping rain water"]
+    p_cache_design["Cache design (LRU, LFU)"]
+    p_candidate_elimination["Eliminating candidates in pairs"]
+    p_string_build["Building a string in one pass"]
+    p_balance_counter["Depth counter for parentheses"]
+    p_char_mapping["Character mapping in both directions"]
+    p_expand_center["Expand around center"]
+    p_string_parsing["Parsing numbers and symbols from text"]
+    p_sliding_window["Sliding window"]
+    p_substring_enumeration["Enumerating substrings with running state"]
   end
   subgraph layer4["L4 Reasoning"]
     r_problem_modeling["Reading the problem precisely"]
@@ -89,6 +188,11 @@ flowchart BT
   cpp_iterators --> cpp_ordered_containers
   cpp_vector --> cpp_2d_vector
   u_2d_indexing --> cpp_2d_vector
+  cpp_vector --> cpp_strings
+  cpp_pass_by_reference --> cpp_pointers
+  cpp_vector --> cpp_stl_adaptors
+  cpp_vector --> cpp_class_design
+  cpp_pointers --> cpp_class_design
   u_indexing --> ds_array
   cpp_vector --> ds_array
   ds_array --> ds_sorted_array
@@ -98,6 +202,126 @@ flowchart BT
   cpp_hash_containers --> ds_hashmap
   ds_array --> ds_hashset
   cpp_hash_containers --> ds_hashset
+  ds_array --> ds_string
+  cpp_strings --> ds_string
+  cpp_pointers --> ds_linked_list
+  u_loop_bounds --> ds_linked_list
+  ds_linked_list --> ds_doubly_linked_list
+  ds_array --> ds_stack
+  cpp_stl_adaptors --> ds_stack
+  ds_array --> ds_queue
+  cpp_stl_adaptors --> ds_queue
+  ds_array --> ds_heap
+  cpp_stl_adaptors --> ds_heap
+  cpp_pointers --> ds_binary_tree
+  u_recursion --> ds_binary_tree
+  ds_binary_tree --> ds_bst
+  ds_array --> ds_graph
+  cpp_2d_vector --> ds_graph
+  ds_array --> ds_disjoint_set
+  ds_sorted_array --> p_binary_search
+  u_loop_bounds --> p_binary_search
+  cpp_integer_types --> p_binary_search
+  p_binary_search --> p_bs_boundaries
+  p_binary_search --> p_bs_rotated
+  p_binary_search --> p_bs_on_answer
+  p_linear_scan --> p_bs_on_answer
+  p_binary_search --> p_bs_partition
+  p_merge_two_sorted --> p_bs_partition
+  p_binary_search --> p_bs_peak
+  p_binary_search --> p_bs_matrix
+  ds_matrix --> p_bs_matrix
+  ds_binary_tree --> p_tree_dfs_traversal
+  ds_binary_tree --> p_tree_bfs
+  ds_queue --> p_tree_bfs
+  ds_binary_tree --> p_tree_postorder_info
+  u_recursion --> p_tree_postorder_info
+  ds_binary_tree --> p_tree_pair_recursion
+  u_recursion --> p_tree_pair_recursion
+  p_tree_bfs --> p_tree_coordinates
+  cpp_ordered_containers --> p_tree_coordinates
+  ds_binary_tree --> p_root_to_node_path
+  p_backtracking --> p_root_to_node_path
+  p_tree_bfs --> p_tree_as_graph
+  ds_hashmap --> p_tree_as_graph
+  p_tree_dfs_traversal --> p_tree_construction
+  ds_hashmap --> p_tree_construction
+  p_tree_bfs --> p_tree_serialization
+  cpp_strings --> p_tree_serialization
+  p_tree_dfs_traversal --> p_morris_traversal
+  p_tree_postorder_info --> p_complete_tree_count
+  ds_bst --> p_bst_walk
+  ds_bst --> p_bst_delete
+  ds_bst --> p_bst_inorder
+  p_tree_dfs_traversal --> p_bst_inorder
+  ds_bst --> p_bst_validate_range
+  u_recursion --> p_bst_validate_range
+  ds_bst --> p_bst_iterator
+  ds_stack --> p_bst_iterator
+  p_tree_dfs_traversal --> p_bst_iterator
+  ds_bst --> p_bst_build_preorder
+  u_recursion --> p_bst_build_preorder
+  p_tree_postorder_info --> p_largest_bst_subtree
+  ds_bst --> p_largest_bst_subtree
+  u_recursion --> p_dp_recurrence
+  p_dp_recurrence --> p_dp_memoization
+  p_dp_recurrence --> p_dp_tabulation
+  cpp_2d_vector --> p_dp_tabulation
+  p_dp_tabulation --> p_dp_space_opt
+  p_dp_recurrence --> p_dp_1d
+  p_dp_recurrence --> p_dp_grid
+  ds_matrix --> p_dp_grid
+  p_dp_recurrence --> p_dp_knapsack
+  p_subsequences --> p_dp_knapsack
+  p_dp_knapsack --> p_dp_unbounded
+  p_dp_recurrence --> p_dp_strings
+  ds_string --> p_dp_strings
+  p_dp_recurrence --> p_dp_stocks
+  p_dp_recurrence --> p_dp_lis
+  p_bs_boundaries --> p_dp_lis
+  p_dp_recurrence --> p_dp_partition
+  p_dp_grid --> p_dp_squares
+  ds_graph --> p_graph_traversal
+  ds_queue --> p_graph_traversal
+  u_recursion --> p_graph_traversal
+  p_graph_traversal --> p_connected_components
+  p_graph_traversal --> p_grid_graph
+  ds_matrix --> p_grid_graph
+  p_graph_traversal --> p_multi_source_bfs
+  p_grid_graph --> p_multi_source_bfs
+  p_graph_traversal --> p_cycle_undirected
+  p_graph_traversal --> p_cycle_directed
+  p_graph_traversal --> p_bipartite
+  p_graph_traversal --> p_topological_sort
+  p_cycle_directed --> p_topological_sort
+  p_graph_traversal --> p_bfs_shortest_path
+  p_topological_sort --> p_dag_shortest_path
+  ds_graph --> p_dijkstra
+  ds_heap --> p_dijkstra
+  ds_graph --> p_bellman_ford
+  ds_graph --> p_floyd_warshall
+  u_nested_loops --> p_floyd_warshall
+  ds_graph --> p_mst
+  ds_heap --> p_mst
+  ds_disjoint_set --> p_mst
+  ds_disjoint_set --> p_union_find_apps
+  ds_graph --> p_union_find_apps
+  p_graph_traversal --> p_tarjan_low_link
+  p_graph_traversal --> p_scc_kosaraju
+  p_topological_sort --> p_scc_kosaraju
+  ds_linked_list --> p_ll_dummy_node
+  ds_linked_list --> p_ll_reversal
+  ds_linked_list --> p_fast_slow_pointers
+  p_merge_two_sorted --> p_ll_merge
+  p_ll_dummy_node --> p_ll_merge
+  p_fast_slow_pointers --> p_ll_merge
+  ds_linked_list --> p_ll_relink
+  p_ll_dummy_node --> p_ll_relink
+  ds_linked_list --> p_ll_carry_arithmetic
+  u_accumulation --> p_ll_carry_arithmetic
+  ds_linked_list --> p_ll_intersection
+  ds_linked_list --> p_ll_clone_random
+  ds_hashmap --> p_ll_clone_random
   u_loop_bounds --> p_linear_scan
   u_conditionals --> p_linear_scan
   ds_array --> p_linear_scan
@@ -155,6 +379,48 @@ flowchart BT
   p_merge_two_sorted --> p_gap_merge
   u_swap --> p_gap_merge
   p_sort_then_scan --> p_gap_merge
+  u_recursion --> p_fast_power
+  cpp_integer_types --> p_fast_power
+  u_modular_arithmetic --> p_fast_power
+  u_recursion --> p_subsequences
+  cpp_pass_by_reference --> p_subsequences
+  p_subsequences --> p_backtracking
+  p_backtracking --> p_grid_backtracking
+  ds_matrix --> p_grid_backtracking
+  ds_stack --> p_bracket_matching
+  ds_stack --> p_augmented_stack
+  ds_stack --> p_expression_conversion
+  ds_string --> p_expression_conversion
+  ds_stack --> p_monotonic_stack
+  p_linear_scan --> p_monotonic_stack
+  p_monotonic_stack --> p_contribution_technique
+  cpp_integer_types --> p_contribution_technique
+  ds_stack --> p_stack_simulation
+  ds_queue --> p_monotonic_deque
+  p_monotonic_stack --> p_monotonic_deque
+  p_sliding_window --> p_monotonic_deque
+  p_monotonic_stack --> p_histogram_area
+  p_two_pointers_opposite --> p_trapping_water
+  p_suffix_scan --> p_trapping_water
+  ds_hashmap --> p_cache_design
+  ds_doubly_linked_list --> p_cache_design
+  cpp_class_design --> p_cache_design
+  p_two_pointers_opposite --> p_candidate_elimination
+  p_linear_scan --> p_string_build
+  ds_string --> p_string_build
+  p_linear_scan --> p_balance_counter
+  u_accumulation --> p_balance_counter
+  ds_string --> p_char_mapping
+  ds_hashmap --> p_char_mapping
+  p_two_pointers_opposite --> p_expand_center
+  ds_string --> p_expand_center
+  ds_string --> p_string_parsing
+  cpp_integer_types --> p_string_parsing
+  u_conditionals --> p_string_parsing
+  p_two_pointers_same_dir --> p_sliding_window
+  p_frequency_counting --> p_sliding_window
+  u_nested_loops --> p_substring_enumeration
+  p_frequency_counting --> p_substring_enumeration
   r_dry_run --> r_invariants
   u_nested_loops --> r_complexity_analysis
   r_complexity_analysis --> r_brute_to_optimal

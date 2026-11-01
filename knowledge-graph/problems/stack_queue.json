@@ -1,0 +1,1051 @@
+{
+  "sheet": "Striver A2Z - Stack and Queues",
+  "topic": "stack_queue",
+  "topic_title": "Stack and queue",
+  "step": 9,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "sq_learning",
+      "title": "Learning"
+    },
+    {
+      "id": "sq_conversion",
+      "title": "Prefix, Infix, PostFix Conversion Problems"
+    },
+    {
+      "id": "sq_monotonic",
+      "title": "Monotonic Stack/Queue Problems"
+    },
+    {
+      "id": "sq_implementation",
+      "title": "Implementation Problems"
+    }
+  ],
+  "problems": [
+    {
+      "id": "sq.stack_array",
+      "order": 1,
+      "section": "sq_learning",
+      "tier": "Basic",
+      "title": "Implement Stack using Arrays",
+      "summary": "push, pop, top and size on a fixed array.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Array with a top index",
+          "time": "O(1) each",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.stack",
+            "cpp.class_design"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.stack", "role": "core", "facets": ["implement", "explain"] },
+        { "id": "cpp.class_design", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "cpp.cls.capacity",
+        "cpp.cls.state_init",
+        "ds.stk.empty_access"
+      ]
+    },
+    {
+      "id": "sq.queue_array",
+      "order": 2,
+      "section": "sq_learning",
+      "tier": "Basic",
+      "title": "Implement Queue using Arrays",
+      "summary": "push, pop, front and size on a circular array.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Circular array with front, rear and count",
+          "time": "O(1) each",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.queue",
+            "cpp.class_design"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.queue", "role": "core", "facets": ["implement", "explain"] },
+        { "id": "cpp.class_design", "role": "core", "facets": ["implement"] },
+        { "id": "u.modular_arithmetic", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.q.circular_index",
+        "cpp.cls.capacity",
+        "cpp.cls.state_init"
+      ]
+    },
+    {
+      "id": "sq.stack_using_queue",
+      "order": 3,
+      "section": "sq_learning",
+      "tier": "Basic",
+      "title": "Implement Stack using Queue",
+      "summary": "LIFO stack with queue operations only.",
+      "links": {
+        "leetcode": "implement-stack-using-queues"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "One queue; after each push rotate the older items behind it",
+          "time": "O(n) push, O(1) pop",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.queue",
+            "ds.stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.queue", "role": "core", "facets": ["implement"] },
+        { "id": "ds.stack", "role": "supporting", "facets": ["explain"] },
+        { "id": "cpp.class_design", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.q.wrong_end",
+        "cpp.adapt.pop_returns",
+        "cpp.adapt.iterate"
+      ]
+    },
+    {
+      "id": "sq.queue_using_stack",
+      "order": 4,
+      "section": "sq_learning",
+      "tier": "Core",
+      "title": "Implement Queue using Stack",
+      "summary": "FIFO queue with two stacks, amortized O(1).",
+      "links": {
+        "leetcode": "implement-queue-using-stacks"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Move everything on every push",
+          "time": "O(n) push",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.stack"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "In-stack and out-stack, refill out only when empty",
+          "time": "O(1) amortized",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.stack",
+            "cpp.class_design"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.stack", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.class_design", "role": "core", "facets": ["explain"] },
+        { "id": "ds.queue", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "cpp.cls.amortized",
+        "ds.stk.empty_access",
+        "cpp.adapt.pop_returns",
+        "cpp.adapt.empty_access"
+      ]
+    },
+    {
+      "id": "sq.stack_linked_list",
+      "order": 5,
+      "section": "sq_learning",
+      "tier": "Basic",
+      "title": "Implement stack using Linkedlist",
+      "summary": "Stack whose top is the list head.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Push and pop at the head",
+          "time": "O(1) each",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.stack",
+            "ds.linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.stack", "role": "core", "facets": ["implement"] },
+        { "id": "ds.linked_list", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.class_design", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "cpp.ptr.null_deref",
+        "ds.stk.empty_access",
+        "cpp.ptr.dangling"
+      ]
+    },
+    {
+      "id": "sq.queue_linked_list",
+      "order": 6,
+      "section": "sq_learning",
+      "tier": "Basic",
+      "title": "Implement queue using Linkedlist",
+      "summary": "Queue with head as front and a tail pointer.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Push at tail, pop at head",
+          "time": "O(1) each",
+          "space": "O(n)",
+          "demonstrates": [
+            "ds.queue",
+            "ds.linked_list"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "ds.queue", "role": "core", "facets": ["implement"] },
+        { "id": "ds.linked_list", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.class_design", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "ds.ll.head_case",
+        "cpp.ptr.null_deref",
+        "cpp.cls.state_init"
+      ]
+    },
+    {
+      "id": "sq.valid_parentheses",
+      "order": 7,
+      "section": "sq_learning",
+      "tier": "Basic",
+      "title": "Check for balanced parentheses",
+      "summary": "Are (), [] and {} balanced and properly nested?",
+      "links": {
+        "leetcode": "valid-parentheses"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Stack of openers",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.bracket_matching"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.bracket_matching", "role": "core", "facets": ["recognize", "implement", "trace"] },
+        { "id": "ds.stack", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.brk.type_mismatch",
+        "p.brk.counter_only",
+        "ds.stk.empty_access",
+        "ds.stk.leftover"
+      ]
+    },
+    {
+      "id": "sq.min_stack",
+      "order": 8,
+      "section": "sq_learning",
+      "tier": "Core",
+      "title": "Implement Min Stack",
+      "summary": "Stack with getMin in O(1).",
+      "links": {
+        "leetcode": "min-stack"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Stack of (value, min) pairs",
+          "time": "O(1) each",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.augmented_stack"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Encoded values 2 * value - min",
+          "time": "O(1) each",
+          "space": "O(1) extra",
+          "demonstrates": [
+            "p.augmented_stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.augmented_stack", "role": "core", "facets": ["explain", "implement", "adapt"] },
+        { "id": "cpp.class_design", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.aug.single_min",
+        "p.aug.encoding_overflow",
+        "p.aug.scan_for_min"
+      ]
+    },
+    {
+      "id": "sq.infix_to_postfix",
+      "order": 9,
+      "section": "sq_conversion",
+      "tier": "Core",
+      "title": "Infix to Postfix Conversion using Stack",
+      "summary": "Convert an infix expression to postfix.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Operator stack by precedence and associativity",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.expression_conversion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.expression_conversion", "role": "core", "facets": ["explain", "implement", "trace"] }
+      ],
+      "watch_for": [
+        "p.expr.precedence",
+        "p.expr.right_assoc",
+        "p.expr.parentheses"
+      ]
+    },
+    {
+      "id": "sq.prefix_to_infix",
+      "order": 10,
+      "section": "sq_conversion",
+      "tier": "Basic",
+      "title": "Prefix to Infix Conversion",
+      "summary": "Convert a prefix expression to fully parenthesized infix.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Scan right to left with a stack of strings",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.expression_conversion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.expression_conversion", "role": "core", "facets": ["implement"] },
+        { "id": "cpp.strings", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.expr.operand_order",
+        "cpp.str.concat_in_loop"
+      ]
+    },
+    {
+      "id": "sq.prefix_to_postfix",
+      "order": 11,
+      "section": "sq_conversion",
+      "tier": "Basic",
+      "title": "Prefix to Postfix Conversion",
+      "summary": "Convert a prefix expression to postfix.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Scan right to left with a stack of strings",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.expression_conversion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.expression_conversion", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.expr.operand_order"
+      ]
+    },
+    {
+      "id": "sq.postfix_to_prefix",
+      "order": 12,
+      "section": "sq_conversion",
+      "tier": "Basic",
+      "title": "Postfix to Prefix Conversion",
+      "summary": "Convert a postfix expression to prefix.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Scan left to right with a stack of strings",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.expression_conversion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.expression_conversion", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.expr.operand_order"
+      ]
+    },
+    {
+      "id": "sq.postfix_to_infix",
+      "order": 13,
+      "section": "sq_conversion",
+      "tier": "Basic",
+      "title": "Postfix to Infix",
+      "summary": "Convert a postfix expression to fully parenthesized infix.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Scan left to right with a stack of strings",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.expression_conversion"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.expression_conversion", "role": "core", "facets": ["implement", "trace"] }
+      ],
+      "watch_for": [
+        "p.expr.operand_order"
+      ]
+    },
+    {
+      "id": "sq.next_greater",
+      "order": 14,
+      "section": "sq_monotonic",
+      "tier": "Basic",
+      "title": "Next Greater Element",
+      "summary": "For each value of nums1, its next greater element in nums2.",
+      "links": {
+        "leetcode": "next-greater-element-i"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Scan right for each element",
+          "time": "O(n * m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Monotonic stack over nums2 plus a map",
+          "time": "O(n + m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.monotonic_stack",
+            "ds.hashmap"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.monotonic_stack", "role": "core", "facets": ["recognize", "explain", "implement", "trace"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.mono.nested",
+        "p.mono.direction",
+        "p.mono.amortized",
+        "ds.stk.empty_access"
+      ]
+    },
+    {
+      "id": "sq.next_greater_2",
+      "order": 15,
+      "section": "sq_monotonic",
+      "tier": "Core",
+      "title": "Next Greater Element 2",
+      "summary": "Next greater element in a circular array.",
+      "links": {
+        "leetcode": "next-greater-element-ii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Monotonic stack over 2n indices with i % n",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.monotonic_stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.monotonic_stack", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "u.modular_arithmetic", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.mono.circular",
+        "p.mono.strictness",
+        "p.mono.direction"
+      ]
+    },
+    {
+      "id": "sq.next_smaller",
+      "order": 16,
+      "section": "sq_monotonic",
+      "tier": "Basic",
+      "title": "Next Smaller Element",
+      "summary": "Nearest smaller element to the left (or right) of each element.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Monotonic increasing stack",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.monotonic_stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.monotonic_stack", "role": "core", "facets": ["adapt", "implement"] }
+      ],
+      "watch_for": [
+        "p.mono.direction",
+        "p.mono.strictness",
+        "ds.stk.empty_access"
+      ]
+    },
+    {
+      "id": "sq.count_nge_right",
+      "order": 17,
+      "section": "sq_monotonic",
+      "tier": "Basic",
+      "title": "Number of NGEs to the right",
+      "summary": "For each query index, count the greater elements to its right.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Count by scanning right of each query index",
+          "time": "O(n * q)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.linear_scan", "role": "core", "facets": ["implement"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "u.cond.strict_vs_nonstrict",
+        "r.model.missed_constraint"
+      ]
+    },
+    {
+      "id": "sq.trapping_rain_water",
+      "order": 18,
+      "section": "sq_monotonic",
+      "tier": "Pro",
+      "title": "Trapping Rainwater",
+      "summary": "Water trapped between bars after rain.",
+      "links": {
+        "leetcode": "trapping-rain-water"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Left and right maxima per index",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Prefix and suffix maximum arrays",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.trapping_water",
+            "p.suffix_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Two pointers moving the lower side",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.trapping_water",
+            "p.two_pointers_opposite"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.trapping_water", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.two_pointers_opposite", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.suffix_scan", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.trap.wrong_side",
+        "p.trap.exclude_self",
+        "p.trap.rescan"
+      ]
+    },
+    {
+      "id": "sq.sum_subarray_min",
+      "order": 19,
+      "section": "sq_monotonic",
+      "tier": "Pro",
+      "title": "Sum of subarray minimum",
+      "summary": "Sum of min(b) over all subarrays b, mod 1e9 + 7.",
+      "links": {
+        "leetcode": "sum-of-subarray-minimums"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Every subarray with a running minimum",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Previous smaller and next smaller-or-equal distances",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.contribution_technique",
+            "p.monotonic_stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.contribution_technique", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.monotonic_stack", "role": "supporting", "facets": ["implement", "adapt"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.contrib.ties",
+        "p.contrib.overflow",
+        "p.contrib.all_subarrays",
+        "p.mono.strictness"
+      ]
+    },
+    {
+      "id": "sq.asteroid_collision",
+      "order": 20,
+      "section": "sq_monotonic",
+      "tier": "Core",
+      "title": "Asteroid Collision",
+      "summary": "Which asteroids remain after all collisions?",
+      "links": {
+        "leetcode": "asteroid-collision"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Stack of survivors; a left-mover destroys smaller right-movers",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.stack_simulation"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.stack_simulation", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "ds.stack", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.sim.single_pop",
+        "p.sim.equal_case",
+        "ds.stk.empty_access"
+      ]
+    },
+    {
+      "id": "sq.sum_subarray_ranges",
+      "order": 21,
+      "section": "sq_monotonic",
+      "tier": "Pro",
+      "title": "Sum of subarray ranges",
+      "summary": "Sum of (max - min) over all subarrays.",
+      "links": {
+        "leetcode": "sum-of-subarray-ranges"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Every subarray with running max and min",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Sum of maximum contributions minus sum of minimum contributions",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.contribution_technique"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.contribution_technique", "role": "core", "facets": ["implement"] },
+        { "id": "p.monotonic_stack", "role": "supporting", "facets": ["adapt"] }
+      ],
+      "watch_for": [
+        "p.contrib.ties",
+        "p.contrib.overflow",
+        "p.mono.direction"
+      ]
+    },
+    {
+      "id": "sq.remove_k_digits",
+      "order": 22,
+      "section": "sq_monotonic",
+      "tier": "Core",
+      "title": "Remove k Digits",
+      "summary": "Smallest number after removing k digits.",
+      "links": {
+        "leetcode": "remove-k-digits"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Pop larger digits while k remains, then trim",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.stack_simulation",
+            "p.monotonic_stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.stack_simulation", "role": "core", "facets": ["implement"] },
+        { "id": "p.monotonic_stack", "role": "supporting", "facets": ["recognize"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.sim.leading_zeros",
+        "p.sim.remaining_k",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "sq.largest_rectangle",
+      "order": 23,
+      "section": "sq_monotonic",
+      "tier": "Pro",
+      "title": "Largest rectangle in a histogram",
+      "summary": "Area of the largest rectangle under the histogram.",
+      "links": {
+        "leetcode": "largest-rectangle-in-histogram"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Expand from every bar",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "better",
+          "name": "Previous and next smaller arrays",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.histogram_area",
+            "p.monotonic_stack"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "One pass, computing width when a bar is popped",
+          "time": "O(n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.histogram_area"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.histogram_area", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "p.monotonic_stack", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.hist.width",
+        "p.hist.flush",
+        "p.mono.values_not_indices",
+        "p.mono.strictness"
+      ]
+    },
+    {
+      "id": "sq.maximal_rectangle",
+      "order": 24,
+      "section": "sq_monotonic",
+      "tier": "Pro",
+      "title": "Maximal Rectangles",
+      "summary": "Largest rectangle of 1s in a binary matrix.",
+      "links": {
+        "leetcode": "maximal-rectangle"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Per-row heights, histogram area on each row",
+          "time": "O(n * m)",
+          "space": "O(m)",
+          "demonstrates": [
+            "p.histogram_area"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.histogram_area", "role": "core", "facets": ["adapt"] },
+        { "id": "ds.matrix", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.hist.row_heights",
+        "p.hist.width",
+        "u.2d.rows_cols_swapped"
+      ]
+    },
+    {
+      "id": "sq.sliding_window_max",
+      "order": 25,
+      "section": "sq_implementation",
+      "tier": "Pro",
+      "title": "Sliding Window maximum",
+      "summary": "Maximum of every window of size k.",
+      "links": {
+        "leetcode": "sliding-window-maximum"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Scan each window",
+          "time": "O(n * k)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Monotonic deque of indices",
+          "time": "O(n)",
+          "space": "O(k)",
+          "demonstrates": [
+            "p.monotonic_deque"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.monotonic_deque", "role": "core", "facets": ["recognize", "implement", "trace"] },
+        { "id": "ds.queue", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.mdq.expire",
+        "p.mdq.values_stored",
+        "p.mdq.rescan",
+        "ds.q.wrong_end"
+      ]
+    },
+    {
+      "id": "sq.stock_span",
+      "order": 26,
+      "section": "sq_implementation",
+      "tier": "Core",
+      "title": "Stock span problem",
+      "summary": "For each day, the number of consecutive days up to today with price <= today's.",
+      "links": {
+        "leetcode": "online-stock-span"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Walk back each day",
+          "time": "O(n²)",
+          "space": "O(1)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Stack of (price, span) or previous greater index",
+          "time": "O(1) amortized",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.monotonic_stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.monotonic_stack", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "cpp.class_design", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.mono.strictness",
+        "p.mono.nested",
+        "p.mono.values_not_indices"
+      ]
+    },
+    {
+      "id": "sq.celebrity",
+      "order": 27,
+      "section": "sq_implementation",
+      "tier": "Core",
+      "title": "The Celebrity Problem",
+      "summary": "Find the person everyone knows who knows no one, or -1.",
+      "links": {
+        "leetcode": "find-the-celebrity",
+        "leetcode_note": "LeetCode Premium."
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Count knows / known-by for everyone",
+          "time": "O(n²)",
+          "space": "O(n)",
+          "demonstrates": [
+            "u.nested_loops"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Two pointers eliminate one person per comparison, then verify",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.candidate_elimination"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.candidate_elimination", "role": "core", "facets": ["explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.elim.no_verify",
+        "p.elim.full_scan"
+      ]
+    },
+    {
+      "id": "sq.lru_cache",
+      "order": 28,
+      "section": "sq_implementation",
+      "tier": "Pro",
+      "title": "LRU cache (IMPORTANT)",
+      "summary": "get and put in O(1), evicting the least recently used key.",
+      "links": {
+        "leetcode": "lru-cache"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Hashmap to nodes of a doubly linked list",
+          "time": "O(1) each",
+          "space": "O(capacity)",
+          "demonstrates": [
+            "p.cache_design"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.cache_design", "role": "core", "facets": ["explain", "implement"] },
+        { "id": "ds.doubly_linked_list", "role": "supporting", "facets": ["implement"] },
+        { "id": "ds.hashmap", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.cache.get_not_refresh",
+        "p.cache.update_existing",
+        "p.cache.half_evict",
+        "p.cache.scan_oldest",
+        "ds.dll.one_side_link"
+      ]
+    },
+    {
+      "id": "sq.lfu_cache",
+      "order": 29,
+      "section": "sq_implementation",
+      "tier": "Pro",
+      "title": "LFU cache",
+      "summary": "get and put in O(1), evicting the least frequently used key (least recent among ties).",
+      "links": {
+        "leetcode": "lfu-cache"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Key map, frequency -> list map, minimum frequency",
+          "time": "O(1) each",
+          "space": "O(capacity)",
+          "demonstrates": [
+            "p.cache_design"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.cache_design", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "ds.doubly_linked_list", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.cache.min_freq",
+        "p.cache.update_existing",
+        "p.cache.half_evict"
+      ]
+    }
+  ]
+}

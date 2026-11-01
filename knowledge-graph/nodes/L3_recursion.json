@@ -1,0 +1,92 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Recursion and backtracking patterns (A2Z step 7).",
+  "nodes": [
+    {
+      "id": "p.fast_power",
+      "name": "Fast exponentiation",
+      "layer": 3,
+      "topic": "recursion",
+      "description": "x^n = (x^(n/2))², times x when n is odd: O(log n) multiplications, reducing modulo m at each step when asked.",
+      "prereqs": ["u.recursion", "cpp.integer_types", "u.modular_arithmetic"],
+      "facets": {
+        "recognize": "Uses halving whenever a power has a huge exponent.",
+        "explain": "Explains why the recursion depth is log n.",
+        "implement": "Computes the half power once, handles odd and negative exponents.",
+        "adapt": "Applies modular exponentiation without overflow (count of good numbers)."
+      },
+      "misconceptions": [
+        { "id": "p.pow.linear", "facet": "recognize", "desc": "Multiplied n times (O(n)), too slow for exponents up to 2^31 or 10^15." },
+        { "id": "p.pow.negative_exponent", "facet": "implement", "desc": "Mishandled a negative exponent (did not invert x, or negated INT_MIN in int)." },
+        { "id": "p.pow.double_call", "facet": "implement", "desc": "Called pow(x, n / 2) twice per level, which is O(n) again." },
+        { "id": "p.pow.mod_overflow", "facet": "adapt", "desc": "Multiplied two residues in int, or in long long without reducing, before taking the modulus." }
+      ]
+    },
+    {
+      "id": "p.subsequences",
+      "name": "Pick / not-pick recursion",
+      "layer": 3,
+      "topic": "recursion",
+      "description": "At each index either take the element or skip it; the 2^n paths are all subsequences. Carry the running sum to count or test a target.",
+      "prereqs": ["u.recursion", "cpp.pass_by_reference"],
+      "facets": {
+        "recognize": "Spots 'all subsets', 'count / exists a subsequence with sum k' as take-or-skip recursion.",
+        "explain": "Draws the recursion tree and explains why it has 2^n leaves.",
+        "implement": "Takes, recurses, undoes, then skips and recurses, checking the target only at the end of the array.",
+        "trace": "Can list the calls in order for a three-element input.",
+        "adapt": "Returns a count (sum of both branches) or a boolean (stop at the first true) instead of printing."
+      },
+      "misconceptions": [
+        { "id": "p.subseq.no_undo", "facet": "implement", "desc": "Pushed the element for the 'take' branch but did not pop it before the 'skip' branch." },
+        { "id": "p.subseq.copy_per_call", "facet": "implement", "desc": "Passed the current subsequence by value on every call (O(n) copy per call)." },
+        { "id": "p.subseq.base_case", "facet": "implement", "desc": "Checked the target before reaching the end of the array, missing subsequences with zeros or counting partial ones." },
+        { "id": "p.subseq.no_short_circuit", "facet": "adapt", "desc": "For 'does one exist', kept recursing after finding one instead of returning true." },
+        { "id": "p.subseq.bad_prune", "facet": "adapt", "desc": "Pruned when the sum exceeded k although elements can be zero or negative." },
+        { "id": "p.subseq.tree_unclear", "facet": "explain", "desc": "Cannot draw the recursion tree or explain why there are 2^n leaves." }
+      ]
+    },
+    {
+      "id": "p.backtracking",
+      "name": "Backtracking: choose, explore, undo",
+      "layer": 3,
+      "topic": "recursion",
+      "description": "Build a candidate step by step, recurse, then undo the choice; prune branches that can no longer succeed.",
+      "prereqs": ["p.subsequences"],
+      "facets": {
+        "recognize": "Spots generate-all / find-a-valid-arrangement problems (combinations, partitions, N-Queens, Sudoku).",
+        "explain": "Explains what each level decides and why pruning keeps it feasible.",
+        "implement": "Undoes every choice, starts the loop at the right index and skips duplicates at the same level.",
+        "adapt": "Switches between reuse (recurse with i) and use-once (recurse with i + 1), and keeps O(1) validity checks with row, column and diagonal sets."
+      },
+      "misconceptions": [
+        { "id": "p.bt.no_undo", "facet": "implement", "desc": "Did not undo a choice (pop, unmark, remove the queen) before trying the next option." },
+        { "id": "p.bt.dupes_at_level", "facet": "implement", "desc": "With duplicates, skipped equal elements at the wrong level (skip only when i > start and a[i] == a[i - 1] after sorting)." },
+        { "id": "p.bt.reuse_rules", "facet": "adapt", "desc": "Mixed up reusing an element (recurse with i) and using it once (recurse with i + 1)." },
+        { "id": "p.bt.no_pruning", "facet": "recognize", "desc": "Generated every candidate and filtered at the end instead of pruning invalid prefixes early." },
+        { "id": "p.bt.set_dedupe", "facet": "recognize", "desc": "Generated duplicate answers and removed them with a set instead of never generating them." },
+        { "id": "p.bt.slow_validity", "facet": "adapt", "desc": "Checked validity by rescanning the board each time instead of keeping row, column and diagonal sets." },
+        { "id": "p.bt.early_return", "facet": "implement", "desc": "Returned false before trying every option, or kept searching after a full solution was found." },
+        { "id": "p.bt.mul_precedence", "facet": "adapt", "desc": "When inserting *, did not undo the previous operand (value - last + last * cur), breaking precedence." }
+      ]
+    },
+    {
+      "id": "p.grid_backtracking",
+      "name": "Backtracking on a grid",
+      "layer": 3,
+      "topic": "recursion",
+      "description": "From a cell, mark it as used, try each in-bounds neighbour, then unmark it so other paths can use it.",
+      "prereqs": ["p.backtracking", "ds.matrix"],
+      "facets": {
+        "implement": "Checks bounds before reading a cell, marks before exploring and unmarks after.",
+        "trace": "Can show the visited marks along one path and after backtracking."
+      },
+      "misconceptions": [
+        { "id": "p.gbt.no_unmark", "facet": "implement", "desc": "Did not unmark the cell after exploring, so other paths could not pass through it." },
+        { "id": "p.gbt.bounds_order", "facet": "implement", "desc": "Read the cell before checking that it is inside the grid." },
+        { "id": "p.gbt.direction_order", "facet": "implement", "desc": "Explored directions in the wrong order where the output must be in lexicographic order." }
+      ]
+    }
+  ]
+}

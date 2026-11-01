@@ -8,6 +8,7 @@
       "id": "p.linear_scan",
       "name": "Single-pass linear scan",
       "layer": 3,
+      "topic": "arrays",
       "description": "Visit each element once while maintaining a small amount of state.",
       "prereqs": ["u.loop_bounds", "u.conditionals", "ds.array"],
       "facets": {
@@ -24,6 +25,7 @@
       "id": "p.track_extremes",
       "name": "Tracking extremes (largest / second largest)",
       "layer": 3,
+      "topic": "arrays",
       "description": "Maintain the top values in one pass, demoting the old largest when a new one appears.",
       "prereqs": ["p.linear_scan", "u.variable_init"],
       "facets": {
@@ -42,6 +44,7 @@
       "id": "p.running_streak",
       "name": "Running streak / consecutive runs",
       "layer": 3,
+      "topic": "arrays",
       "description": "Count while a condition holds, reset when it breaks, record the best.",
       "prereqs": ["p.linear_scan", "u.accumulation"],
       "facets": {
@@ -58,6 +61,7 @@
       "id": "p.frequency_counting",
       "name": "Frequency counting",
       "layer": 3,
+      "topic": "arrays",
       "description": "One pass to count occurrences (array or hashmap), then read the counts.",
       "prereqs": ["ds.hashmap", "p.linear_scan"],
       "facets": {
@@ -73,6 +77,7 @@
       "id": "p.complement_lookup",
       "name": "Complement lookup (seen-map)",
       "layer": 3,
+      "topic": "arrays",
       "description": "For each x, ask 'have I already seen target - x?' using a hashmap of earlier elements.",
       "prereqs": ["ds.hashmap", "p.linear_scan"],
       "facets": {
@@ -89,6 +94,7 @@
       "id": "p.two_pointers_same_dir",
       "name": "Read/write pointers (same direction)",
       "layer": 3,
+      "topic": "arrays",
       "description": "Read pointer scans everything; write pointer marks the end of the kept region [0, write).",
       "prereqs": ["p.linear_scan", "u.swap", "u.in_place_vs_copy"],
       "facets": {
@@ -107,6 +113,7 @@
       "id": "p.two_pointers_opposite",
       "name": "Converging two pointers",
       "layer": 3,
+      "topic": "arrays",
       "description": "lo/hi pointers on sorted data move inward based on a comparison.",
       "prereqs": ["ds.sorted_array", "p.linear_scan"],
       "facets": {
@@ -127,6 +134,7 @@
       "id": "p.skip_duplicates",
       "name": "Skipping duplicates for unique results",
       "layer": 3,
+      "topic": "arrays",
       "description": "On sorted data, skip equal neighbours at each pointer level so each unique tuple is produced once.",
       "prereqs": ["ds.sorted_array", "u.loop_bounds"],
       "facets": {
@@ -143,6 +151,7 @@
       "id": "p.sort_then_scan",
       "name": "Sort to simplify",
       "layer": 3,
+      "topic": "arrays",
       "description": "Pay O(n log n) to sort when it unlocks a linear pass (pointers, adjacency, merging).",
       "prereqs": ["cpp.stl_algorithms", "ds.sorted_array"],
       "facets": {
@@ -157,6 +166,7 @@
       "id": "p.merge_two_sorted",
       "name": "Merging two sorted sequences",
       "layer": 3,
+      "topic": "arrays",
       "description": "Two pointers, advance the smaller side, handle equality, drain leftovers.",
       "prereqs": ["ds.sorted_array", "u.loop_bounds"],
       "facets": {
@@ -174,6 +184,7 @@
       "id": "p.reversal_trick",
       "name": "Reversal-based rearrangement",
       "layer": 3,
+      "topic": "arrays",
       "description": "Rotations and some permutations can be built from range reversals.",
       "prereqs": ["u.swap", "cpp.iterators"],
       "facets": {
@@ -191,6 +202,7 @@
       "id": "p.math_identities",
       "name": "Math identities (sum formulas)",
       "layer": 3,
+      "topic": "arrays",
       "description": "n(n+1)/2 and sum of squares to find missing/repeating values in O(1) space.",
       "prereqs": ["u.accumulation", "cpp.integer_types"],
       "facets": {
@@ -208,6 +220,7 @@
       "id": "p.xor_tricks",
       "name": "XOR properties",
       "layer": 3,
+      "topic": "arrays",
       "description": "a ^ a = 0, a ^ 0 = a, order-independent; XOR of 1..n against the array cancels pairs.",
       "prereqs": ["u.accumulation"],
       "facets": {
@@ -226,6 +239,7 @@
       "id": "p.boyer_moore",
       "name": "Boyer-Moore majority voting",
       "layer": 3,
+      "topic": "arrays",
       "description": "Cancel pairs of different elements; survivors are majority candidates. At most k-1 values exceed n/k.",
       "prereqs": ["p.linear_scan"],
       "facets": {
@@ -245,6 +259,7 @@
       "id": "p.suffix_scan",
       "name": "Right-to-left scan with suffix state",
       "layer": 3,
+      "topic": "arrays",
       "description": "Process from the end, carrying a running max/min of the suffix.",
       "prereqs": ["p.linear_scan", "p.track_extremes"],
       "facets": {
@@ -261,6 +276,7 @@
       "id": "p.dutch_national_flag",
       "name": "Dutch National Flag (3-way partition)",
       "layer": 3,
+      "topic": "arrays",
       "description": "low/mid/high pointers keep [0,low)=0s, [low,mid)=1s, (high,n-1]=2s, [mid,high] unknown.",
       "prereqs": ["p.two_pointers_same_dir", "u.swap"],
       "facets": {
@@ -279,6 +295,7 @@
       "id": "p.kadane",
       "name": "Kadane's algorithm",
       "layer": 3,
+      "topic": "arrays",
       "description": "Extend the running sum or restart; drop a negative prefix because it can only hurt future subarrays.",
       "prereqs": ["p.linear_scan", "u.accumulation", "u.variable_init"],
       "facets": {
@@ -299,6 +316,7 @@
       "id": "p.max_product_subarray",
       "name": "Product subarray with sign flips",
       "layer": 3,
+      "topic": "arrays",
       "description": "Negatives swap max and min; zeros reset. Use prefix/suffix products or track running max and min together.",
       "prereqs": ["p.kadane", "cpp.integer_types"],
       "facets": {
@@ -317,6 +335,7 @@
       "id": "p.index_mapped_placement",
       "name": "Index-mapped placement",
       "layer": 3,
+      "topic": "arrays",
       "description": "Write each element straight to a computed target index (e.g. positives at even, negatives at odd).",
       "prereqs": ["ds.array", "u.indexing"],
       "facets": {
@@ -333,6 +352,7 @@
       "id": "p.matrix_boundary_traversal",
       "name": "Boundary (spiral) traversal",
       "layer": 3,
+      "topic": "arrays",
       "description": "Four boundaries (top, bottom, left, right) shrink after each side is printed.",
       "prereqs": ["ds.matrix", "u.loop_bounds"],
       "facets": {
@@ -351,6 +371,7 @@
       "id": "p.matrix_transpose_rotate",
       "name": "Transpose & in-place rotation",
       "layer": 3,
+      "topic": "arrays",
       "description": "Rotate 90 degrees clockwise = transpose, then reverse each row.",
       "prereqs": ["ds.matrix", "u.swap", "p.reversal_trick"],
       "facets": {
@@ -368,6 +389,7 @@
       "id": "p.in_place_markers",
       "name": "In-place markers (reuse input as storage)",
       "layer": 3,
+      "topic": "arrays",
       "description": "Store flags inside the input (first row/column, sign bits) to reach O(1) extra space.",
       "prereqs": ["u.in_place_vs_copy", "ds.matrix"],
       "facets": {
@@ -385,6 +407,7 @@
       "id": "p.pascal_combinatorics",
       "name": "Pascal's triangle & nCr",
       "layer": 3,
+      "topic": "arrays",
       "description": "Element (r, c) = C(r-1, c-1); rows build from the previous row or from the multiplicative nCr formula.",
       "prereqs": ["u.accumulation", "cpp.integer_types", "cpp.2d_vector"],
       "facets": {
@@ -403,6 +426,7 @@
       "id": "p.next_permutation",
       "name": "Next lexicographic permutation",
       "layer": 3,
+      "topic": "arrays",
       "description": "Find the breakpoint, swap it with the smallest larger element to its right, reverse the (descending) suffix.",
       "prereqs": ["p.reversal_trick", "p.linear_scan"],
       "facets": {
@@ -422,6 +446,7 @@
       "id": "p.merge_sort_counting",
       "name": "Counting pairs during merge sort",
       "layer": 3,
+      "topic": "arrays",
       "description": "Count cross pairs (i in left, j in right) while both halves are sorted; inversions, reverse pairs.",
       "prereqs": ["p.merge_two_sorted", "u.recursion", "cpp.integer_types"],
       "facets": {
@@ -441,6 +466,7 @@
       "id": "p.gap_merge",
       "name": "Merging in place (swap-and-sort / gap method)",
       "layer": 3,
+      "topic": "arrays",
       "description": "Merge two sorted arrays with no extra space: swap the overlapping extremes then sort each, or the shell-sort gap method.",
       "prereqs": ["p.merge_two_sorted", "u.swap", "p.sort_then_scan"],
       "facets": {

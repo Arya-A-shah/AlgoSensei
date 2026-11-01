@@ -1,0 +1,127 @@
+{
+  "layer": 3,
+  "kind": "pattern",
+  "title": "Algorithmic patterns & techniques",
+  "description": "Binary search tree patterns (A2Z step 14).",
+  "nodes": [
+    {
+      "id": "p.bst_walk",
+      "name": "Walking a BST by comparison",
+      "layer": 3,
+      "topic": "bst",
+      "description": "At each node go left or right by comparing with the key, recording the best candidate on the way (floor, ceil, successor, LCA).",
+      "prereqs": ["ds.bst"],
+      "facets": {
+        "implement": "Moves by comparison and handles a key equal to the node value.",
+        "adapt": "Derives ceil, floor, successor, predecessor and the BST LCA from one walk."
+      },
+      "misconceptions": [
+        { "id": "p.bstw.no_candidate", "facet": "adapt", "desc": "Returned the last node visited instead of the best candidate recorded on the way." },
+        { "id": "p.bstw.equal_case", "facet": "implement", "desc": "Mishandled key == node value (ceil and floor return it; the successor must move right)." },
+        { "id": "p.bstw.lca_split", "facet": "adapt", "desc": "In a BST LCA, did not stop at the first node lying between the two values." }
+      ]
+    },
+    {
+      "id": "p.bst_delete",
+      "name": "Deleting from a BST",
+      "layer": 3,
+      "topic": "bst",
+      "description": "A leaf is removed; a node with one child is replaced by it; with two children, use the inorder successor (or predecessor) and delete that instead.",
+      "prereqs": ["ds.bst"],
+      "facets": {
+        "explain": "Explains why the inorder successor keeps the ordering valid.",
+        "implement": "Handles all three cases, including deleting the root, by returning the new subtree root."
+      },
+      "misconceptions": [
+        { "id": "p.bstd.two_children", "facet": "implement", "desc": "With two children, lost a subtree or broke the ordering." },
+        { "id": "p.bstd.root_case", "facet": "implement", "desc": "Did not handle deleting the root (return the new root)." },
+        { "id": "p.bstd.parent_link", "facet": "implement", "desc": "Updated a local pointer instead of the parent's child link." }
+      ]
+    },
+    {
+      "id": "p.bst_inorder",
+      "name": "Using the sorted inorder of a BST",
+      "layer": 3,
+      "topic": "bst",
+      "description": "A BST's inorder is sorted: the kth smallest is the kth visit, a valid BST has strictly increasing inorder, and swapped nodes show up as inversions.",
+      "prereqs": ["ds.bst", "p.tree_dfs_traversal"],
+      "facets": {
+        "recognize": "Reaches for inorder whenever rank or sortedness of a BST matters.",
+        "explain": "Explains why the inorder of a BST is sorted.",
+        "implement": "Tracks the previous visited node and stops early at k.",
+        "adapt": "Recovers a BST with two swapped nodes and merges two BSTs."
+      },
+      "misconceptions": [
+        { "id": "p.bsti.collect_all", "facet": "recognize", "desc": "Collected the whole inorder into an array where stopping at k or comparing with the previous node suffices." },
+        { "id": "p.bsti.prev_tracking", "facet": "implement", "desc": "Did not track the previous visited node correctly (reset per call, or passed by value)." },
+        { "id": "p.bsti.recover_adjacent", "facet": "adapt", "desc": "In recover BST, handled only two inversions and missed adjacent swapped nodes (one inversion)." },
+        { "id": "p.bsti.duplicates", "facet": "implement", "desc": "Used <= where strictly increasing was required." }
+      ]
+    },
+    {
+      "id": "p.bst_validate_range",
+      "name": "Validating a BST with bounds",
+      "layer": 3,
+      "topic": "bst",
+      "description": "Pass down the allowed (low, high) range; each node must lie strictly inside it, and narrows the range for its children.",
+      "prereqs": ["ds.bst", "u.recursion"],
+      "facets": {
+        "explain": "Explains why every node is bounded by all its ancestors, not only its parent.",
+        "implement": "Passes bounds that cannot collide with real values (long long or nullable)."
+      },
+      "misconceptions": [
+        { "id": "p.bstv.int_bounds", "facet": "implement", "desc": "Used INT_MIN / INT_MAX as bounds although nodes can hold those values." },
+        { "id": "p.bstv.children_only", "facet": "implement", "desc": "Compared each node only with its children." }
+      ]
+    },
+    {
+      "id": "p.bst_iterator",
+      "name": "BST iterator with a stack",
+      "layer": 3,
+      "topic": "bst",
+      "description": "Keep the left spine on a stack; next() pops and pushes the left spine of the popped node's right child: O(h) space, amortized O(1).",
+      "prereqs": ["ds.bst", "ds.stack", "p.tree_dfs_traversal"],
+      "facets": {
+        "explain": "Explains why each node is pushed and popped once.",
+        "implement": "Pushes the whole left spine after each pop.",
+        "adapt": "Runs a reverse iterator too, for two-sum, or two iterators to merge BSTs."
+      },
+      "misconceptions": [
+        { "id": "p.bstit.full_inorder", "facet": "explain", "desc": "Precomputed the whole inorder (O(n) space) instead of keeping only the spine." },
+        { "id": "p.bstit.right_spine", "facet": "implement", "desc": "After popping, pushed only the right child instead of its whole left spine." }
+      ]
+    },
+    {
+      "id": "p.bst_build_preorder",
+      "name": "Building a BST from preorder",
+      "layer": 3,
+      "topic": "bst",
+      "description": "Recurse with an upper bound: consume preorder values while they fit, building the left child with bound = value and the right child with the parent's bound.",
+      "prereqs": ["ds.bst", "u.recursion"],
+      "facets": {
+        "explain": "Explains why the bound method is O(n) while repeated insertion can be O(n²).",
+        "implement": "Shares one index across calls and stops when the next value exceeds the bound."
+      },
+      "misconceptions": [
+        { "id": "p.bstb.insert_each", "facet": "explain", "desc": "Inserted values one by one (O(n²) worst case) instead of the bound method (O(n))." },
+        { "id": "p.bstb.index_by_value", "facet": "implement", "desc": "Passed the preorder index by value, so consumed values were reused." }
+      ]
+    },
+    {
+      "id": "p.largest_bst_subtree",
+      "name": "Largest BST inside a binary tree",
+      "layer": 3,
+      "topic": "bst",
+      "description": "Each call returns (min, max, size) of its subtree; a node forms a BST if left max < value < right min, otherwise it passes up a range that invalidates ancestors.",
+      "prereqs": ["p.tree_postorder_info", "ds.bst"],
+      "facets": {
+        "explain": "Explains why one bottom-up pass is enough.",
+        "implement": "Returns the right triple for empty subtrees and for invalid ones."
+      },
+      "misconceptions": [
+        { "id": "p.lbst.validate_each", "facet": "explain", "desc": "Validated every subtree separately (O(n²))." },
+        { "id": "p.lbst.invalid_marker", "facet": "implement", "desc": "Did not return a range that forces ancestors to be invalid once a subtree is not a BST." }
+      ]
+    }
+  ]
+}

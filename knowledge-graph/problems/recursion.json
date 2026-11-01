@@ -1,0 +1,867 @@
+{
+  "sheet": "Striver A2Z - Recursion",
+  "topic": "recursion",
+  "topic_title": "Recursion",
+  "step": 7,
+  "language": "cpp",
+  "description": "Each problem lists the nodes it exercises. 'core' = the problem exists to test this node; failure is strong evidence. 'supporting' = needed but incidental; failure is weaker evidence and often points to a prerequisite. 'approaches[].demonstrates' lets the grader credit nodes based on which approach the user actually wrote.",
+  "sections": [
+    {
+      "id": "rec_basics",
+      "title": "Get a Strong Hold"
+    },
+    {
+      "id": "rec_subseq",
+      "title": "Subsequences Pattern"
+    },
+    {
+      "id": "rec_hard",
+      "title": "Trying out all Combos / Hard"
+    }
+  ],
+  "problems": [
+    {
+      "id": "rec.atoi",
+      "order": 1,
+      "section": "rec_basics",
+      "tier": "Basic",
+      "title": "Recursive Implementation of atoi()",
+      "summary": "Parse an integer from a string recursively.",
+      "links": {
+        "leetcode": null,
+        "leetcode_note": "Same task as LeetCode 8 (string-to-integer-atoi), solved recursively."
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Recurse over the digits, carrying the value",
+          "time": "O(n)",
+          "space": "O(n) stack",
+          "demonstrates": [
+            "u.recursion",
+            "p.string_parsing"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "u.recursion", "role": "core", "facets": ["implement", "explain"] },
+        { "id": "p.string_parsing", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "u.rec.missing_base",
+        "u.rec.ignored_return",
+        "p.parse.overflow_check"
+      ]
+    },
+    {
+      "id": "rec.pow",
+      "order": 2,
+      "section": "rec_basics",
+      "tier": "Core",
+      "title": "Pow(x, n)",
+      "summary": "Compute x^n for 32-bit n, including negative n.",
+      "links": {
+        "leetcode": "powx-n"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Multiply n times",
+          "time": "O(n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.linear_scan"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Binary exponentiation",
+          "time": "O(log n)",
+          "space": "O(log n) or O(1)",
+          "demonstrates": [
+            "p.fast_power"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_power", "role": "core", "facets": ["recognize", "explain", "implement"] },
+        { "id": "cpp.limits", "role": "supporting", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.pow.linear",
+        "p.pow.negative_exponent",
+        "p.pow.double_call",
+        "cpp.limits.negate_int_min",
+        "r.edge.extremes"
+      ]
+    },
+    {
+      "id": "rec.count_good_numbers",
+      "order": 3,
+      "section": "rec_basics",
+      "tier": "Core",
+      "title": "Count Good numbers",
+      "summary": "Digit strings of length n with even digits at even indices and primes at odd ones, mod 1e9 + 7.",
+      "links": {
+        "leetcode": "count-good-numbers"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "5^ceil(n/2) * 4^floor(n/2) with modular fast power",
+          "time": "O(log n)",
+          "space": "O(log n)",
+          "demonstrates": [
+            "p.fast_power"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.fast_power", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.math_identities", "role": "supporting", "facets": ["recognize"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.pow.mod_overflow",
+        "p.pow.linear",
+        "cpp.int.overflow_before_cast"
+      ]
+    },
+    {
+      "id": "rec.sort_stack",
+      "order": 4,
+      "section": "rec_basics",
+      "tier": "Core",
+      "title": "Sort a stack using recursion",
+      "summary": "Sort a stack using only recursion and stack operations.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Pop, sort the rest, insert the element in order recursively",
+          "time": "O(n²)",
+          "space": "O(n) stack",
+          "demonstrates": [
+            "u.recursion",
+            "ds.stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "u.recursion", "role": "core", "facets": ["explain", "implement", "trace"] },
+        { "id": "ds.stack", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "u.rec.missing_base",
+        "u.rec.ignored_return",
+        "ds.stk.empty_access"
+      ]
+    },
+    {
+      "id": "rec.reverse_stack",
+      "order": 5,
+      "section": "rec_basics",
+      "tier": "Core",
+      "title": "Reverse a stack using recursion",
+      "summary": "Reverse a stack using only recursion.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Pop all, insert each at the bottom recursively",
+          "time": "O(n²)",
+          "space": "O(n) stack",
+          "demonstrates": [
+            "u.recursion",
+            "ds.stack"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "u.recursion", "role": "core", "facets": ["explain", "implement", "trace"] },
+        { "id": "ds.stack", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "u.rec.missing_base",
+        "ds.stk.empty_access",
+        "ds.stk.wrong_structure"
+      ]
+    },
+    {
+      "id": "rec.binary_strings",
+      "order": 6,
+      "section": "rec_subseq",
+      "tier": "Basic",
+      "title": "Generate all binary strings",
+      "summary": "All binary strings of length n without consecutive 1s.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Append 0 always, 1 only after a 0",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.subsequences", "role": "supporting", "facets": ["trace"] }
+      ],
+      "watch_for": [
+        "p.bt.no_pruning",
+        "p.bt.no_undo",
+        "u.rec.missing_base"
+      ]
+    },
+    {
+      "id": "rec.generate_parentheses",
+      "order": 7,
+      "section": "rec_subseq",
+      "tier": "Core",
+      "title": "Generate Parentheses",
+      "summary": "All well-formed strings of n pairs of parentheses.",
+      "links": {
+        "leetcode": "generate-parentheses"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Generate all 2^(2n) strings, filter valid ones",
+          "time": "O(2^(2n) n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Add '(' while open < n, ')' while close < open",
+          "time": "O(Catalan(n) n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["recognize", "explain", "implement"] }
+      ],
+      "watch_for": [
+        "p.bt.no_pruning",
+        "p.bt.no_undo",
+        "p.subseq.copy_per_call"
+      ]
+    },
+    {
+      "id": "rec.power_set",
+      "order": 8,
+      "section": "rec_subseq",
+      "tier": "Core",
+      "title": "Print all subsequences/Power Set",
+      "summary": "Every subset of distinct integers.",
+      "links": {
+        "leetcode": "subsets"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Pick / not-pick recursion",
+          "time": "O(n 2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Bitmask enumeration",
+          "time": "O(n 2^n)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.xor_tricks"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.subsequences", "role": "core", "facets": ["recognize", "explain", "implement", "trace"] }
+      ],
+      "watch_for": [
+        "p.subseq.no_undo",
+        "p.subseq.copy_per_call",
+        "p.subseq.tree_unclear"
+      ]
+    },
+    {
+      "id": "rec.count_subseq_sum_k",
+      "order": 9,
+      "section": "rec_subseq",
+      "tier": "Core",
+      "title": "Count all subsequences with sum K",
+      "summary": "How many subsequences sum to k.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Pick / not-pick returning counts",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Memoize on (index, sum)",
+          "time": "O(n * k)",
+          "space": "O(n * k)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.subsequences", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.dp_memoization", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.subseq.base_case",
+        "p.subseq.bad_prune",
+        "u.rec.ignored_return"
+      ]
+    },
+    {
+      "id": "rec.exists_subseq_sum_k",
+      "order": 10,
+      "section": "rec_subseq",
+      "tier": "Core",
+      "title": "Check if there exists a subsequence with sum K",
+      "summary": "Is there any subsequence summing to k?",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Pick / not-pick returning true on the first hit",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Memoize on (index, sum)",
+          "time": "O(n * k)",
+          "space": "O(n * k)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.subsequences", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.dp_memoization", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.subseq.no_short_circuit",
+        "p.subseq.base_case",
+        "u.rec.ignored_return"
+      ]
+    },
+    {
+      "id": "rec.combination_sum",
+      "order": 11,
+      "section": "rec_subseq",
+      "tier": "Core",
+      "title": "Combination Sum",
+      "summary": "Combinations summing to target; each number may be reused.",
+      "links": {
+        "leetcode": "combination-sum"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Backtrack, staying at i to reuse",
+          "time": "O(2^t * k)",
+          "space": "O(t)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "p.subsequences", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bt.reuse_rules",
+        "p.bt.no_undo",
+        "p.bt.no_pruning"
+      ]
+    },
+    {
+      "id": "rec.combination_sum_2",
+      "order": 12,
+      "section": "rec_subseq",
+      "tier": "Core",
+      "title": "Combination Sum-II",
+      "summary": "Combinations summing to target; each number once, no duplicate combinations.",
+      "links": {
+        "leetcode": "combination-sum-ii"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Pick / not-pick with a set of results",
+          "time": "O(2^n k log)",
+          "space": "O(k * x)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Sort, loop from start, skip equal values at the same level",
+          "time": "O(2^n k)",
+          "space": "O(k * x)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "p.sort_then_scan", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bt.dupes_at_level",
+        "p.bt.set_dedupe",
+        "p.bt.reuse_rules",
+        "p.bt.no_pruning"
+      ]
+    },
+    {
+      "id": "rec.subset_sums",
+      "order": 13,
+      "section": "rec_subseq",
+      "tier": "Basic",
+      "title": "Subset Sum-I",
+      "summary": "Sums of all subsets, in increasing order.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Pick / not-pick carrying the sum, then sort",
+          "time": "O(2^n log 2^n)",
+          "space": "O(2^n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.subsequences", "role": "core", "facets": ["implement"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.subseq.base_case",
+        "r.model.output_format"
+      ]
+    },
+    {
+      "id": "rec.subsets_2",
+      "order": 14,
+      "section": "rec_subseq",
+      "tier": "Core",
+      "title": "Subset Sum-II",
+      "summary": "All unique subsets of an array that may contain duplicates.",
+      "links": {
+        "leetcode": "subsets-ii"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Power set into a set",
+          "time": "O(2^n n log)",
+          "space": "O(2^n n)",
+          "demonstrates": [
+            "p.subsequences"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Sort, loop from start, skip duplicates at the same level",
+          "time": "O(n 2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["implement"] },
+        { "id": "p.subsequences", "role": "supporting", "facets": ["explain"] }
+      ],
+      "watch_for": [
+        "p.bt.dupes_at_level",
+        "p.bt.set_dedupe",
+        "p.subseq.no_undo"
+      ]
+    },
+    {
+      "id": "rec.combination_sum_3",
+      "order": 15,
+      "section": "rec_subseq",
+      "tier": "Basic",
+      "title": "Combination Sum - III",
+      "summary": "k distinct digits 1-9 that sum to n.",
+      "links": {
+        "leetcode": "combination-sum-iii"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Backtrack over 1..9 with size and sum pruning",
+          "time": "O(C(9, k) k)",
+          "space": "O(k)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bt.reuse_rules",
+        "p.bt.no_pruning",
+        "p.bt.no_undo"
+      ]
+    },
+    {
+      "id": "rec.letter_combinations",
+      "order": 16,
+      "section": "rec_subseq",
+      "tier": "Basic",
+      "title": "Letter Combinations of a Phone number",
+      "summary": "All letter strings a digit string could spell.",
+      "links": {
+        "leetcode": "letter-combinations-of-a-phone-number"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "One level per digit, one branch per letter",
+          "time": "O(4^n n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["implement"] },
+        { "id": "r.edge_cases", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.bt.no_undo",
+        "r.edge.empty_or_single"
+      ]
+    },
+    {
+      "id": "rec.palindrome_partitioning",
+      "order": 17,
+      "section": "rec_hard",
+      "tier": "Core",
+      "title": "Palindrome Partitioning",
+      "summary": "Every way to split a string into palindromic parts.",
+      "links": {
+        "leetcode": "palindrome-partitioning"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Try each palindromic prefix, recurse on the rest",
+          "time": "O(2^n n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["recognize", "implement"] },
+        { "id": "p.two_pointers_opposite", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.strings", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bt.no_undo",
+        "p.bt.no_pruning",
+        "cpp.str.substr_args"
+      ]
+    },
+    {
+      "id": "rec.word_search",
+      "order": 18,
+      "section": "rec_hard",
+      "tier": "Core",
+      "title": "Word Search",
+      "summary": "Does the word appear along adjacent cells, each used once?",
+      "links": {
+        "leetcode": "word-search"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS from each cell, marking and unmarking",
+          "time": "O(n m 4^L)",
+          "space": "O(L)",
+          "demonstrates": [
+            "p.grid_backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.grid_backtracking", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "u.2d_indexing", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.gbt.no_unmark",
+        "p.gbt.bounds_order",
+        "p.bt.early_return"
+      ]
+    },
+    {
+      "id": "rec.n_queens",
+      "order": 19,
+      "section": "rec_hard",
+      "tier": "Pro",
+      "title": "N Queen",
+      "summary": "All placements of n non-attacking queens.",
+      "links": {
+        "leetcode": "n-queens"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Place row by row, rescan the board for attacks",
+          "time": "O(n! n)",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Column and diagonal sets for O(1) checks",
+          "time": "O(n!)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["recognize", "explain", "adapt"] },
+        { "id": "u.2d_indexing", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bt.slow_validity",
+        "p.bt.no_undo",
+        "u.idx.mirror_formula"
+      ]
+    },
+    {
+      "id": "rec.rat_in_maze",
+      "order": 20,
+      "section": "rec_hard",
+      "tier": "Core",
+      "title": "Rat in a Maze",
+      "summary": "All paths from top-left to bottom-right through open cells, in lexicographic order.",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "DFS in D, L, R, U order with visited marks",
+          "time": "O(4^(n²))",
+          "space": "O(n²)",
+          "demonstrates": [
+            "p.grid_backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.grid_backtracking", "role": "core", "facets": ["implement", "trace"] },
+        { "id": "r.problem_modeling", "role": "supporting", "facets": ["recognize"] }
+      ],
+      "watch_for": [
+        "p.gbt.no_unmark",
+        "p.gbt.direction_order",
+        "p.gbt.bounds_order",
+        "r.model.output_format"
+      ]
+    },
+    {
+      "id": "rec.word_break",
+      "order": 21,
+      "section": "rec_hard",
+      "tier": "Core",
+      "title": "Word Break",
+      "summary": "Can the string be split into dictionary words?",
+      "links": {
+        "leetcode": "word-break"
+      },
+      "approaches": [
+        {
+          "level": "brute",
+          "name": "Try every prefix in the dictionary, recurse",
+          "time": "O(2^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "u.recursion"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Memoize on the start index",
+          "time": "O(n² + n * L)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.dp_memoization"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "u.recursion", "role": "core", "facets": ["implement"] },
+        { "id": "p.dp_memoization", "role": "supporting", "facets": ["recognize", "implement"] },
+        { "id": "ds.hashset", "role": "supporting", "facets": ["implement"] },
+        { "id": "cpp.strings", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "u.rec.missing_base",
+        "p.memo.not_stored",
+        "cpp.str.substr_args"
+      ]
+    },
+    {
+      "id": "rec.m_coloring",
+      "order": 22,
+      "section": "rec_hard",
+      "tier": "Core",
+      "title": "M Coloring Problem",
+      "summary": "Can the graph be coloured with m colours so neighbours differ?",
+      "links": {
+        "leetcode": null
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Colour vertex by vertex, check neighbours, undo",
+          "time": "O(m^n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["implement"] },
+        { "id": "ds.graph", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bt.no_undo",
+        "p.bt.early_return"
+      ]
+    },
+    {
+      "id": "rec.sudoku",
+      "order": 23,
+      "section": "rec_hard",
+      "tier": "Pro",
+      "title": "Sudoku Solver",
+      "summary": "Fill the board so every row, column and box has 1-9 once.",
+      "links": {
+        "leetcode": "sudoku-solver"
+      },
+      "approaches": [
+        {
+          "level": "better",
+          "name": "Try digits per empty cell, rescan row, column and box",
+          "time": "O(9^m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        },
+        {
+          "level": "optimal",
+          "name": "Same with row, column and box bitmasks",
+          "time": "O(9^m)",
+          "space": "O(1)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["implement", "adapt"] },
+        { "id": "u.2d_indexing", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bt.early_return",
+        "p.bt.no_undo",
+        "p.bt.slow_validity"
+      ]
+    },
+    {
+      "id": "rec.expression_add_operators",
+      "order": 24,
+      "section": "rec_hard",
+      "tier": "Pro",
+      "title": "Expression Add Operators",
+      "summary": "All ways to insert +, - and * between digits to reach target.",
+      "links": {
+        "leetcode": "expression-add-operators"
+      },
+      "approaches": [
+        {
+          "level": "optimal",
+          "name": "Backtrack with the running value and the last operand",
+          "time": "O(4^n n)",
+          "space": "O(n)",
+          "demonstrates": [
+            "p.backtracking"
+          ]
+        }
+      ],
+      "nodes": [
+        { "id": "p.backtracking", "role": "core", "facets": ["adapt", "implement"] },
+        { "id": "cpp.integer_types", "role": "supporting", "facets": ["implement"] },
+        { "id": "p.string_parsing", "role": "supporting", "facets": ["implement"] }
+      ],
+      "watch_for": [
+        "p.bt.mul_precedence",
+        "cpp.int.overflow_sum",
+        "p.bt.no_undo"
+      ]
+    }
+  ]
+}
