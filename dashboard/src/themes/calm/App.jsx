@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { settings } from "../../api.js";
 import { useOverview } from "./ui.jsx";
-import { Icon, Sensei } from "./art.jsx";
+import { Icon, Sensei, HangingScroll } from "./art.jsx";
 import { SECTION, PROBLEM_STATE } from "./words.js";
 import Home from "./pages/Home.jsx";
 import Skills from "./pages/Skills.jsx";
@@ -59,7 +59,7 @@ export default function App() {
         {hasToken && <ProblemStrip activeId={base === "/p" ? decodeURIComponent(path.split("/")[2] ?? "") : null} />}
       </header>
       <main id="main" className="main" tabIndex={-1}>
-        {hasToken || route.path === "/settings" ? <Page path={path} /> : <Welcome />}
+        <HangingScroll key={base}>{hasToken || route.path === "/settings" ? <Page path={path} /> : <Welcome />}</HangingScroll>
       </main>
     </div>
   );

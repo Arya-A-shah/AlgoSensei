@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div className="home">
       <section className="sensei-card" aria-label="Sensei">
-        <Sensei size={92} />
+        <Sensei size={170} />
         <div className="sensei-words">
           <p className="say" aria-live="polite">{line.say}</p>
           {line.why && <p className="why">{line.why}</p>}

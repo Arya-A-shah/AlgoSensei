@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="1000" viewBox="0 0 360 1000">
+  <defs>
+    <radialGradient id="glow" cx=".5" cy=".42" r=".75">
+      <stop offset="0" stop-color="#3a3127"/>
+      <stop offset="1" stop-color="#241e18"/>
+    </radialGradient>
+    <linearGradient id="wood" x1="0" x2="1">
+      <stop offset="0" stop-color="#3e2a1b"/>
+      <stop offset=".5" stop-color="#4d3523"/>
+      <stop offset="1" stop-color="#36251a"/>
+    </linearGradient>
+    <linearGradient id="board" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b2819"/>
+      <stop offset="1" stop-color="#2c1e13"/>
+    </linearGradient>
+  </defs>
+  <!-- paper panes, lit from behind -->
+  <rect x="22" y="22" width="316" height="780" fill="url(#glow)"/>
+  <!-- kumiko lattice: 4 columns x 8 rows -->
+  <g fill="#4f3826">
+    <rect x="98" y="22" width="5" height="780"/>
+    <rect x="177.5" y="22" width="5" height="780"/>
+    <rect x="257" y="22" width="5" height="780"/>
+    <rect x="22" y="117" width="316" height="5"/>
+    <rect x="22" y="214" width="316" height="5"/>
+    <rect x="22" y="311" width="316" height="5"/>
+    <rect x="22" y="408" width="316" height="5"/>
+    <rect x="22" y="505" width="316" height="5"/>
+    <rect x="22" y="602" width="316" height="5"/>
+    <rect x="22" y="699" width="316" height="5"/>
+  </g>
+  <!-- lower wooden panel (koshi-ita) with grain -->
+  <rect x="22" y="802" width="316" height="176" fill="url(#board)"/>
+  <g stroke="#24180f" stroke-width="2" fill="none" opacity=".55">
+    <path d="M30 840 Q120 832 200 842 T330 836"/>
+    <path d="M30 880 Q110 890 190 878 T330 884"/>
+    <path d="M30 925 Q130 916 210 928 T330 920"/>
+  </g>
+  <rect x="22" y="798" width="316" height="14" fill="#2c1e13"/>
+  <!-- outer frame -->
+  <rect x="0" y="0" width="22" height="1000" fill="url(#wood)"/>
+  <rect x="338" y="0" width="22" height="1000" fill="url(#wood)"/>
+  <rect x="0" y="0" width="360" height="22" fill="#3e2a1b"/>
+  <rect x="0" y="978" width="360" height="22" fill="#24180f"/>
+  <!-- recessed handle (hikite) -->
+  <ellipse cx="11" cy="470" rx="6.5" ry="17" fill="#120c08"/>
+  <ellipse cx="11" cy="470" rx="3.5" ry="13" fill="#24180f"/>
+  <!-- where this door overlaps the next -->
+  <rect x="356" y="0" width="4" height="1000" fill="#120c08" opacity=".6"/>
+</svg>
