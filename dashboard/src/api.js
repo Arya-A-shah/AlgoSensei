@@ -12,6 +12,8 @@ export const settings = {
   set apiUrl(v) { write("dmm.apiUrl", v); },
   get token() { return read("dmm.token"); },
   set token(v) { write("dmm.token", v); },
+  get theme() { return read("dmm.theme", "calm") === "game" ? "game" : "calm"; },
+  set theme(v) { write("dmm.theme", v); },
   get geminiKey() { return read("dmm.geminiKey"); },
   set geminiKey(v) { write("dmm.geminiKey", v); },
 };

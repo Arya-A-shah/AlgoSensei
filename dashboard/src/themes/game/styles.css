@@ -509,3 +509,12 @@ code { font-family: var(--mono); font-size: 0.88em; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- theme picker ---------- */
+.theme-picker { border: 0; padding: 0; margin: 2.2rem 0 0; max-width: 520px; display: grid; gap: 6px; }
+.theme-picker legend { font: 500 1.55rem/1 var(--display); color: var(--dust); margin-bottom: 0.7rem; }
+.theme-option { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0.9rem; background: var(--lacquer); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.theme-option.is-on { border-color: var(--gold); }
+.theme-option input { accent-color: var(--gold); }
+.theme-option span { display: grid; }
+.theme-option small { color: var(--dust); }

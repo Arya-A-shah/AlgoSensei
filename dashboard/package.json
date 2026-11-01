@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",
+    "@fontsource/shippori-mincho": "^5.3.0",
     "@fontsource/teko": "^5.3.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

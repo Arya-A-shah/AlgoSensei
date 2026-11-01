@@ -22,9 +22,9 @@ export default function MirrorBar() {
   const offline = session && !session.token;
 
   return (
-    <div className="mt-3 rounded-lg border border-line bg-lacquer-2 p-3 text-xs text-bone space-y-2">
+    <div className="mt-3 rounded-lg border border-line bg-washi p-3 text-xs text-ink space-y-2">
       <div className="flex items-center gap-2">
-        {offline ? <AlertTriangle className="w-4 h-4 text-shaky" /> : <Radio className="w-4 h-4 text-jade" />}
+        {offline ? <AlertTriangle className="w-4 h-4 text-shaky" /> : <Radio className="w-4 h-4 text-matcha" />}
         <span className="font-medium">
           {offline
             ? "AlgoSensei server unreachable — attempts are queued"
@@ -35,7 +35,7 @@ export default function MirrorBar() {
       <button
         disabled={!session?.dashboardUrl}
         onClick={() => browser.tabs.create({ url: session.dashboardUrl })}
-        className="cursor-pointer w-full flex items-center justify-center gap-2 rounded-md bg-strike hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed text-bone font-semibold py-2"
+        className="cursor-pointer w-full flex items-center justify-center gap-2 rounded-md bg-ai hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2"
       >
         <LayoutDashboard className="w-4 h-4" />
         Open dashboard

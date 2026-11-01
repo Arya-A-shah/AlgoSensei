@@ -1,24 +1,24 @@
 @import "tailwindcss";
 
-/* AlgoSensei palette: matches the dashboard (dusk sky, lacquer, parchment). */
+/* AlgoSensei calm palette: matches the dashboard (washi paper, sumi ink, indigo). */
 @theme {
-  --color-lacquer: #1f151b;
-  --color-lacquer-2: #2a1c23;
-  --color-lacquer-3: #36242d;
-  --color-line: #3e2b34;
-  --color-bone: #f4e8d6;
-  --color-dust: #bba293;
-  --color-ember: #c8452d;
-  --color-strike: #b5321f;
-  --color-gold: #e8b84a;
-  --color-jade: #4cc18d;
-  --color-shaky: #f0a43a;
-  --color-blood: #e8493d;
-  --color-floor: #140d12;
-  --font-display: "Teko", "Arial Narrow", sans-serif;
+  --color-panel: #fffdf8;
+  --color-washi: #f5f1e8;
+  --color-wash-2: #ece4d4;
+  --color-line: #e4dac8;
+  --color-ink: #1f1b18;
+  --color-muted: #675e55;
+  --color-ai: #2b4a70;
+  --color-ai-tint: #e6ecf4;
+  --color-weak: #b4412d;
+  --color-shaky: #9c6814;
+  --color-matcha: #477430;
+  --color-paper: #fbf5e4;
+  --color-rod: #5a3e2b;
+  --font-display: "Shippori Mincho", Georgia, serif;
 }
 
-body { background: #1f151b; }
+body { background: #fffdf8; }
 
 /* Scrollbar width */
 ::-webkit-scrollbar {
@@ -32,7 +32,7 @@ body { background: #1f151b; }
 
 /* Scrollbar thumb (draggable part) */
 ::-webkit-scrollbar-thumb {
-  background: #36242d;
+  background: #ddd2bd;
   border-radius: 8px;
   border: 2px solid transparent;
   background-clip: content-box;
@@ -41,6 +41,6 @@ body { background: #1f151b; }
 
 /* Hover state */
 ::-webkit-scrollbar-thumb:hover {
-  background: #4a323d;
+  background: #c9bba1;
 }
 
