@@ -207,9 +207,9 @@ export function sanitizeHint(raw, { level, pack }) {
   // Level 1 must not name the concept: keep the ids for bookkeeping, but don't surface them.
   const reveal = level >= 2;
   const parts = [];
-  if (questions.length) parts.push(`🤔 Think about this\n${questions.map((q) => `• ${q}`).join("\n")}`);
-  if (observation) parts.push(`🔍 Look closer\n${observation}`);
-  if (nudge) parts.push(`🧭 ${nudge}`);
+  if (questions.length) parts.push(...questions);
+  if (observation) parts.push(observation);
+  if (nudge) parts.push(nudge);
   const text = parts.join("\n\n") || "Try tracing your code by hand on the smallest input that could break it. What do you expect at each step, and what actually happens?";
 
   return {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, MessageSquare, KeyRound, ChevronDown, ChevronUp, Compass, Lightbulb, Crosshair, RotateCcw, Target } from "lucide-react";
+import { Loader2, KeyRound, ChevronDown, ChevronUp, Compass, Lightbulb, Crosshair, RotateCcw, Target, MessageSquare } from "lucide-react";
+import { Sensei } from "./Sensei";
 
 // The ladder: each rung gives away more, so a later solve earns a little less credit.
 const RUNGS = [
@@ -8,12 +9,46 @@ const RUNGS = [
   { level: 2, name: "Concept", icon: Lightbulb, blurb: "What's at stake", ring: "border-shaky text-shaky", fill: "bg-shaky hover:brightness-110", rod: "bg-shaky" },
   { level: 3, name: "Pinpoint", icon: Crosshair, blurb: "Exactly where", ring: "border-weak text-weak", fill: "bg-weak hover:brightness-110", rod: "bg-weak" },
 ];
+const rungOf = (h) => RUNGS[Math.min(3, Math.max(1, h?.level ?? 1)) - 1];
+
+// A hint as the sensei says it: his questions, what to look at, then the push.
+// Hints saved before this layout only have text.
+function HintWords({ hint, small = false }) {
+  const lines = hint.questions?.length || hint.observation || hint.nudge
+    ? [...(hint.questions ?? []), hint.observation, hint.nudge].filter(Boolean)
+    : [hint.text];
+  return (
+    <div className={small ? "space-y-1" : "space-y-2"}>
+      {lines.map((l, i) => (
+        <p key={i} className={`whitespace-pre-wrap ${small ? "text-[13px] leading-snug" : i === 0 ? "font-display text-[17px] leading-snug" : "text-sm leading-relaxed"}`}>
+          {l}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+// A small hanging scroll with a tail pointing back at the sensei.
+function Speech({ children, tone = "bg-rod" }) {
+  return (
+    <div className="relative flex-1 min-w-0">
+      <span aria-hidden="true" className="absolute -left-[6px] top-7 w-3 h-3 rotate-45 bg-paper border-l border-b border-line" />
+      <div className={`h-2 rounded-full ${tone}`} aria-hidden="true" />
+      <div className="relative mx-1 bg-paper border-x border-line px-3 py-3 text-ink">{children}</div>
+      <div className={`h-2 rounded-full ${tone}`} aria-hidden="true" />
+    </div>
+  );
+}
 
 const HintScreen = ({ slug, ladder, loadingLevel, onAsk, onReset, setQuestion, apiKey, setApiKey, saveKey }) => {
   const [showApiKeyInput, setShowApiKeyInput] = useState(false);
+  const [showAsk, setShowAsk] = useState(Boolean(ladder.question));
+  const [showEarlier, setShowEarlier] = useState(false);
   const deepest = ladder.hints.reduce((m, h) => Math.max(m, h.level ?? 0), 0);
   const suggested = Math.min(3, deepest + 1);
   const busy = loadingLevel !== null;
+  const latest = ladder.hints.at(-1);
+  const earlier = ladder.hints.slice(0, -1).reverse();
 
   const handleApiKeySave = () => {
     if (apiKey.trim() === "") return toast.error("API key cannot be empty!");
@@ -24,7 +59,6 @@ const HintScreen = ({ slug, ladder, loadingLevel, onAsk, onReset, setQuestion, a
 
   return (
     <div className="w-full max-w-sm bg-panel text-ink rounded-lg">
-      {/* Header */}
       <div className="px-4 py-3 border-b border-line flex items-center gap-3">
         <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" className="text-weak shrink-0">
           <path d="M1 14 L12 3 L23 14 Q12 17 1 14 Z" fill="currentColor" />
@@ -36,23 +70,32 @@ const HintScreen = ({ slug, ladder, loadingLevel, onAsk, onReset, setQuestion, a
       </div>
 
       <div className="p-4 space-y-4">
-        {/* Optional question */}
-        <div className="space-y-2">
-          <label htmlFor="q" className="flex items-center gap-2 text-sm font-medium text-ink">
-            <MessageSquare className="w-4 h-4 text-ai" />
-            What are you stuck on? <span className="text-muted font-normal">(optional)</span>
-          </label>
-          <textarea
-            id="q"
-            value={ladder.question}
-            onChange={(e) => setQuestion(e.target.value)}
-            rows={2}
-            className="w-full rounded-lg bg-washi border border-line text-ink placeholder-muted/60 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ai"
-            placeholder="e.g. My answer is wrong when all numbers are negative"
-          />
-        </div>
+        {/* The sensei speaks */}
+        <section className="flex items-start gap-2" aria-live="polite" aria-label="Sensei">
+          <div className="shrink-0 pt-1"><Sensei size={76} /></div>
+          {busy ? (
+            <Speech tone={rungOf({ level: loadingLevel }).rod}>
+              <p className="font-display text-[17px] leading-snug flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin text-muted" /> Let me look at your code…
+              </p>
+            </Speech>
+          ) : latest ? (
+            <Speech tone={rungOf(latest).rod}>
+              <p className="flex flex-wrap items-center gap-x-2 text-[11px] mb-1.5">
+                <span className={`font-semibold ${rungOf(latest).ring.split(" ")[1]}`}>{rungOf(latest).name}</span>
+                {latest.focusName && <span className="inline-flex items-center gap-1 text-ink"><Target className="w-3 h-3" />{latest.focusName}</span>}
+                {latest.usedLastAttempt && <span className="text-muted">from your last run</span>}
+              </p>
+              <HintWords hint={latest} />
+            </Speech>
+          ) : (
+            <Speech>
+              <p className="font-display text-[17px] leading-snug">{slug ? "Stuck? Ask me for a nudge first." : "Open a LeetCode problem and I'll help."}</p>
+              {slug && <p className="text-sm text-muted mt-1.5">Each step gives away more, so use as little as you can.</p>}
+            </Speech>
+          )}
+        </section>
 
-        {/* Ladder */}
         <div className="space-y-2">
           <div className="grid grid-cols-3 gap-2" role="group" aria-label="Hint level">
             {RUNGS.map((r) => {
@@ -73,49 +116,52 @@ const HintScreen = ({ slug, ladder, loadingLevel, onAsk, onReset, setQuestion, a
                     {loadingLevel === r.level ? <Loader2 className="w-4 h-4 animate-spin" /> : <Icon className="w-4 h-4" />}
                     {r.name}
                   </span>
-                  <span className={`block text-[11px] ${isNext ? "text-white/80" : "text-muted"}`}>
+                  <span className={`block text-[11px] ${isNext ? "text-white/85" : "text-muted"}`}>
                     {used && !isNext ? "Ask again" : r.blurb}
                   </span>
                 </button>
               );
             })}
           </div>
-          <p className="text-[11px] text-muted">
-            Start with a nudge. Each step gives away more, so a solve after a pinpoint earns less mastery credit.
-          </p>
+          <p className="text-[11px] text-muted">A solve after a pinpoint earns less mastery credit than one after a nudge.</p>
         </div>
 
-        {/* Hints so far */}
-        {ladder.hints.length > 0 && (
-          <div className="space-y-3">
-            {ladder.hints.map((h, i) => {
-              const r = RUNGS[(h.level ?? 1) - 1];
-              return (
-                <section key={h.at ?? i} aria-label={`${r.name} hint`}>
-                  <div className={`h-2 rounded-full ${r.rod}`} aria-hidden="true" />
-                  <div className="mx-1 bg-paper border-x border-line px-3 py-2.5 space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-x-2 text-xs">
-                      <span className={`font-semibold ${r.ring.split(" ")[1]}`}>{r.name}</span>
-                      {h.focusName && (
-                        <span className="inline-flex items-center gap-1 text-ink">
-                          <Target className="w-3 h-3" /> {h.focusName}
-                        </span>
-                      )}
-                      {h.usedLastAttempt && <span className="text-muted">uses your last run</span>}
-                    </div>
-                    <p className="text-sm text-ink whitespace-pre-wrap leading-relaxed">{h.text}</p>
-                  </div>
-                  <div className={`h-2 rounded-full ${r.rod}`} aria-hidden="true" />
-                </section>
-              );
-            })}
-            <button onClick={onReset} className="cursor-pointer inline-flex items-center gap-1 text-xs text-muted hover:text-ink">
-              <RotateCcw className="w-3 h-3" /> Clear hints for this problem
+        <div>
+          <button className="cursor-pointer inline-flex items-center gap-1.5 text-sm font-medium text-ai" onClick={() => setShowAsk((v) => !v)} aria-expanded={showAsk}>
+            <MessageSquare className="w-4 h-4" /> {showAsk ? "Your question" : "Ask about something specific"}
+          </button>
+          {showAsk && (
+            <textarea
+              value={ladder.question}
+              onChange={(e) => setQuestion(e.target.value)}
+              rows={2}
+              aria-label="Your question for the sensei"
+              className="mt-2 w-full rounded-lg bg-washi border border-line text-ink placeholder-muted/60 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ai"
+              placeholder="e.g. My answer is wrong when all numbers are negative"
+            />
+          )}
+        </div>
+
+        {earlier.length > 0 && (
+          <div className="space-y-2">
+            <button className="cursor-pointer w-full flex items-center justify-between text-sm font-medium" onClick={() => setShowEarlier((v) => !v)} aria-expanded={showEarlier}>
+              <span>Earlier hints ({earlier.length})</span>
+              {showEarlier ? <ChevronUp className="w-4 h-4 text-muted" /> : <ChevronDown className="w-4 h-4 text-muted" />}
             </button>
+            {showEarlier && earlier.map((h, i) => (
+              <div key={h.at ?? i} className={`border-l-4 ${rungOf(h).ring.split(" ")[0]} bg-paper rounded-r-md px-3 py-2`}>
+                <p className={`text-[11px] font-semibold mb-1 ${rungOf(h).ring.split(" ")[1]}`}>{rungOf(h).name}{h.focusName ? ` on ${h.focusName}` : ""}</p>
+                <HintWords hint={h} small />
+              </div>
+            ))}
           </div>
         )}
+        {ladder.hints.length > 0 && (
+          <button onClick={onReset} className="cursor-pointer inline-flex items-center gap-1 text-xs text-muted hover:text-ink">
+            <RotateCcw className="w-3 h-3" /> Clear hints for this problem
+          </button>
+        )}
 
-        {/* API key */}
         <div className="border border-line p-3 rounded-md bg-washi">
           <button
             className="cursor-pointer w-full flex justify-between items-center select-none"
@@ -138,7 +184,7 @@ const HintScreen = ({ slug, ladder, loadingLevel, onAsk, onReset, setQuestion, a
                 className="w-full rounded-md bg-panel border border-line text-ink placeholder-muted/60 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ai"
                 placeholder="Your Gemini API key"
               />
-              <button onClick={handleApiKeySave} className="cursor-pointer w-full text-sm font-semibold py-2 rounded-md bg-ai hover:brightness-110 transition">
+              <button onClick={handleApiKeySave} className="cursor-pointer w-full text-sm font-semibold py-2 rounded-md bg-ai text-white hover:brightness-110 transition">
                 Save API key
               </button>
             </div>

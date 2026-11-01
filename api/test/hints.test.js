@@ -45,7 +45,8 @@ test("sanitizeHint: ids must come from the pack, level 1 hides the concept", () 
   assert.equal(l1.misconception, "u.init.max_zero");
   assert.equal(l1.questions.length, 2);
   assert.equal(l1.nextLevel, 2);
-  assert.match(l1.text, /Think about this/);
+  assert.match(l1.text, /^What does your tracker hold/);
+  assert.doesNotMatch(l1.text, /\p{Extended_Pictographic}/u, "the sensei speaks plainly");
 
   const l2 = sanitizeHint(raw, { level: 2, pack: kadane });
   assert.equal(l2.focusNode, "p.kadane");
