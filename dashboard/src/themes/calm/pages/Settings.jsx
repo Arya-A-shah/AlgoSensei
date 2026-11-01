@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { settings } from "../api.js";
+import { settings } from "../../../api.js";
 import { refreshOverview } from "../ui.jsx";
+import ThemePicker from "../../../ThemePicker.jsx";
 
 export default function Settings() {
   const [apiUrl, setApiUrl] = useState(settings.apiUrl);
@@ -19,7 +20,7 @@ export default function Settings() {
 
   return (
     <section className="page settings">
-      <h1 className="h-page">Settings</h1>
+      <h1 className="h1">Settings</h1>
       <form className="form" onSubmit={save} onChange={() => setSaved(false)}>
         <label className="field">
           <span>Server address</span>
@@ -28,7 +29,7 @@ export default function Settings() {
         <label className="field">
           <span>Gemini key <small>optional</small></span>
           <input type="password" value={geminiKey} onChange={(e) => setGeminiKey(e.target.value)} autoComplete="off" />
-          <small>For drills, arena questions and re-grading. Stays in this browser.</small>
+          <small>For drills, practice questions and re-grading. Stays in this browser.</small>
         </label>
         <label className="field">
           <span>Device token</span>
@@ -36,10 +37,11 @@ export default function Settings() {
           <small>Set when you open the dashboard from the extension.</small>
         </label>
         <div className="form-actions">
-          <button className="btn btn-strike" type="submit">Save settings</button>
-          {saved && <span className="st-solid" role="status">Settings saved</span>}
+          <button className="btn btn-primary" type="submit">Save settings</button>
+          {saved && <span className="ok" role="status">Settings saved</span>}
         </div>
       </form>
+      <ThemePicker />
     </section>
   );
 }

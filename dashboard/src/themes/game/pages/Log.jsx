@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { api } from "../api.js";
+import { api } from "../../../api.js";
 import { useLoad, Loading, ErrorNote, Verdict, CodeBlock, pct, lcUrl, timeAgo, refreshOverview } from "../ui.jsx";
 import { FACET, shortName } from "../game.js";
 import { AttemptRows } from "./Problem.jsx";

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { settings } from "./api.js";
+import { settings } from "../../api.js";
 import { useOverview } from "./ui.jsx";
 import { BeltIcon, NavIcon, Backdrop, Sensei } from "./art.jsx";
 import { beltRank } from "./game.js";

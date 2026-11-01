@@ -1,20 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import { captureTokenFromUrl } from "./api.js";
-import "@fontsource/teko/latin-400.css";
-import "@fontsource/teko/latin-500.css";
-import "@fontsource/teko/latin-600.css";
-import "@fontsource/barlow/latin-400.css";
-import "@fontsource/barlow/latin-500.css";
-import "@fontsource/barlow/latin-600.css";
-import "@fontsource/barlow/latin-700.css";
-import "./styles.css";
+import { captureTokenFromUrl, settings } from "./api.js";
 
 captureTokenFromUrl();
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// Each theme is its own folder with its own components and styles; only the chosen one loads.
+const THEMES = {
+  calm: () => import("./themes/calm/index.jsx"),
+  game: () => import("./themes/game/index.jsx"),
+};
+
+THEMES[settings.theme]().then(({ default: App }) => {
+  document.documentElement.dataset.theme = settings.theme;
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+});

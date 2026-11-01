@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
-import { api } from "./api.js";
-import { VerdictMark } from "./art.jsx";
+import { api } from "../../api.js";
 
 export function useLoad(path, deps = []) {
   const [state, setState] = useState({ data: null, error: null, loading: true });
@@ -60,27 +59,22 @@ export const pct = (x) => (x == null ? "–" : `${Math.round(x * 100)}%`);
 export const lcUrl = (slug) => (slug ? `https://leetcode.com/problems/${slug}/` : null);
 
 export function Loading() {
-  return (
-    <div className="loading" role="status">
-      <span className="loading-dot" /><span className="loading-dot" /><span className="loading-dot" />
-      <span className="sr-only">Loading</span>
-    </div>
-  );
+  return <p className="loading" role="status">Loading…</p>;
 }
 
 export function ErrorNote({ error, onRetry }) {
   return (
-    <div className="scroll-note scroll-error" role="alert">
+    <div className="note note-error" role="alert">
       <p>{error.message}</p>
-      {error.status === 401 && <p>Open the dashboard from the extension popup so the dojo knows who you are.</p>}
+      {error.status === 401 && <p>Open the dashboard from the extension popup so it knows who you are.</p>}
       {onRetry && <button className="btn" onClick={onRetry}>Try again</button>}
     </div>
   );
 }
 
 export function Verdict({ verdict }) {
-  const cls = verdict === "Accepted" ? "win" : verdict === "Compile Error" ? "ce" : "loss";
-  return <span className={`verdict v-${cls}`}><VerdictMark verdict={verdict} />{verdict}</span>;
+  const cls = verdict === "Accepted" ? "ok" : verdict === "Compile Error" ? "ce" : "bad";
+  return <span className={`verdict v-${cls}`}>{verdict}</span>;
 }
 
 export function CodeBlock({ code }) {
@@ -91,7 +85,7 @@ export function CodeBlock({ code }) {
 export function Bar({ value, status }) {
   return (
     <span className="bar" aria-hidden="true">
-      <span className={`bar-fill bf-${status}`} style={{ width: `${Math.round((value ?? 0) * 100)}%` }} />
+      <span className={`bar-fill b-${status}`} style={{ width: `${Math.round((value ?? 0) * 100)}%` }} />
     </span>
   );
 }
